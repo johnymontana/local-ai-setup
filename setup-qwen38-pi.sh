@@ -111,6 +111,14 @@ cmd_check() {
     warn "Kernel ${kver} is older than 6.16.9 — update Arch (sudo pacman -Syu) for full unified-memory support."
   fi
 
+  if command -v pacman >/dev/null 2>&1 && command -v llama-server >/dev/null 2>&1; then
+    if pacman -Q ggml-cpu >/dev/null 2>&1; then
+      ok "ggml-cpu backend installed"
+    else
+      warn "ggml-cpu is MISSING — model loads will fail with 'no CPU backend found'. Fix: sudo pacman -Syu ggml-cpu"
+    fi
+  fi
+
   if command -v vulkaninfo >/dev/null 2>&1; then
     if vulkaninfo --summary 2>/dev/null | grep -qi 'radv'; then
       ok "Vulkan (RADV) driver active"
@@ -138,8 +146,11 @@ cmd_check() {
 cmd_install() {
   need_arch
   info "Installing Arch packages (llama.cpp + Vulkan backend + tooling)"
+  # Note: ggml-cpu is NOT optional — llama.cpp needs the CPU backend as its
+  # base even when inference runs entirely on Vulkan. Without it, model loads
+  # fail with "make_cpu_buft_list: no CPU backend found".
   sudo pacman -S --needed --noconfirm \
-    llama-cpp ggml-vulkan \
+    llama-cpp ggml-cpu ggml-vulkan \
     vulkan-radeon vulkan-icd-loader vulkan-tools \
     curl jq nodejs npm
 

@@ -83,13 +83,15 @@ optional kernel tweak (step 4) → raise GTT to ~115 GiB for Q8/262K/bigger mode
 ## 1. Packages
 
 ```bash
-sudo pacman -S --needed llama-cpp ggml-vulkan vulkan-radeon vulkan-icd-loader \
-                        vulkan-tools curl jq nodejs npm
+sudo pacman -S --needed llama-cpp ggml-cpu ggml-vulkan vulkan-radeon \
+                        vulkan-icd-loader vulkan-tools curl jq nodejs npm
 ```
 
 `llama-cpp` is the server/CLI; `ggml-vulkan` is the GPU compute backend it
-loads at runtime; `vulkan-radeon` is Mesa's RADV driver. Verify the GPU is
-visible:
+loads at runtime; `ggml-cpu` is **not optional** even though pacman thinks it
+is — llama.cpp always needs the CPU backend as its base, and without this
+split package every model load dies with `make_cpu_buft_list: no CPU backend
+found`; `vulkan-radeon` is Mesa's RADV driver. Verify the GPU is visible:
 
 ```bash
 vulkaninfo --summary | grep -i radv     # expect: AMD Radeon 8060S (RADV GFX1151)
@@ -281,6 +283,13 @@ with MTP it lands around the old Q4 baseline — a fair trade when you want
 maximum quality overnight and don't mind the pace.
 
 ## Troubleshooting
+
+**Model load fails with `no CPU backend found`** (router runs, but every
+model spawn exits with status 1, and the mmproj/CLIP load fails too) — the
+`ggml-cpu` split package is missing; it's only an *optional* dep of `ggml` on
+Arch, but llama.cpp requires it even for pure-Vulkan inference. Fix:
+`sudo pacman -Syu ggml-cpu` (full `-Syu` keeps ggml/ggml-vulkan/llama-cpp on
+matching builds), then restart the service.
 
 **Tool calls come out as plain text / agent loops uselessly** — the template
 trap: ensure `--jinja`, update `llama-cpp` (template fixes land frequently),
