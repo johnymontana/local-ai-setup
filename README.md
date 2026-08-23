@@ -14,6 +14,7 @@ chmod +x setup-qwen38-pi.sh
 ./setup-qwen38-pi.sh all        # install packages, download model, start server, install pi
 ./setup-qwen38-pi.sh status     # smoke-test the API
 cd ~/some-project && pi         # then: /llama -> load model, /model -> select, go
+./setup-qwen38-pi.sh remote     # optional: drive pi from your phone/iPad/laptops (LAN-only SSH)
 ```
 
 Everything the script does is explained below, and every step can be run (and
@@ -261,6 +262,70 @@ You should see it think briefly, write the file with a tool call, execute it,
 and report the output. If it instead prints tool-call JSON as plain text,
 that's the template trap — check `--jinja` and update llama.cpp.
 
+## 7. Drive it from your phone, iPad, and laptops
+
+The trick is that pi never runs *on* your phone — it keeps running on the
+Framework Desktop inside a tmux session, and every device is just a window
+into it. Close the laptop, walk away, reattach from the couch on the iPhone:
+the agent kept working the whole time. Set it up with:
+
+```bash
+./setup-qwen38-pi.sh remote
+```
+
+That one command installs `openssh`, `mosh`, `tmux`, `avahi`, and `ufw`, then
+wires up four things. First, sshd with a hardening drop-in
+(`/etc/ssh/sshd_config.d/20-local-ai-lan.conf`): no root login, logins allowed
+for your user only, password auth left on *temporarily* so you can bootstrap
+keys from each device. Second, mDNS via avahi, so every Apple device and
+laptop on your wifi can reach the machine as `genion.local` — no IP addresses
+to remember (still worth adding a DHCP reservation for it in your router).
+Third, a firewall scoped to your home network: it auto-detects your LAN subnet
+and allows *only* SSH (22/tcp), mosh (60000–61000/udp), and mDNS (5353/udp)
+from that subnet, with everything else inbound denied — so even if your router
+misbehaves, nothing here answers to the internet. **Do not port-forward 22 on
+your router**; nothing in this setup should be internet-facing. Fourth, a
+`pi-session` helper in `/usr/local/bin` (plus a phone-friendly `~/.tmux.conf`
+with mouse/touch support, only if you don't already have one).
+
+### The workflow
+
+```bash
+# from a laptop
+ssh -t lyonwj@genion.local pi-session ~/github/my-project
+mosh lyonwj@genion.local -- pi-session ~/github/my-project   # better on wifi/moving around
+
+# from the phone, after connecting: 
+pi-session ~/github/my-project
+```
+
+`pi-session <dir>` attaches to the tmux session for that project, creating it
+(and launching pi in it) on first use. Detach with `Ctrl-b` then `d` — pi
+keeps running. Run `pi-session` with no arguments to list what's live. Several
+devices can attach to the same session simultaneously and mirror the same
+screen — handy for kicking off a task from the desk and watching it finish
+from the phone.
+
+### Device setup, once per device
+
+Laptops: `ssh-copy-id lyonwj@genion.local`, done. iPhone/iPad: install
+[Blink Shell](https://blink.sh) (best mosh support — the session survives iOS
+suspending the app) or [Termius](https://termius.com); generate a key in the
+app, connect once with your password, and append the app's public key to
+`~/.ssh/authorized_keys`. When every device has a key that works:
+
+```bash
+./setup-qwen38-pi.sh ssh-harden   # refuses to run until at least one key is installed
+```
+
+which flips SSH to key-only. The llama.cpp API itself stays bound to
+`127.0.0.1` through all of this — remote devices talk to pi over SSH, and pi
+talks to the model over loopback. (If you ever want a laptop LLM client to hit
+the API directly, tunnel it: `ssh -L 8080:127.0.0.1:8080 genion.local` — no
+firewall changes needed.) If you later want access *away* from home, don't
+open ports — put Tailscale or WireGuard on the box and keep this firewall
+exactly as it is.
+
 ## What to expect (honest numbers)
 
 Measured/reported figures for Qwen 3.8 27B on Ryzen AI Max+ 395 machines:
@@ -313,6 +378,25 @@ is installed (not just amdvlk), and reboot after the first driver install.
 **Everything slow after suspend** — known amdgpu quirk on some kernels;
 restart the service, or reboot.
 
+**`genion.local` doesn't resolve** — check `systemctl status avahi-daemon` on
+the desktop; Apple devices and most Linux laptops speak mDNS natively, but
+some Android/Windows clients don't — use the IP (set a DHCP reservation in
+your router) or add the host manually in the SSH app.
+
+**Locked out after enabling the firewall** — from the desktop's own
+keyboard: `sudo ufw status numbered`, then re-add your subnet
+(`sudo ufw allow from 192.168.x.0/24 to any port 22 proto tcp`) or re-run
+`LAN_CIDR=<your-subnet> ./setup-qwen38-pi.sh remote`. This can happen if your
+subnet changed (new router, VLANs) after setup.
+
+**mosh connects then hangs** — the UDP range is blocked: re-run `remote` (or
+allow `60000:61000/udp` from your subnet in ufw). Plain `ssh` still working
+while mosh doesn't is the tell.
+
+**Session gone when phone reconnects** — you likely ran `pi` directly over
+SSH instead of inside `pi-session`; bare SSH processes die with the
+connection. Always go through `pi-session` from remote devices.
+
 ## Going further
 
 **A/B ROCm.** For this model's unusual hybrid architecture, some Strix Halo
@@ -351,6 +435,12 @@ Hardware & tuning: [AMD day-0 guide for Qwen 3.8 on Ryzen AI Max](https://www.am
 [Strix Halo community guide](https://github.com/hogeheer499-commits/strix-halo-guide) ·
 [q38rocm tuned recipe](https://github.com/julianmb/q38rocm) ·
 [KyaniteLabs honest numbers](https://kyanitelabs.tech/blog/qwen-27b-strix-halo-one-week-local)
+
+Remote access: [Arch Wiki: OpenSSH](https://wiki.archlinux.org/title/OpenSSH) ·
+[Arch Wiki: UFW](https://wiki.archlinux.org/title/Uncomplicated_Firewall) ·
+[Arch Wiki: Avahi](https://wiki.archlinux.org/title/Avahi) ·
+[mosh](https://mosh.org) · [tmux](https://github.com/tmux/tmux/wiki) ·
+[Blink Shell](https://blink.sh) · [Termius](https://termius.com)
 
 llama.cpp & pi: [llama-server docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) ·
 [MTP support PR #22673](https://github.com/ggml-org/llama.cpp/pull/22673) ·
