@@ -206,7 +206,8 @@ Leave ~8-13GiB for the OS. Revert by deleting the file and running
 
 ```bash
 curl -fsSL https://pi.dev/install.sh | sh
-export LLAMA_BASE_URL=http://127.0.0.1:8080    # put in ~/.bashrc; or use /login llama.cpp
+export LLAMA_BASE_URL=http://127.0.0.1:8080          # put both in ~/.bashrc
+export LLAMA_API_KEY=$(cat ~/.config/local-ai/llama.key)   # server requires this (see Security)
 ```
 
 Then, in any project:
@@ -236,7 +237,7 @@ equivalent `~/.pi/agent/models.json` is:
     "local-llamacpp": {
       "baseUrl": "http://127.0.0.1:8080/v1",
       "api": "openai-completions",
-      "apiKey": "none",
+      "apiKey": "${LLAMA_API_KEY}",
       "models": [
         { "id": "Qwen3.8-27B", "name": "Qwen 3.8 27B (local)",
           "reasoning": true, "input": ["text", "image"],
@@ -326,6 +327,89 @@ firewall changes needed.) If you later want access *away* from home, don't
 open ports — put Tailscale or WireGuard on the box and keep this firewall
 exactly as it is.
 
+## Security model & hardening
+
+An adversarial review of this setup turned up several things worth
+understanding. The single most important one first:
+
+**pi runs tools with no approval prompts, as your user.** pi's own docs are
+blunt about it: *"Built-in tools can read files, write files, edit files, and
+run shell commands with the permissions of the pi process,"* and *"prompt
+injection from repository files, comments, documentation, context files, or
+build output is expected local-agent risk and cannot be reliably prevented."*
+Concretely: a `README`, a code comment, or build output in any repo pi touches
+can carry instructions that pi may act on — and it will run them as `lyonwj`,
+which on this box means access to your SSH keys, your files, and `sudo`. Making
+the machine reachable from more devices doesn't create this risk, but it widens
+who can kick off a session that hits it. Mitigations, strongest first:
+
+- **Run the agent as a dedicated, sudo-less user** (e.g. `agent`) whose home
+  holds only the repos you want it to touch. You still SSH in as yourself and
+  `sudo -u agent -i` (or give that user its own key); a prompt-injection blast
+  then can't read your keys or escalate. This is the highest-leverage change
+  and the one I'd actually do.
+- **Only point pi at repos you'd run `make` from without reading first.** Treat
+  cloning a random repo and turning pi loose in it like running its build
+  scripts — because that's the equivalent.
+- **For anything untrusted, run pi in a container or VM** with only the
+  workspace mounted, per pi's own guidance.
+
+The script now also applies these (all shipped in the updated
+`setup-qwen38-pi.sh`):
+
+**llama-server is API-key protected.** It binds to `127.0.0.1`, but with
+`CORS *` set, any web page open in a browser *on the desktop* could POST to
+`http://127.0.0.1:8080` and use your model. The server now requires a key
+(`--api-key-file`, so it never shows up in `ps`), generated at
+`~/.config/local-ai/llama.key`. **This is the one change that affects your
+current working setup**: pi needs the key in its environment, so add it once —
+
+```bash
+echo 'export LLAMA_API_KEY=$(cat ~/.config/local-ai/llama.key)' >> ~/.bashrc
+```
+
+— and re-run `./setup-qwen38-pi.sh service`. A `401` from pi means that export
+is missing.
+
+**The llama-server systemd unit is now sandboxed** — `NoNewPrivileges`,
+`ProtectSystem=strict`, `ProtectHome=read-only`, `PrivateTmp`, and friends,
+with `ReadWritePaths` narrowed to the models dir (so `/llama` downloads still
+work). A malicious or malformed GGUF that trips a parser bug is then contained
+to a read-only view of the system instead of running freely as your user.
+
+**SSH hardening is now verified, not assumed.** `sshd` uses *first-match-wins*,
+so a `PasswordAuthentication yes` sitting above the `Include` line in the main
+`sshd_config` would silently defeat the drop-in — you'd think passwords were
+off when they weren't. The script now validates with `sshd -t` before
+reloading and confirms the *resolved* setting with `sshd -T` afterward, failing
+loudly if it didn't take. `ssh-harden` refuses to claim success unless the
+change actually stuck.
+
+**Brute-force resistance during the bootstrap window.** Password auth is on
+only until you run `ssh-harden` — a window where any device on your wifi
+(including a compromised IoT gadget) can attempt logins. The firewall now uses
+`ufw limit` on SSH (drops a source after ~6 attempts/30s), installs
+**fail2ban** with a 4-strikes-per-10-min ban, and sets `MaxAuthTries 3`. None
+of that substitutes for finishing the job: **run `ssh-harden` the same day.**
+
+**IPv6 isn't left to chance.** The LAN allow-rules are IPv4, and IPv6 inbound
+relies on ufw's default-deny — but only if ufw actually manages ip6tables. Many
+home ISPs hand out a *globally routable* IPv6 address via SLAAC, so if
+`IPV6=no` were set, `sshd` (which listens on `::`) could be exposed to the
+internet. The script forces `IPV6=yes` in `/etc/default/ufw` and adds
+`default deny routed`.
+
+**mDNS is spoofable — verify the host key once.** `genion.local` is
+unauthenticated; a hostile LAN device can impersonate it and harvest your
+password on the *first* connect, before your SSH client has pinned a host key.
+The `remote` step now prints the machine's host-key fingerprints; compare them
+against what your client shows on first connection (and getting off password
+auth quickly closes this too).
+
+What's intentionally *not* covered: internet access from outside your home. The
+answer there is a mesh VPN (Tailscale/WireGuard) on the box, **not** a
+port-forward — leave this firewall exactly as it is.
+
 ## What to expect (honest numbers)
 
 Measured/reported figures for Qwen 3.8 27B on Ryzen AI Max+ 395 machines:
@@ -348,6 +432,10 @@ with MTP it lands around the old Q4 baseline — a fair trade when you want
 maximum quality overnight and don't mind the pace.
 
 ## Troubleshooting
+
+**pi reports `401` / unauthorized** — the server is API-key protected now;
+`export LLAMA_API_KEY=$(cat ~/.config/local-ai/llama.key)` in the shell you run
+pi from (and add it to `~/.bashrc`). See the security section.
 
 **Model load fails with `no CPU backend found`** (router runs, but every
 model spawn exits with status 1, and the mmproj/CLIP load fails too) — the
