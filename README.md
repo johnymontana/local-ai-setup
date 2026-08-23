@@ -228,25 +228,170 @@ Because Qwen 3.8 is vision-native and the mmproj is loaded, you can paste
 screenshots into pi (broken UI, error dialogs) and the model actually sees
 them.
 
-If you prefer pinning a provider in config instead of the router flow, the
-equivalent `~/.pi/agent/models.json` is:
+The next section covers pi's configuration in depth — settings, `AGENTS.md`
+project instructions, custom commands, sessions, and (if you'd rather not use
+the `/llama` router) a pinned `models.json`.
+
+## 5b. Configuring pi (typical setups)
+
+pi keeps everything under two roots: **global** config in `~/.pi/agent/`
+(`settings.json`, `models.json`, `auth.json`, `trust.json`, `AGENTS.md`,
+`prompts/`, and `sessions/`), and **per-project** config in a `.pi/` directory
+that overrides the global one (nested objects merge). The `all` run writes a
+starter `~/.pi/agent/settings.json` with telemetry off — everything below is
+optional tuning on top of that.
+
+### settings.json
+
+Global at `~/.pi/agent/settings.json`, per-project at `.pi/settings.json`. The
+keys people actually touch:
+
+```json
+{
+  "defaultThinkingLevel": "medium",
+  "compaction": { "enabled": true, "keepRecentTokens": 24000 },
+  "enabledModels": ["Qwen3.8-27B", "claude-*"],
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false,
+  "theme": "dark",
+  "steeringMode": "one-at-a-time"
+}
+```
+
+`compaction` matters more with a local model than a cloud one: when the session
+approaches the context window, pi summarizes the older turns instead of hard
+-failing, so a long agentic session stays inside your `-c 131072`. `enabledModels`
+is the list `Ctrl+P` cycles through. Note that for the local model, the *server's*
+`reasoning_effort` (set in the launcher) is the real thinking-budget control —
+`defaultThinkingLevel` is pi's own knob and mostly relevant when you also use
+cloud models. Telemetry is off in the starter file; `--offline` (or
+`PI_OFFLINE=1`) additionally skips all startup network calls.
+
+### Wiring the model: two ways
+
+**The `/llama` router (recommended)** — nothing to configure. Because
+`llama-server` runs in router mode, pi's `/llama` command discovers, downloads,
+loads, and unloads models live; `/model` picks the loaded one. This is why the
+guide favors router mode: adding a model is "drop a GGUF in `~/llm/models/`",
+never a config edit.
+
+**A pinned provider in `models.json`** — if you'd rather not use `/llama`, or
+want the model preselected. Lives at `~/.pi/agent/models.json`; `apiKey`
+supports `$VAR` interpolation, so the API key stays out of the file:
 
 ```json
 {
   "providers": {
     "local-llamacpp": {
+      "name": "Local llama.cpp",
       "baseUrl": "http://127.0.0.1:8080/v1",
       "api": "openai-completions",
-      "apiKey": "${LLAMA_API_KEY}",
+      "apiKey": "$LLAMA_API_KEY",
       "models": [
-        { "id": "Qwen3.8-27B", "name": "Qwen 3.8 27B (local)",
-          "reasoning": true, "input": ["text", "image"],
-          "contextWindow": 131072, "maxTokens": 32768 }
+        {
+          "id": "Qwen3.8-27B",
+          "name": "Qwen 3.8 27B (local)",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 131072,
+          "maxTokens": 32768,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 }
+        }
       ]
     }
   }
 }
 ```
+
+(`api` accepts `openai-completions`, `anthropic-messages`, `openai-responses`,
+and others; llama.cpp is OpenAI-compatible, so `openai-completions` is correct.)
+
+### Project instructions: AGENTS.md
+
+This is the highest-value config for coding quality. pi loads `AGENTS.md` (or
+`CLAUDE.md`) from the project directory and every parent up the tree, plus a
+global `~/.pi/agent/AGENTS.md`, as system context. Drop an `AGENTS.md` at a repo
+root:
+
+```markdown
+# Project: acme-api
+
+## Stack
+Go 1.23, chi router, sqlc, Postgres. Module path github.com/acme/api.
+
+## Commands
+- build: `go build ./...`
+- test:  `go test ./...`   (run after every change)
+- lint:  `golangci-lint run`
+
+## Conventions
+- Table-driven tests; no naked returns; wrap errors with %w.
+- Never edit generated files under internal/db/ — regenerate with `make sqlc`.
+```
+
+Precedence: `.pi/SYSTEM.md` replaces the built-in system prompt entirely;
+`.pi/APPEND_SYSTEM.md` appends to it; `-nc` disables context files for one run.
+
+### Custom slash commands (prompt templates)
+
+A Markdown file in `~/.pi/agent/prompts/` (global) or `.pi/prompts/` (project,
+after trust) becomes a command named after the file — `review.md` → `/review`.
+Supports positional args (`$1`, `$@`) and YAML frontmatter:
+
+```markdown
+---
+description: Review staged changes for bugs and missing tests
+argument-hint: [focus]
+---
+Review the staged diff. Focus on $1 if given, else correctness and tests.
+Run `git diff --staged`, list concrete issues, and propose fixes.
+```
+
+### Sessions
+
+Auto-saved to `~/.pi/agent/sessions/`, grouped by working directory. Handy
+commands and flags:
+
+| Do this | Command / flag |
+|---|---|
+| Resume most recent session | `pi -c` (or `--continue`) |
+| Browse & pick a past session | `pi -r`, or `/resume` in-session |
+| Name the current session | `/name <label>` |
+| Jump/branch to an earlier point | `/tree`, `/fork` |
+| One-shot, no saved session | `pi -p "question"` (`--print`) |
+| Export / share a session | `/export` (HTML/JSONL) · `/share` (private gist) |
+
+Combined with the `pi-session` tmux helper from step 7, `pi -c` inside a session
+means you can drop off your phone and pick up on your laptop mid-task.
+
+### First-run trust
+
+The first time you launch pi in a project with its own `.pi/` settings or
+skills, it asks whether to trust that directory (it could otherwise silently
+change pi's config). `/trust` saves the decision to `~/.pi/agent/trust.json`;
+`defaultProjectTrust` in global settings sets the fallback (`ask`/`always`/`never`).
+
+### Sandboxed pi (ties into the security review)
+
+pi has no built-in tool sandbox, so for untrusted repos its own docs recommend a
+container. Their minimal image:
+
+```dockerfile
+FROM node:24-bookworm-slim
+RUN apt-get update && apt-get install -y bash ca-certificates git ripgrep
+RUN npm install -g @earendil-works/pi-coding-agent
+WORKDIR /workspace
+ENTRYPOINT ["pi"]
+```
+
+```bash
+docker build -t pi-sandbox -f Dockerfile.pi .
+docker run --rm -it -e LLAMA_BASE_URL -e LLAMA_API_KEY \
+  --network host -v "$PWD:/workspace" pi-sandbox
+```
+
+`--network host` lets the container reach `127.0.0.1:8080`; mount only the repo
+you're working on.
 
 ## 6. Verify
 

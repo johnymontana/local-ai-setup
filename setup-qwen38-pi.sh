@@ -323,6 +323,23 @@ cmd_pi() {
     pi install npm:pi-llama-cpp >/dev/null 2>&1 || true
   fi
 
+  # Starter global config — written only if you don't already have one, so your
+  # own settings are never clobbered. Local-first defaults: telemetry off.
+  local pidir="$HOME/.pi/agent"
+  mkdir -p "$pidir"
+  if [[ ! -f "$pidir/settings.json" ]]; then
+    cat > "$pidir/settings.json" <<'EOF'
+{
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false,
+  "compaction": { "enabled": true, "keepRecentTokens": 24000 }
+}
+EOF
+    ok "wrote starter ~/.pi/agent/settings.json (telemetry off; auto-compaction on)"
+  else
+    ok "existing ~/.pi/agent/settings.json found — leaving it alone"
+  fi
+
   local keyfile="$HOME/.config/local-ai/llama.key"
   cat <<EOF
 
@@ -591,13 +608,25 @@ cmd_remote() {
 
   if [[ ! -f "$HOME/.tmux.conf" ]]; then
     cat > "$HOME/.tmux.conf" <<'EOF'
-# Minimal defaults for phone-friendly pi sessions (generated; edit freely).
-set -g mouse on
+# Defaults for phone-friendly pi sessions (generated; edit freely).
+set -g mouse on                       # touch scrolling on iPhone/iPad
 set -g history-limit 50000
 set -s escape-time 10
 setw -g mode-keys vi
+
+# pi needs extended keys so Shift+Enter / Ctrl+Enter aren't seen as plain Enter.
+# (per pi's tmux guide; csi-u form needs tmux >= 3.5, guarded below.)
+set -g extended-keys on
+%if "#{>=:#{version},3.5}"
+set -g extended-keys-format csi-u
+%endif
+
+# Truecolor + focus events so pi's TUI renders correctly over SSH.
+set -g default-terminal "tmux-256color"
+set -ga terminal-features ",*:RGB"
+set -g focus-events on
 EOF
-    ok "wrote ~/.tmux.conf (mouse on — touch scrolling works on iPhone/iPad)"
+    ok "wrote ~/.tmux.conf (mouse + extended-keys tuned for pi)"
   else
     ok "existing ~/.tmux.conf found — leaving it alone"
   fi
