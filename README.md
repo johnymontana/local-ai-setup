@@ -1,24 +1,55 @@
-# Local agentic coding on a Framework Desktop: Qwen 3.8 27B + pi on Arch Linux
+# Local agentic coding on a Framework Desktop: Qwen 3.8 27B + pi/omp on Arch Linux
 
 A tutorial and repeatable setup for running a fully local coding agent on the
 Framework Desktop (AMD Ryzen AI Max+ 395 "Strix Halo", 128GB unified RAM):
 [Qwen 3.8 27B](https://huggingface.co/Qwen/Qwen3.8-27B) served by
-[llama.cpp](https://github.com/ggml-org/llama.cpp) over Vulkan, driven by the
-[pi coding agent](https://pi.dev). No cloud, no API keys, no telemetry — your
-code never leaves the machine.
+[llama.cpp](https://github.com/ggml-org/llama.cpp) over Vulkan, driven by your
+choice of coding agent — [pi](https://pi.dev) (minimal, fast) or
+[oh-my-pi / omp](https://github.com/can1357/oh-my-pi) (IDE wired in: LSP,
+debugger, subagents). No cloud, no API keys, no telemetry — your code never
+leaves the machine.
 
-**TL;DR**
+**TL;DR — the easy way**
 
 ```bash
-chmod +x setup-qwen38-pi.sh
-./setup-qwen38-pi.sh all        # install packages, download model, start server, install pi
-./setup-qwen38-pi.sh status     # smoke-test the API
-cd ~/some-project && pi         # then: /llama -> load model, /model -> select, go
-./setup-qwen38-pi.sh remote     # optional: drive pi from your phone/iPad/laptops (LAN-only SSH)
+chmod +x manage.sh setup-qwen38-pi.sh
+./manage.sh        # interactive menu: pick pi or omp, run setup, tune, remote access
+```
+
+**TL;DR — scripted**
+
+```bash
+./setup-qwen38-pi.sh save-config AGENT=omp   # or AGENT=pi (default)
+./setup-qwen38-pi.sh all                     # packages, model, server, agent
+./setup-qwen38-pi.sh status                  # smoke-test the API
+cd ~/some-project && omp                     # (or `pi`) — then give it a task
+./setup-qwen38-pi.sh remote                  # optional: drive it from phone/laptop (LAN-only)
 ```
 
 Everything the script does is explained below, and every step can be run (and
-re-run — it's idempotent) individually.
+re-run — it's idempotent) individually. The interactive `./manage.sh` is just a
+menu over these same subcommands.
+
+---
+
+## The interactive control panel (`./manage.sh`)
+
+If you'd rather not memorize subcommands, `./manage.sh` is a menu-driven front
+end over everything in this repo. It shows a live status header — selected agent
+(pi/omp) and whether it's installed, the server state, whether the API is
+reachable, and your current quant/context/reasoning — then lets you:
+
+- run the **full setup**, or any single step (install, model, server, agent);
+- **choose your agent** (pi ⇄ omp) and install it;
+- **tune configuration** — reasoning effort, context window, quant, MTP draft
+  depth — and restart the server to apply, all persisted to
+  `~/.config/local-ai/setup.env`;
+- set up **remote access**, **harden SSH**, install **LSP servers**, apply the
+  **kernel GTT tweak**, run a **benchmark**, or view **status**.
+
+It's a thin wrapper — every action just calls `./setup-qwen38-pi.sh <subcommand>`
+and echoes the command it runs, so nothing is hidden and each step still works
+standalone. The rest of this document explains what those steps do.
 
 ---
 
@@ -202,7 +233,11 @@ options ttm pages_limit=30146560 page_pool_size=30146560   # same, in 4 KiB page
 Leave ~8-13GiB for the OS. Revert by deleting the file and running
 `sudo mkinitcpio -P` again.
 
-## 5. The agent
+## 5. The agent (pi)
+
+> Choosing **omp** instead? Skip to [5c](#5c-pi-or-omp-choosing-your-agent) /
+> [5d](#5d-omp-comprehensive-local-qwen-configuration). The `./manage.sh` menu
+> or `save-config AGENT=omp` makes the choice; the server steps above are shared.
 
 ```bash
 curl -fsSL https://pi.dev/install.sh | sh
@@ -361,8 +396,9 @@ commands and flags:
 | One-shot, no saved session | `pi -p "question"` (`--print`) |
 | Export / share a session | `/export` (HTML/JSONL) · `/share` (private gist) |
 
-Combined with the `pi-session` tmux helper from step 7, `pi -c` inside a session
-means you can drop off your phone and pick up on your laptop mid-task.
+Combined with the `ai-session` tmux helper from step 7, `pi -c` inside a session
+means you can drop off your phone and pick up on your laptop mid-task. (omp has
+the same session model via `omp --resume`.)
 
 ### First-run trust
 
@@ -393,6 +429,154 @@ docker run --rm -it -e LLAMA_BASE_URL -e LLAMA_API_KEY \
 `--network host` lets the container reach `127.0.0.1:8080`; mount only the repo
 you're working on.
 
+## 5c. pi or omp? Choosing your agent
+
+The stack up to the model server is identical for both agents — the choice only
+changes what drives it. Set it once (`./manage.sh` → *Choose agent*, or
+`./setup-qwen38-pi.sh save-config AGENT=omp`) and every other step follows.
+
+**[pi](https://pi.dev)** is the baseline this guide started with: deliberately
+minimal, fast to start, easy to reason about. A handful of built-in tools, an
+extension API, and the `/llama` router. If you want something small and
+predictable, or you're debugging the stack itself, stay on pi.
+
+**[oh-my-pi / omp](https://github.com/can1357/oh-my-pi)** is a coding-focused
+fork of pi with, as the author puts it, "the IDE wired in." Concretely it adds
+~32 built-in tools, **LSP** integration on every write (workspace renames,
+refactors, diagnostics), a real **debugger** (lldb/dlv/debugpy via DAP),
+**hashline** content-hash edits (cheaper, corruption-resistant rewrites),
+worktree-isolated **subagents** with typed JSON output, a persistent Python/Bun
+kernel, headless browser + web search, and cross-session memory. Most
+relevant here: omp ships a set of **local-model reliability extensions**
+(arg-repair, output-parser, syntax-guard, read-before-edit, quality-monitor)
+that specifically catch the ways a local 27B model trips up — malformed tool
+arguments, tool calls emitted as fenced prose, edits to unread files. On a
+local Qwen that difference is felt, not cosmetic.
+
+The trade: omp is heavier (runs on the Bun runtime, more moving parts) and
+newer. My recommendation for *this* box — a 128GB machine whose whole purpose
+is serious local agentic coding — is **omp**, with pi kept one `save-config`
+away as the reliable fallback. Both are covered below and both are wired to the
+exact same API-key-protected `llama-server`.
+
+## 5d. omp: comprehensive local-Qwen configuration
+
+Everything omp-specific the `omp` step sets up, and the tuning that makes a
+local model behave. Config lives in `~/.omp/agent/` (`config.yml`, `models.yml`,
+`rules/`, `skills/`); omp also auto-imports existing `.claude/`, `.cursor/`,
+`.windsurf/`, `.github/copilot/` config, and reads `AGENTS.md` like pi does.
+
+### Install
+
+`./setup-qwen38-pi.sh omp` installs the Bun runtime if needed, then omp via its
+official installer (`curl -fsSL https://omp.sh/install | sh`), and writes the
+two config files below plus the required environment exports to `~/.bashrc`.
+Verify with `omp --version`.
+
+### models.yml — point omp at the local server
+
+```yaml
+providers:
+  llamacpp:
+    baseUrl: http://127.0.0.1:8080/v1
+    api: openai-completions          # llama.cpp speaks the chat-completions API
+    apiKey: LLAMA_API_KEY            # omp reads this ENV VAR NAME, not a literal
+    authHeader: true                 # send it as Authorization: Bearer
+    discovery:
+      type: llama.cpp                # auto-surface whatever the router has loaded
+    models:
+      - id: Qwen3.8-27B              # explicit entry => --model llamacpp/Qwen3.8-27B works day one
+        name: Qwen 3.8 27B (local)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 131072
+        maxTokens: 32768
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
+        compat:
+          supportsStore: false       # llama.cpp has no server-side response store
+          supportsDeveloperRole: false
+```
+
+Note the key difference from pi's `models.json`: omp resolves `apiKey` by
+**environment-variable name** — `apiKey: LLAMA_API_KEY` means "use the value of
+`$LLAMA_API_KEY`" (pi used `$LLAMA_API_KEY` interpolation). `authHeader: true`
+plus our API-key-protected server is why this isn't `auth: none`.
+
+### config.yml — the tuning that matters for a local model
+
+```yaml
+setupVersion: 1
+symbolPreset: nerd
+modelRoles:
+  default: llamacpp/Qwen3.8-27B      # bare `omp` uses the local model, no --model flag
+compaction:
+  supersedeReads: false              # <- keep conversation history append-only
+  dropUseless: false                 # <-
+memory:
+  backend: "off"
+```
+
+Those two `compaction` flags are the single most important local-model setting,
+and they tie directly back to the server: we run `llama-server` with **one slot**
+(`-np 1`) and `--cache-reuse 256`, so the model keeps a **prompt cache** of the
+conversation prefix and only processes new tokens each turn. That cache survives
+only if the prefix never changes. Default compaction rewrites interior messages
+to save tokens — which silently invalidates the cache and makes every turn
+reprocess the whole context. Setting `supersedeReads`/`dropUseless` to `false`
+keeps history strictly append-only, so the cache stays warm and turns stay fast.
+The server side of the same bargain is already in the launcher:
+`--chat-template-kwargs '{"...","preserve_thinking":true}'` keeps `<think>`
+blocks in place so they don't shift the prefix either.
+
+### Environment (written to ~/.bashrc)
+
+```bash
+export LLAMA_BASE_URL=http://127.0.0.1:8080
+export LLAMA_CPP_BASE_URL=http://127.0.0.1:8080   # omp's built-in llama.cpp provider var
+export LLAMA_API_KEY=$(cat ~/.config/local-ai/llama.key)
+export PI_NO_TITLE=1          # stop between-turn title-gen calls from evicting the KV slot
+export OMPX_PARSER_ACTIVE=1   # force the output-parser repair path (local models need it)
+```
+
+`PI_NO_TITLE=1` is subtle but matters: by default the agent makes a small extra
+call to generate a session title, which — with a single slot — evicts your warm
+prompt cache. Turning it off keeps the slot yours. `OMPX_PARSER_ACTIVE=1` turns
+on omp's active repair for models that occasionally emit tool calls as fenced
+text instead of structured calls; Qwen at Q4 does this sometimes.
+
+### LSP servers (optional but recommended)
+
+omp wires LSP into every edit, so installing language servers for what you work
+in unlocks rename/refactor/diagnostics:
+
+```bash
+./setup-qwen38-pi.sh omp-lsp
+# installs: bash-language-server typescript-language-server python-lsp-server
+#           gopls rust-analyzer clang   (skip/add per your languages)
+```
+
+### Roles, subagents, and going further
+
+omp routes different jobs to different models via `modelRoles` in `config.yml` —
+`default`, `smol` (quick ops), `slow` (deep reasoning), `plan`, `vision`,
+`commit`. On an all-local box you can point them all at `llamacpp/Qwen3.8-27B`,
+or — because 128GB fits more than one model — load a small fast GGUF in the
+router and assign it to `smol`/`commit` so trivial calls don't wait on the 27B:
+
+```yaml
+modelRoles:
+  default: llamacpp/Qwen3.8-27B
+  smol:    llamacpp/Qwen3-4B        # if you've dropped a small GGUF in ~/llm/models
+  commit:  llamacpp/Qwen3-4B
+```
+
+Subagents run with workspace isolation and typed JSON output, so `/review` can
+fan out several review passes in parallel — genuinely useful when the underlying
+model is slower than a frontier API. Reference config this is modeled on:
+[havfo/omp-config](https://github.com/havfo/omp-config) (a real local-Qwen omp
+setup) and omp's own [models](https://github.com/can1357/oh-my-pi/blob/main/docs/models.md)
+/ [providers](https://github.com/can1357/oh-my-pi/blob/main/docs/providers.md) docs.
+
 ## 6. Verify
 
 ```bash
@@ -400,7 +584,8 @@ you're working on.
 ./setup-qwen38-pi.sh bench       # llama-bench pp512/tg128 numbers for your box
 ```
 
-Then a real smoke test — in an empty directory, run `pi` and ask:
+Then a real smoke test — in an empty directory, run your agent (`pi` or `omp`)
+and ask:
 
 > Create hello.py that prints the first 10 Fibonacci numbers, run it, and show me the output.
 
@@ -430,27 +615,27 @@ Third, a firewall scoped to your home network: it auto-detects your LAN subnet
 and allows *only* SSH (22/tcp), mosh (60000–61000/udp), and mDNS (5353/udp)
 from that subnet, with everything else inbound denied — so even if your router
 misbehaves, nothing here answers to the internet. **Do not port-forward 22 on
-your router**; nothing in this setup should be internet-facing. Fourth, a
-`pi-session` helper in `/usr/local/bin` (plus a phone-friendly `~/.tmux.conf`
-with mouse/touch support, only if you don't already have one).
+your router**; nothing in this setup should be internet-facing. Fourth, an
+`ai-session` helper in `/usr/local/bin` (with `pi-session` kept as an alias),
+plus a phone-friendly `~/.tmux.conf` (only if you don't already have one).
 
 ### The workflow
 
 ```bash
 # from a laptop
-ssh -t lyonwj@genion.local pi-session ~/github/my-project
-mosh lyonwj@genion.local -- pi-session ~/github/my-project   # better on wifi/moving around
+ssh -t lyonwj@genion.local ai-session ~/github/my-project
+mosh lyonwj@genion.local -- ai-session ~/github/my-project   # better on wifi/moving around
 
 # from the phone, after connecting: 
-pi-session ~/github/my-project
+ai-session ~/github/my-project
 ```
 
-`pi-session <dir>` attaches to the tmux session for that project, creating it
-(and launching pi in it) on first use. Detach with `Ctrl-b` then `d` — pi
-keeps running. Run `pi-session` with no arguments to list what's live. Several
-devices can attach to the same session simultaneously and mirror the same
-screen — handy for kicking off a task from the desk and watching it finish
-from the phone.
+`ai-session <dir>` attaches to the tmux session for that project, creating it
+(and launching your selected agent — `pi` or `omp` — in it) on first use.
+Detach with `Ctrl-b` then `d` — the agent keeps running. Run `ai-session` with
+no arguments to list what's live. Several devices can attach to the same
+session simultaneously and mirror the same screen — handy for kicking off a
+task from the desk and watching it finish from the phone.
 
 ### Device setup, once per device
 
@@ -578,9 +763,23 @@ maximum quality overnight and don't mind the pace.
 
 ## Troubleshooting
 
-**pi reports `401` / unauthorized** — the server is API-key protected now;
+**pi/omp reports `401` / unauthorized** — the server is API-key protected now;
 `export LLAMA_API_KEY=$(cat ~/.config/local-ai/llama.key)` in the shell you run
-pi from (and add it to `~/.bashrc`). See the security section.
+the agent from (and add it to `~/.bashrc`). See the security section. For omp,
+also confirm `models.yml` has `apiKey: LLAMA_API_KEY` and `authHeader: true`.
+
+**`omp: command not found` after install** — the Bun bin dir isn't on PATH yet.
+Open a new shell, or `export PATH="$HOME/.bun/bin:$HOME/.local/bin:$PATH"`.
+`ai-session` already adds both.
+
+**omp emits tool calls as plain text / mangles tool arguments** — expected
+local-model roughness; make sure `export OMPX_PARSER_ACTIVE=1` is set (the `omp`
+step adds it to `~/.bashrc`), which turns on omp's output-parser and arg-repair.
+
+**Turns get slow again after a while (omp or pi)** — something is breaking the
+prompt cache. Check the server still runs `-np 1 --cache-reuse 256`, keep omp's
+`compaction.supersedeReads/dropUseless: false`, and make sure `PI_NO_TITLE=1` is
+exported so title-generation isn't evicting the slot.
 
 **Model load fails with `no CPU backend found`** (router runs, but every
 model spawn exits with status 1, and the mmproj/CLIP load fails too) — the
@@ -627,8 +826,8 @@ allow `60000:61000/udp` from your subnet in ufw). Plain `ssh` still working
 while mosh doesn't is the tell.
 
 **Session gone when phone reconnects** — you likely ran `pi` directly over
-SSH instead of inside `pi-session`; bare SSH processes die with the
-connection. Always go through `pi-session` from remote devices.
+SSH instead of inside `ai-session`; bare SSH processes die with the
+connection. Always go through `ai-session` from remote devices.
 
 ## Going further
 
@@ -674,6 +873,13 @@ Remote access: [Arch Wiki: OpenSSH](https://wiki.archlinux.org/title/OpenSSH) ·
 [Arch Wiki: Avahi](https://wiki.archlinux.org/title/Avahi) ·
 [mosh](https://mosh.org) · [tmux](https://github.com/tmux/tmux/wiki) ·
 [Blink Shell](https://blink.sh) · [Termius](https://termius.com)
+
+oh-my-pi (omp): [repo](https://github.com/can1357/oh-my-pi) ·
+[models.md](https://github.com/can1357/oh-my-pi/blob/main/docs/models.md) ·
+[providers.md](https://github.com/can1357/oh-my-pi/blob/main/docs/providers.md) ·
+[havfo/omp-config (local-Qwen reference)](https://github.com/havfo/omp-config) ·
+[omp deep-dive](https://acchapm1.github.io/tutorials/Oh-My-Pi/omp-deep-dive) ·
+[omp + llama.cpp walkthrough](https://sukhbinder.wordpress.com/2026/02/15/oh-my-pi-with-llamacpp/)
 
 llama.cpp & pi: [llama-server docs](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md) ·
 [MTP support PR #22673](https://github.com/ggml-org/llama.cpp/pull/22673) ·

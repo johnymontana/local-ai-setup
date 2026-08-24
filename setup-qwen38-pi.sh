@@ -9,20 +9,28 @@
 #     served by llama.cpp (llama-server, Vulkan backend, router mode)
 #     driven by the pi coding agent (https://pi.dev)
 #
+# Tip: run `./manage.sh` for a friendly interactive menu over all of this.
+#
 # Usage:
-#   ./setup-qwen38-pi.sh all              # check + install + model + service + pi
+#   ./setup-qwen38-pi.sh all              # check + install + model + service + agent
 #   ./setup-qwen38-pi.sh check            # verify hardware/OS prerequisites
 #   ./setup-qwen38-pi.sh install          # install Arch packages
 #   ./setup-qwen38-pi.sh model            # download model GGUFs (resumable)
 #   ./setup-qwen38-pi.sh service          # write + enable systemd user service
-#   ./setup-qwen38-pi.sh pi               # install the pi coding agent
+#   ./setup-qwen38-pi.sh agent            # install the selected coding agent (pi or omp)
+#   ./setup-qwen38-pi.sh pi               # force-install the pi agent (https://pi.dev)
+#   ./setup-qwen38-pi.sh omp              # force-install oh-my-pi / omp (https://omp.sh)
+#   ./setup-qwen38-pi.sh omp-lsp          # OPTIONAL: install common LSP servers for omp
 #   ./setup-qwen38-pi.sh kernel-tweaks    # OPTIONAL: raise GPU-addressable memory (needs reboot)
-#   ./setup-qwen38-pi.sh remote           # LAN-only SSH/mosh access + pi-session tmux helper
+#   ./setup-qwen38-pi.sh remote           # LAN-only SSH/mosh access + agent-session tmux helper
 #   ./setup-qwen38-pi.sh ssh-harden       # disable SSH password auth once keys are installed
 #   ./setup-qwen38-pi.sh bench            # llama-bench sanity benchmark
 #   ./setup-qwen38-pi.sh status           # service status + API smoke test
+#   ./setup-qwen38-pi.sh show-config      # print the persisted configuration
+#   ./setup-qwen38-pi.sh save-config K=V  # persist tunables (e.g. AGENT=omp REASONING_EFFORT=high)
 #
-# Tunables (env vars, all optional):
+# Tunables (env vars; persisted in ~/.config/local-ai/setup.env, all optional):
+#   AGENT=pi                coding agent to install/use: pi | omp
 #   QUANT=UD-Q4_K_XL        quant to download/serve (UD-Q4_K_XL | Q8_0)
 #   CTX=131072              context window given to llama-server
 #   PORT=8080               llama-server port
@@ -32,12 +40,23 @@
 #   GTT_GIB=115             GPU-addressable memory target for kernel-tweaks
 #   LAN_CIDR=...            home subnet for the firewall (default: auto-detected)
 #
+# Precedence for tunables: explicit env var  >  saved setup.env  >  built-in default.
 # Re-running any subcommand is safe: every step is idempotent.
 
 set -euo pipefail
 
 # ----------------------------- configuration --------------------------------
 
+# Load persisted tunables as fallbacks (never overriding an explicit env var).
+SETUP_ENV="${SETUP_ENV:-$HOME/.config/local-ai/setup.env}"
+if [[ -f "$SETUP_ENV" ]]; then
+  while IFS='=' read -r _k _v; do
+    [[ "$_k" =~ ^[A-Z_][A-Z0-9_]*$ ]] || continue
+    printf -v "$_k" '%s' "${!_k:-$_v}"   # := semantics: keep already-set env
+  done < "$SETUP_ENV"
+fi
+
+AGENT="${AGENT:-pi}"
 QUANT="${QUANT:-UD-Q4_K_XL}"
 CTX="${CTX:-131072}"
 PORT="${PORT:-8080}"
@@ -80,6 +99,17 @@ info() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
 ok()   { printf '\033[1;32m ok\033[0m %s\n' "$*"; }
 warn() { printf '\033[1;33mwarn\033[0m %s\n' "$*"; }
 die()  { printf '\033[1;31merror\033[0m %s\n' "$*" >&2; exit 1; }
+
+# Persist the current tunables so the menu and every subcommand agree.
+save_config() {
+  mkdir -p "$(dirname "$SETUP_ENV")"
+  { for k in AGENT QUANT CTX PORT MODELS_DIR REASONING_EFFORT DRAFT_N GTT_GIB; do
+      printf '%s=%s\n' "$k" "${!k}"
+    done
+  } > "$SETUP_ENV"
+}
+
+CONFIG_KEYS="AGENT QUANT CTX PORT MODELS_DIR REASONING_EFFORT DRAFT_N GTT_GIB"
 
 need_arch() {
   command -v pacman >/dev/null 2>&1 || die "pacman not found — this script targets Arch Linux."
@@ -241,6 +271,11 @@ set -euo pipefail
 #  --spec-type draft-mtp       Qwen3.8's built-in multi-token prediction head
 #                              => ~2x generation speed, lossless (verified drafts)
 #  -np 1                       MTP speculative decoding needs a single slot
+#  --cache-reuse 256           reuse the prompt-cache prefix across turns; with a
+#                              single slot this is what keeps agent turns fast, so
+#                              keep conversation history append-only (both pi/omp)
+#  preserve_thinking:true      keep <think> blocks across turns — stabilizes the
+#                              cached prefix (omp's local-model guidance relies on it)
 #  reasoning_effort            xhigh|medium|low|none — thinking budget per Qwen3.8
 #
 # If MTP ever misbehaves on your build, remove the two --spec-* lines.
@@ -258,10 +293,11 @@ exec llama-server \\
   -c ${CTX} \\
   -fa on \\
   -np 1 \\
+  --cache-reuse 256 \\
   --spec-type draft-mtp \\
   --spec-draft-n-max ${DRAFT_N} \\
   --temp 1.0 --top-p 0.95 --top-k 20 --min-p 0.0 \\
-  --chat-template-kwargs '{"reasoning_effort":"${REASONING_EFFORT}"}'
+  --chat-template-kwargs '{"reasoning_effort":"${REASONING_EFFORT}","preserve_thinking":true}'
 EOF
   chmod +x "$LAUNCHER"
 
@@ -362,6 +398,164 @@ EOF
 EOF
 }
 
+# ------------------------------- oh-my-pi (omp) ------------------------------
+
+cmd_omp() {
+  info "Installing oh-my-pi (omp) — the IDE-wired coding-agent fork of pi"
+
+  if ! command -v omp >/dev/null 2>&1; then
+    # omp runs on Bun; its installer usually handles that, but make sure Bun is
+    # present as a fallback path (Arch has no official bun package).
+    if ! command -v bun >/dev/null 2>&1; then
+      info "Installing the Bun runtime (omp's engine)"
+      curl -fsSL https://bun.sh/install | bash || warn "Bun install script failed; will still try omp.sh."
+      export BUN_INSTALL="${BUN_INSTALL:-$HOME/.bun}"
+      export PATH="$BUN_INSTALL/bin:$PATH"
+    fi
+    curl -fsSL https://omp.sh/install | sh \
+      || { command -v bun >/dev/null 2>&1 && bun install -g @oh-my-pi/pi-coding-agent; } \
+      || die "omp install failed. See https://github.com/can1357/oh-my-pi#install"
+    ok "omp installed (open a new shell if 'omp' isn't on PATH yet)"
+  else
+    ok "omp already installed: $(omp --version 2>/dev/null || echo 'version unknown')"
+  fi
+
+  local ompdir="$HOME/.omp/agent"
+  local keyfile="$HOME/.config/local-ai/llama.key"
+  mkdir -p "$ompdir"
+
+  # models.yml — point omp's llama.cpp provider at our API-key-protected server.
+  # `apiKey: LLAMA_API_KEY` is omp's env-var form (it resolves the *name* to the
+  # env value). discovery surfaces whatever the router has loaded; the explicit
+  # model guarantees `--model llamacpp/Qwen3.8-27B` works from the first run.
+  if [[ ! -f "$ompdir/models.yml" ]]; then
+    cat > "$ompdir/models.yml" <<EOF
+providers:
+  llamacpp:
+    baseUrl: http://127.0.0.1:${PORT}/v1
+    api: openai-completions
+    apiKey: LLAMA_API_KEY
+    authHeader: true
+    discovery:
+      type: llama.cpp
+    models:
+      - id: ${MODEL_NAME}
+        name: Qwen 3.8 27B (local)
+        reasoning: true
+        input: [text, image]
+        contextWindow: ${CTX}
+        maxTokens: 32768
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }
+        compat:
+          supportsStore: false
+          supportsDeveloperRole: false
+EOF
+    ok "wrote ~/.omp/agent/models.yml (llamacpp provider -> ${MODEL_NAME})"
+  else
+    ok "existing ~/.omp/agent/models.yml found — leaving it alone"
+  fi
+
+  # config.yml — the local-Qwen tuning that matters. The compaction flags keep
+  # the conversation prefix append-only so the llama.cpp prompt cache survives
+  # across turns (critical with -np 1); modelRoles.default means bare `omp` uses
+  # the local model with no --model flag.
+  if [[ ! -f "$ompdir/config.yml" ]]; then
+    cat > "$ompdir/config.yml" <<EOF
+setupVersion: 1
+symbolPreset: nerd
+modelRoles:
+  default: llamacpp/${MODEL_NAME}
+compaction:
+  # keep history append-only -> stable prompt-cache prefix on the single slot
+  supersedeReads: false
+  dropUseless: false
+memory:
+  backend: "off"
+EOF
+    ok "wrote ~/.omp/agent/config.yml (local-Qwen prompt-cache discipline)"
+  else
+    ok "existing ~/.omp/agent/config.yml found — leaving it alone"
+  fi
+
+  # Persist the env omp needs. PI_NO_TITLE stops between-turn title-generation
+  # calls from evicting the single KV slot; OMPX_PARSER_ACTIVE turns on the
+  # output-parser repair path that catches local models emitting tool calls as
+  # fenced prose. These are omp's documented local-model reliability toggles.
+  add_bashrc_line 'export LLAMA_BASE_URL=http://127.0.0.1:'"${PORT}"
+  add_bashrc_line 'export LLAMA_CPP_BASE_URL=http://127.0.0.1:'"${PORT}"
+  # shellcheck disable=SC2016  # the $(cat ...) is meant to be literal in ~/.bashrc
+  add_bashrc_line 'export LLAMA_API_KEY=$(cat '"${keyfile}"')'
+  add_bashrc_line 'export PI_NO_TITLE=1'
+  add_bashrc_line 'export OMPX_PARSER_ACTIVE=1'
+
+  cat <<EOF
+
+  oh-my-pi is ready. In a new shell (so the exports load):
+
+     cd <your-project>
+     omp                       # uses llamacpp/${MODEL_NAME} via modelRoles.default
+     # or explicitly:  omp --model llamacpp/${MODEL_NAME}
+
+  Optional but recommended for omp's IDE features:
+     ./$(basename "$0") omp-lsp   # install language servers (LSP is wired into edits)
+
+  If omp reports 401/unauthorized, the LLAMA_API_KEY export is missing from your
+  shell. If it emits tool calls as text, confirm OMPX_PARSER_ACTIVE=1 is set.
+
+EOF
+}
+
+# Append a line to ~/.bashrc only if an equivalent one isn't already there.
+add_bashrc_line() {
+  local line="$1" rc="$HOME/.bashrc"
+  touch "$rc"
+  grep -qxF "$line" "$rc" || printf '%s\n' "$line" >> "$rc"
+}
+
+cmd_omp_lsp() {
+  info "Installing common language servers for omp's LSP integration"
+  # These power omp's rename/refactor/diagnostics-on-edit. Install what matches
+  # the languages you work in; the rest are harmless to skip.
+  if command -v pacman >/dev/null 2>&1; then
+    sudo pacman -S --needed --noconfirm \
+      bash-language-server typescript-language-server \
+      python-lsp-server gopls rust-analyzer clang 2>/dev/null \
+      || warn "Some LSP packages weren't found in the repos — install the ones you need by hand."
+  fi
+  ok "LSP servers installed (omp auto-detects them per language)."
+}
+
+# Install whichever agent is selected.
+cmd_agent() {
+  case "$AGENT" in
+    pi)  cmd_pi ;;
+    omp) cmd_omp ;;
+    *)   die "Unknown AGENT '$AGENT' (expected: pi | omp). Set it with: $0 save-config AGENT=omp" ;;
+  esac
+}
+
+cmd_show_config() {
+  info "Persisted configuration ($SETUP_ENV):"
+  local k
+  for k in $CONFIG_KEYS; do printf '    %-18s= %s\n' "$k" "${!k}"; done
+  [[ -f "$SETUP_ENV" ]] || echo "    (no saved file yet — these are defaults/env)"
+}
+
+# save-config KEY=VALUE [KEY=VALUE ...]  — persist tunables.
+cmd_save_config() {
+  local pair k v
+  for pair in "$@"; do
+    [[ "$pair" == *=* ]] || die "Expected KEY=VALUE, got: $pair"
+    k="${pair%%=*}"; v="${pair#*=}"
+    case " $CONFIG_KEYS " in
+      *" $k "*) printf -v "$k" '%s' "$v" ;;
+      *) die "Unknown config key: $k (allowed: $CONFIG_KEYS)" ;;
+    esac
+  done
+  save_config
+  cmd_show_config
+}
+
 cmd_kernel_tweaks() {
   need_arch
   info "OPTIONAL: raise GPU-addressable unified memory to ~${GTT_GIB} GiB"
@@ -415,6 +609,11 @@ cmd_bench() {
 }
 
 cmd_status() {
+  info "Configuration: agent=${AGENT}  quant=${QUANT}  ctx=${CTX}  reasoning=${REASONING_EFFORT}"
+  local abin
+  abin=$(command -v "$AGENT" 2>/dev/null || echo "NOT INSTALLED — run: $0 agent")
+  echo "    ${AGENT} binary: ${abin}"
+  echo
   info "Service:"
   systemctl --user --no-pager status "$UNIT_NAME" || true
   echo
@@ -484,27 +683,35 @@ detect_lan_cidr() {
   echo "$cidr"
 }
 
-install_pi_session() {
-  info "Installing the pi-session helper to /usr/local/bin"
+install_session_helper() {
+  info "Installing the ai-session helper to /usr/local/bin"
   local tmp
   tmp=$(mktemp)
   cat > "$tmp" <<'EOF'
 #!/usr/bin/env bash
-# pi-session — attach-or-create a persistent pi coding-agent session (tmux).
-# Survives SSH drops and device switches; several devices can attach at once
-# and mirror the same screen.
+# ai-session — attach-or-create a persistent coding-agent session (tmux).
+# Launches whichever agent you selected (pi or omp). Survives SSH drops and
+# device switches; several devices can attach at once and mirror one screen.
 #
-#   pi-session <project-dir>   attach (or start) the pi session for that project
-#   pi-session                 list running pi sessions
+#   ai-session <project-dir>   attach (or start) the agent session for that dir
+#   ai-session                 list running agent sessions
+#   AGENT=omp ai-session <dir> override the agent for this session
 #
-# Detach with Ctrl-b then d — pi keeps running on the machine.
+# Detach with Ctrl-b then d — the agent keeps running on the machine.
 set -euo pipefail
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
+
+# Pick the agent: explicit env > saved setup.env > pi.
+env_file="$HOME/.config/local-ai/setup.env"
+if [[ -z "${AGENT:-}" && -f "$env_file" ]]; then
+  AGENT=$(awk -F= '$1=="AGENT"{print $2}' "$env_file" | tail -1)
+fi
+AGENT="${AGENT:-pi}"
 
 if [[ $# -eq 0 ]]; then
-  echo "pi sessions:"
-  tmux ls 2>/dev/null | grep '^pi-' || echo "  (none)"
-  echo "usage: pi-session <project-dir>"
+  echo "agent sessions:"
+  tmux ls 2>/dev/null | grep '^ai-' || echo "  (none)"
+  echo "usage: ai-session <project-dir>   (agent: $AGENT)"
   exit 0
 fi
 
@@ -512,17 +719,19 @@ dir=$(realpath -e "$1" 2>/dev/null) || { echo "no such directory: $1" >&2; exit 
 [[ -d "$dir" ]] || { echo "not a directory: $dir" >&2; exit 1; }
 
 base=$(basename "$dir")
-name="pi-${base//[^A-Za-z0-9_-]/-}"
+name="ai-${base//[^A-Za-z0-9_-]/-}"
 
 if ! tmux has-session -t "=$name" 2>/dev/null; then
   tmux new-session -d -s "$name" -c "$dir"
-  tmux send-keys -t "=$name" "pi" C-m
+  tmux send-keys -t "=$name" "$AGENT" C-m
 fi
 exec tmux attach-session -t "=$name"
 EOF
-  sudo install -m 0755 "$tmp" /usr/local/bin/pi-session
+  sudo install -m 0755 "$tmp" /usr/local/bin/ai-session
+  # Keep pi-session as a compatibility alias.
+  sudo ln -sf /usr/local/bin/ai-session /usr/local/bin/pi-session
   rm -f "$tmp"
-  ok "pi-session installed"
+  ok "ai-session installed (pi-session kept as an alias)"
 }
 
 configure_firewall() {
@@ -631,7 +840,7 @@ EOF
     ok "existing ~/.tmux.conf found — leaving it alone"
   fi
 
-  install_pi_session
+  install_session_helper
   configure_firewall
 
   local me host
@@ -653,19 +862,19 @@ EOF
   ── Connect from your devices (same wifi) ────────────────────────────────
 
   Laptop (macOS / Linux):
-     ssh-copy-id ${me}@${host}.local                     # once per laptop
-     ssh -t ${me}@${host}.local pi-session ~/some-project
-     mosh ${me}@${host}.local -- pi-session ~/some-project   # survives sleep/roaming
+     ssh-copy-id ${me}@${host}.local                      # once per laptop
+     ssh -t ${me}@${host}.local ai-session ~/some-project
+     mosh ${me}@${host}.local -- ai-session ~/some-project    # survives sleep/roaming
 
   iPhone / iPad — Blink Shell (best mosh support) or Termius:
      1. Generate a key in the app and copy the public key
      2. Connect once with your password (host ${host}.local, user ${me}) and:
           echo '<pasted public key>' >> ~/.ssh/authorized_keys
-     3. From then on:  pi-session <project-dir>
+     3. From then on:  ai-session <project-dir>
      Prefer mosh in Blink — it stays alive when iOS suspends the app.
 
-  All devices attached to the same session mirror the same screen.
-  Detach: Ctrl-b then d (pi keeps running) · list sessions: pi-session
+  ai-session launches your selected agent (${AGENT}); all devices on the same
+  session mirror one screen. Detach: Ctrl-b then d · list sessions: ai-session
 
   When every device has a key installed, lock out passwords:
      $0 ssh-harden
@@ -690,13 +899,14 @@ cmd_ssh_harden() {
 }
 
 cmd_all() {
+  save_config          # persist the agent/tunables this run used
   cmd_check
   cmd_install
   cmd_model
   cmd_service
-  cmd_pi
+  cmd_agent
   echo
-  ok "All done. Try:  $0 status   then:  cd <your-project> && pi"
+  ok "All done (agent: ${AGENT}). Try:  $0 status   then:  cd <project> && ${AGENT}"
   echo "   Optional: $0 remote   — SSH/mosh access from your phones and laptops (LAN-only)"
 }
 
@@ -708,11 +918,16 @@ case "${1:-all}" in
   install)        cmd_install ;;
   model)          cmd_model ;;
   service)        cmd_service ;;
-  pi)             cmd_pi ;;
+  agent)          cmd_agent ;;
+  pi)             AGENT=pi;  cmd_pi ;;
+  omp)            AGENT=omp; cmd_omp ;;
+  omp-lsp)        cmd_omp_lsp ;;
   kernel-tweaks)  cmd_kernel_tweaks ;;
   remote)         cmd_remote ;;
   ssh-harden)     cmd_ssh_harden ;;
   bench)          cmd_bench ;;
   status)         cmd_status ;;
-  *) die "Unknown subcommand: $1 (use: all|check|install|model|service|pi|kernel-tweaks|remote|ssh-harden|bench|status)" ;;
+  show-config)    cmd_show_config ;;
+  save-config)    shift; cmd_save_config "$@" ;;
+  *) die "Unknown subcommand: $1 (use: all|check|install|model|service|agent|pi|omp|omp-lsp|kernel-tweaks|remote|ssh-harden|bench|status|show-config|save-config)" ;;
 esac
