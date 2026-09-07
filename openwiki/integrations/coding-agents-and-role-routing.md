@@ -1,64 +1,70 @@
 ---
 type: integration contract
-title: Coding Agents and Model Role Routing
-description: How the setup engine installs pi and OMP, connects them to the authenticated local llama.cpp router, and generates safe OMP role routing from complete model tiers. Covers version gates, launchers, shell integration, fallback selection, and preservation of user-owned OMP configuration.
+title: Coding Agents and Role Routing
+description: How pi and OMP use the authenticated local llama.cpp router, how the setup engine installs and launches pinned agents, and how complete model tiers become OMP role mappings. Covers preservation boundaries, remote sessions, and optional OMP language-server support.
 tags: [coding-agents, omp, pi, model-routing, llama-cpp, configuration-safety]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T19:27:17.811Z
+    at: 2026-09-07T20:31:06.055Z
 sources:
+  - id: openwiki-source-bdfe539399fb1bd67701f2e2
+    resource: repo://lib/local-ai-agents.sh
   - id: openwiki-source-597ac7b7d26678e1e9c41f66
     resource: repo://manage.sh
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
+  - id: openwiki-source-37c158c9536a90efb6244860
+    resource: repo://tests/e2e/workflow-test.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
-  - id: openwiki-source-ecf6c3ee8bf187c4144f6437
-    resource: repo://tests/unit/user-config-preservation-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
+  - id: openwiki-source-0a74db2e0a08b76004f77ae4
+    resource: repo://tests/unit/agent-isolation-test.sh
+generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
 ---
 
-`omp` is the primary coding-agent integration: it receives a generated provider catalog and a role map for the local llama.cpp router. `pi` is deliberately simpler—a manually selected fallback and diagnostic client, not another routing implementation. Both use the same loopback router and bearer credential; neither changes the model-artifact lifecycle.
+`omp` is the primary coding-agent integration: it receives a generated provider catalog and role map for the local llama.cpp router. `pi` is deliberately simpler—a manually selected fallback and diagnostic client, not a second routing implementation. Both target the same loopback router and bearer credential; neither owns model downloads or changes the locked-artifact lifecycle.
 
-## Entry points and selection
+## Entry points, selection, and private runtimes
 
-`./setup-qwen38-pi.sh agent` dispatches from the resolved `AGENT` value (`omp` by default, or `pi`). A direct `omp` or `pi` installation validates/installs that tool but does **not** change persisted selection. To switch the persistent selection, save it and regenerate the selected launcher:
+`./setup-qwen38-pi.sh agent` dispatches from the resolved `AGENT` value (`omp` by default, or `pi`). Running `pi` or `omp` directly installs or validates that agent and its shell/launcher integration, but does not persist a selection. To switch the persisted selection, save it and then regenerate the selected integration:
 
 ```bash
 ./setup-qwen38-pi.sh save-config AGENT=pi
 ./setup-qwen38-pi.sh agent
 ```
 
-`manage.sh` makes that ordering explicit in its interactive agent chooser: validate/install the prospective agent, save `AGENT`, then invoke `agent` so generated integration reflects the saved choice. The manager also exposes the separate, deliberately confirmatory upgrade action.
+The interactive manager follows the same ordering: it validates or installs the prospective agent, saves `AGENT`, then runs `agent`. `agent-upgrade [pi|omp]` is intentionally separate: it replaces the target agent with the configured pinned version and refreshes only the integration appropriate to the currently selected agent.
+
+Agent lookup and placement have an important Omarchy boundary. On Omarchy, the project uses `${XDG_DATA_HOME:-$HOME/.local/share}/local-ai/agents` (with `bin` and Bun global directories below it), rather than `~/.local/bin`, because Omarchy can provide moving mise launcher stubs there. A private executable is the only installed agent recognized on Omarchy; lookup is read-only and never runs those stubs, even for `--version`. Outside Omarchy, agents use the normal local prefix/bin location, with PATH lookup as a fallback.
 
 The ordinary install contract is conservative and reproducible:
 
 | Agent | Missing-binary install | Existing binary | Explicit replacement |
 |---|---|---|---|
-| `pi` | `npm install --global --prefix "$HOME/.local" --ignore-scripts "@earendil-works/pi-coding-agent@${PI_VERSION}"` | Left untouched; a version mismatch warns | `./setup-qwen38-pi.sh agent-upgrade pi` |
-| `omp` | Bun installs `@oh-my-pi/pi-coding-agent@${OMP_VERSION}` into `LOCAL_BIN_DIR`, with `--ignore-scripts` | Left untouched, but a version mismatch prevents managed OMP routing | `./setup-qwen38-pi.sh agent-upgrade omp` |
+| `pi` | `npm install --global --prefix "$prefix" --ignore-scripts "@earendil-works/pi-coding-agent@${PI_VERSION}"` | Left untouched; a mismatch warns | `./setup-qwen38-pi.sh agent-upgrade pi` |
+| `omp` | Bun installs `@oh-my-pi/pi-coding-agent@${OMP_VERSION}` into the agent bin/global directories with `--ignore-scripts` | Left untouched; a mismatch stops normal OMP setup | `./setup-qwen38-pi.sh agent-upgrade omp` |
 
-The defaults are `PI_VERSION=0.84.4` and `OMP_VERSION=18.0.10`; both configuration values must be exact `x.y.z` releases. Installation and upgrade verify that the expected executable was created and reports the pinned version. In particular, routing uses an exact OMP schema/version gate rather than assuming a compatible-looking later release. A direct OMP install is still useful before downloading a model: it installs shell and selected-agent integration but warns that routing needs a complete tier.
+The defaults are `PI_VERSION=0.84.4` and `OMP_VERSION=18.0.10`. Both are configuration keys validated as exact semantic versions. New installs and upgrades verify that the expected executable exists and reports the selected version. The OMP configuration schema is additionally version-gated: when an OMP executable is installed, `routing` refuses to write v18 routing for a version other than `OMP_VERSION`. A direct OMP installation remains useful before downloading a model because it can establish the binary, shell integration, and selected-agent launcher, while warning that role routing needs a complete tier.
 
 ### pi: manual fallback
 
-`pi` has no generated role map. In a new shell, start `pi`, use `/llama` to load `qwen3.8-27b`, `coder`, or `qwen3.5-122b-a10b`, then use `/model` to select the session model. Models should be added through this repository, not pi’s downloader, so the selected artifacts remain locked and verified.
+`pi` has no generated role map. Start it in a new shell, use `/llama` to load `qwen3.8-27b`, `coder`, or `qwen3.5-122b-a10b`, then use `/model` to select the session model. Add models through this repository rather than pi’s downloader so revisions, byte sizes, and SHA-256 verification remain governed by `models.lock`.
 
-On first use the installer atomically creates `~/.pi/agent/settings.json` at mode `0600`, disabling install telemetry and analytics and enabling compaction with a 24,000-token recent window. An existing regular file is retained unchanged; symlinked, dangling, or other non-regular paths are also preserved rather than followed or replaced.
+On first use, the installer atomically creates `~/.pi/agent/settings.json` at mode `0600`, disables install telemetry and analytics, and enables compaction with a 24,000-token recent window. An existing regular settings file is retained; a symlink, dangling path, or other non-regular path is deliberately not followed or replaced.
 
 ## Credentials, shell state, and launchers
 
-The agents reach the router at `http://127.0.0.1:${PORT}`. The router remains a credential boundary even on loopback: generated wrappers read and validate the key file, export `LLAMA_API_KEY`, `LLAMA_BASE_URL`, and `LLAMA_CPP_BASE_URL`, set `PI_NO_TITLE=1`, and `exec` the requested agent. `PI_NO_TITLE=1` avoids a title request competing for the sole router slot.
+The agents reach the router through `http://127.0.0.1:${PORT}`. Loopback is still an authentication boundary: generated launchers require a nonempty key file, validate the key’s restricted format, export `LLAMA_API_KEY`, `LLAMA_BASE_URL`, and `LLAMA_CPP_BASE_URL`, set `PI_NO_TITLE=1`, then `exec` the agent. Suppressing title requests avoids competing for the single router slot.
 
-`local-ai-agent` is the general wrapper and is generated for the current `AGENT`; `omp-everyday`, `omp-coder`, and `omp-senior` additionally pin OMP’s `--model` to a specific available router ID. Tier wrappers are created only for complete tiers; a managed wrapper for a tier that later becomes unavailable is removed so it cannot force a 404. All generated wrappers are staged, mode `0700`, and atomically renamed. A generic unmarked or symlinked user launcher is not replaced.
+`local-ai-agent` is the general launcher for the selected `AGENT`. `omp-everyday`, `omp-coder`, and `omp-senior` invoke OMP with a corresponding `llamacpp/<router-id>` model selection. A tier launcher is created only when that tier’s complete artifact set is available; a managed launcher is removed when its tier later becomes unavailable, so it cannot force a known-missing router model. Launchers are staged, mode `0700`, and atomically renamed.
 
-Installers add `PATH` and managed exports to `~/.bashrc`, plus `~/.zshrc` when zsh is the active shell. Managed `LLAMA_API_KEY` and pi’s `LLAMA_BASE_URL` exports are identified by a marker, rewritten by marker identity, and appended last. This replaces stale generated values without deleting unmarked user exports; the last managed export wins for this setup. A dotfile symlink is accepted only when `realpath` resolves it to a regular non-symlink target, whose mode is preserved. The OMP path also removes the exact obsolete `export OMPX_PARSER_ACTIVE=1` line because current integration uses llama.cpp/Qwen chat-template support.
+Normal generation replaces only a launcher carrying this setup’s marker. A user-owned or symlinked launcher is preserved. `routing --force` is the explicit ownership transfer: it copies an existing user launcher to a timestamped backup before installing the managed replacement. On Omarchy, launchers point to the private runtime and fail closed if it is missing; they never fall back to a distribution stub. Outside Omarchy, the generated launchers may use PATH only if the expected local executable is absent.
 
-For remote, non-interactive workflows, `ai-session` independently reads the saved port and local key before launching tmux because shells may not source their rc files. It selects explicit `AGENT` first, then saved `setup.env`, then `omp`; its session name combines the project basename with a canonical-path digest to prevent same-named repositories sharing a pane.
+The installer adds the local bin directory to `~/.bashrc`, and to `~/.zshrc` when zsh is active. Managed `LLAMA_API_KEY` and pi `LLAMA_BASE_URL` exports are identified by a marker, removed by marker identity, and appended last. Thus stale generated values do not accumulate or win over the newest setup value, while unmarked user exports remain intact. A dotfile symlink is edited only through a `realpath`-resolved regular, non-symlink target; its mode is retained. OMP integration also removes the exact legacy `export OMPX_PARSER_ACTIVE=1` line, because the current path relies on llama.cpp/Qwen chat-template support rather than that external parser setting.
 
-## OMP provider catalog
+## OMP provider catalog and role resolution
 
-`routing` generates `~/.omp/agent/models.yml` from **complete** tiers only. Its `llamacpp` provider is explicit rather than relying on discovery defaults:
+`routing` generates `~/.omp/agent/models.yml` from complete tiers only. Its explicit `llamacpp` provider targets the authenticated OpenAI-compatible endpoint:
 
 ```yaml
 baseUrl: http://127.0.0.1:${PORT}/v1
@@ -69,68 +75,70 @@ discovery:
   type: llama.cpp
 ```
 
-`config.yml` disables OMP’s implicit `llama.cpp` provider, which would otherwise be a duplicate keyless path and produce stray authorization failures. It also fixes task concurrency and the named provider’s in-flight requests at one, matching the router’s one-resident-model constraint; turns the always-on advisor off; and disables agent memory. The generated config intentionally does not set `supersedeReads: false` or `dropUseless: false`, leaving OMP’s cache-aware pruning defaults enabled.
+`config.yml` disables OMP’s implicit `llama.cpp` provider, which would otherwise be a duplicate keyless route. It limits both task concurrency and the named provider’s in-flight requests to one, matching the one-resident-model router; it also disables the always-on advisor and agent-memory backend.
 
-Metadata tracks actual interface differences, not just display names:
+The catalog records interface differences rather than merely renaming models:
 
-- `qwen3.8-27b` is reasoning-capable, accepts `low`, `medium`, and `xhigh`, uses configured `REASONING_EFFORT` as the default, and accepts text and images.
-- `coder` is explicitly non-reasoning, text-only, and tagged with `tokenizer: qwen3`. Its neutral ID prevents OMP’s Qwen-name inference from misclassifying this official non-thinking model.
-- `qwen3.5-122b-a10b` has binary thinking represented by the single `low` surface; `supportsReasoningEffort: false` prevents an unsupported effort payload.
+- `qwen3.8-27b` is reasoning-capable, supports `low`, `medium`, and `xhigh`, defaults to `REASONING_EFFORT`, and accepts text and images.
+- `coder` is non-reasoning, text-only, and declares `tokenizer: qwen3`. Its neutral ID avoids name-based Qwen inference for this non-thinking model.
+- `qwen3.5-122b-a10b` exposes binary thinking through the sole `low` level; `supportsReasoningEffort: false` prevents an unsupported effort payload.
 
-## Role selection and missing-tier fallbacks
-
-The role resolver never selects an alias whose complete locked artifact set is absent. It computes **base** as the first complete tier in `everyday → coder → senior` order, **specialist** as `coder` when complete (else base), and **architect** as `senior` when complete (else base). No complete tier is a hard routing failure.
+The resolver never selects an absent alias. It selects **base** as the first complete tier in `everyday → coder → senior` order; **specialist** is complete `coder` or base; **architect** is complete `senior` or base. With no complete tier, routing fails before writing active files.
 
 ```mermaid
 flowchart TD
-  Available["Complete installed tiers"] --> Base{"Choose base"}
-  Base -->|"everyday exists"| Everyday["base qwen3.8-27b"]
-  Base -->|"everyday missing coder exists"| CoderBase["base coder"]
-  Base -->|"only senior exists"| SeniorBase["base qwen3.5-122b-a10b"]
-  Base -->|"none complete"| Blocked["routing refused"]
-  Available --> Specialist{"Choose specialist"}
-  Specialist -->|"coder exists"| Coder["specialist coder"]
-  Specialist -->|"coder missing"| BaseSpecialist["specialist base"]
-  Available --> Architect{"Choose architect"}
-  Architect -->|"senior exists"| Senior["architect qwen3.5-122b-a10b"]
-  Architect -->|"senior missing"| BaseArchitect["architect base"]
-  Everyday --> Profile{"ROUTING_PROFILE"}
+  Tiers["Complete locked tiers"] --> Base{"Resolve base tier"}
+  Base -->|"everyday"| Everyday["qwen3.8-27b"]
+  Base -->|"coder fallback"| CoderBase["coder"]
+  Base -->|"senior fallback"| SeniorBase["qwen3.5-122b-a10b"]
+  Base -->|"none"| Blocked["Refuse routing"]
+  Tiers --> Specialist{"Resolve specialist"}
+  Specialist -->|"coder complete"| Coder["coder"]
+  Specialist -->|"otherwise"| BaseSpecialist["base"]
+  Tiers --> Architect{"Resolve architect"}
+  Architect -->|"senior complete"| Senior["qwen3.5-122b-a10b"]
+  Architect -->|"otherwise"| BaseArchitect["base"]
+  Everyday --> Profile{"Apply routing profile"}
   CoderBase --> Profile
   SeniorBase --> Profile
-  Profile -->|"sticky"| Sticky["all roles base"]
-  Profile -->|"balanced"| Balanced["task specialist review roles base"]
-  Profile -->|"quality"| Quality["task specialist review roles architect"]
-  Coder --> Balanced
-  Coder --> Quality
-  Senior --> Quality
-  BaseSpecialist --> Balanced
-  BaseSpecialist --> Quality
-  BaseArchitect --> Quality
+  Coder --> Profile
+  BaseSpecialist --> Profile
+  Senior --> Profile
+  BaseArchitect --> Profile
+  Profile --> Router["Authenticated local llama.cpp router"]
 ```
 
-*Routing resolution: base selection is ordered by complete tiers, then profiles selectively promote task and review roles while missing specialist or architect tiers fall back to base.*
+*Role selection uses only complete locked tiers, applies the selected profile, and sends OMP through the authenticated local router.*
 
-The fixed base roles are `default`, `vision`, `smol`, `commit`, `tiny`, and `title`. The profile controls the remaining roles:
+The fixed base roles are `default`, `vision`, `smol`, `commit`, `tiny`, and `title`. The profile controls the remainder:
 
 | Profile | `task` | `slow`, `plan`, `advisor`, `designer` | Operational intent |
 |---|---|---|---|
-| `sticky` | base | base | Default. Keeps the implementation model warm. |
-| `balanced` | specialist | base | Uses coder for tasks when available. |
-| `quality` | specialist | architect | Adds senior review/planning where installed. |
+| `sticky` | base | base | Default; keep the implementation model warm. |
+| `balanced` | specialist | base | Use `coder` for tasks when available. |
+| `quality` | specialist | architect | Use senior for review/planning when installed. |
 
-An isolated promoted call can require a swap into that tier and another back to base, so profile choice is a latency/residency decision, not merely a quality preference. Under `sticky`, use `omp-coder` or `omp-senior` deliberately at a phase boundary, then return with `omp-everyday`. The advisor role is mapped like other review roles under `quality`, but its automatic advisor feature remains disabled until the operator enables it.
+A promoted isolated call can require a router model swap and a swap back, so profile choice is a latency/residency choice as well as a quality choice. Under `sticky`, use a tier-specific wrapper deliberately at a phase boundary. The `advisor` role is mapped under `quality`, but its automatic feature stays disabled until an operator enables it.
 
-## Pair ownership and transactional failure behavior
+## Pair ownership and transactional updates
 
-`models.yml` and `config.yml` are one logical OMP routing pair. Before normal routing changes, the engine considers either file custom if it is a symlink or lacks the managed marker (recognized legacy generated files are migratable). If **either** half is custom, ordinary `routing` changes neither active config nor tier launchers, writes both proposed files beside them as `.local-ai-setup.example`, and returns status `2`. `plan` and `apply` surface this as an unresolved gate rather than partially configuring a provider/role relationship.
+`models.yml` and `config.yml` are one logical routing pair. Before ordinary routing changes, either half is custom if it is a symlink or lacks the managed marker; recognizable legacy generated files are migratable. If either half is custom, `routing` changes neither active configuration nor tier launchers, writes both candidates beside the active files as `.local-ai-setup.example`, and returns status `2`. Review both candidates, or use `./setup-qwen38-pi.sh routing --force` to back up custom halves and take ownership.
 
-Use `./setup-qwen38-pi.sh routing --force` only after reviewing those candidate files. It creates timestamped backups of custom halves before replacement. Both normal and forced routing snapshot the pair and all three tier wrappers. A failed second rename or an interrupt restores the prior pair; a failure while updating wrappers restores the entire routing bundle. If recovery itself cannot complete, the transaction directory is retained for manual recovery rather than silently claiming success.
+Normal and forced updates snapshot the pair and all three tier launchers before installation. Pair installation stages both files and restores the prior pair if either rename fails; the larger bundle transaction also restores the pair and wrappers on a launcher failure or signal. If recovery cannot complete, the transaction directory remains as manual recovery evidence rather than being silently discarded.
 
-This ownership rule also matters after selecting pi: `apply` does not create OMP routing solely for pi, but if a managed OMP pair already exists it refreshes it, preventing stale managed selectors after tier removal.
+`plan` reports the selected aliases and unresolved preflight gates without writing. `apply` reruns `plan` rather than trusting an earlier result, snapshots desired state, routing files, launchers, and service files, then saves configuration. It refreshes OMP routing when `AGENT=omp` **or** managed OMP routing already exists—even when pi is selected—so tier removal cannot leave stale managed OMP selectors. A routing or launcher failure restores the snapshot before the router service is changed.
 
-## Recommended operation and tests
+## Optional LSP and remote sessions
 
-After downloading or removing a tier, resolve the prospective mapping before committing it:
+`./setup-qwen38-pi.sh omp-lsp` is optional and Arch-specific. It installs `bash-language-server`, `typescript-language-server`, `python-lsp-server`, `gopls`, `rust-analyzer`, and `clang`; OMP auto-detects available servers for rename, refactoring, and diagnostics during edits. A package-install failure returns failure and leaves resolution/retry to the operator.
+
+`remote` installs `/usr/local/bin/ai-session` as a managed root-owned mode-`0755` helper, migrating a recognized legacy helper but refusing a user-owned target. It retains `pi-session` as a compatibility symlink only when that name is absent or already points at `ai-session`.
+
+For non-interactive SSH or mosh use, `ai-session` does not depend on rc-file exports. It chooses `AGENT` from the calling environment, then saved `~/.config/local-ai/setup.env`, then `omp`; invalid values fail. It reads the saved port, loads the local router key, and exports the router variables before creating a tmux session. The new pane reads the key file itself again, avoiding a secret in tmux’s command-line arguments and protecting against a tmux server whose environment predates setup. On Omarchy the helper requires the selected private agent runtime; elsewhere it invokes the selected command normally. The tmux name combines the project basename with a 12-character SHA-256 digest of its canonical path, preventing unrelated same-basename projects from attaching to the same session.
+
+## Recommended operation and focused tests
+
+After adding or removing a tier, review the prospective mapping and then commit it:
 
 ```bash
 ./setup-qwen38-pi.sh save-config ROUTING_PROFILE=quality
@@ -138,13 +146,15 @@ After downloading or removing a tier, resolve the prospective mapping before com
 ./setup-qwen38-pi.sh apply
 ```
 
-`plan` shows base, task, and review selectors and fails unresolved preflight—such as no complete tier, an incompatible installed OMP version, or a preserved custom pair—before `apply` mutates desired or router state. Use `routing` for focused repair and `routing --force` only to take ownership of a custom pair.
+Use `routing` for focused OMP repair and `routing --force` only after reviewing candidate files and accepting ownership of a custom pair. Use `agent-upgrade`—not ordinary installation—when deliberately replacing an existing agent.
 
-Focused regression coverage is intentionally behavioral. `tests/unit/manager-test.sh` checks chooser ordering and the explicit upgrade path. `tests/unit/user-config-preservation-test.sh` verifies pi starter privacy and that existing/symlinked settings are untouched. `tests/integration/generated-config-test.sh` checks managed export replacement without stale precedence, provider auth and capability metadata, all three routing profiles, missing-tier fallback, custom-pair gating, user launcher preservation, and rollback of pair and wrapper updates on failure or signal.
+Focused regression coverage is behavioral. `tests/unit/agent-isolation-test.sh` proves the Omarchy private-prefix boundary, confirms launchers and remote sessions do not execute moving stubs, and verifies fail-closed behavior when the private runtime disappears. `tests/integration/generated-config-test.sh` covers zero-tier rejection, direct OMP setup before a model download, managed-export replacement, shell-symlink safety, session naming, routing metadata/profile fallbacks, custom-pair protection, and rollback. `tests/e2e/workflow-test.sh` verifies an applied managed routing set is refreshed after tier loss even when `AGENT=pi`.
 
 ## Related pages
 
 - [Runtime Stack and Ownership Boundaries](/openwiki/architecture/runtime-stack.md)
 - [Configuration, Artifacts, and Safety Invariants](/openwiki/concepts/configuration-artifacts-and-safety.md)
-- [Router Health and Performance](/openwiki/operations/router-health-and-performance.md)
+- [System and LAN Security](/openwiki/operations/system-and-lan-security.md)
+- [Quickstart](/openwiki/quickstart.md)
+- [Verification Strategy](/openwiki/testing/verification-strategy.md)
 - [Model and Desired-State Lifecycle](/openwiki/workflows/model-and-desired-state-lifecycle.md)

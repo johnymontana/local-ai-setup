@@ -1,20 +1,24 @@
 ---
 type: verification strategy
-title: Verification Strategy and Hermetic Test Boundaries
-description: How the repository layers syntax, ShellCheck, unit, integration, hermetic workflow, and opt-in hardware verification around its safety contracts. Explains fixture boundaries, CI coverage, and where real model and workstation assertions belong.
+title: Verification Strategy and Hermetic Test Harness
+description: How shell syntax, ShellCheck, hermetic unit, integration, and workflow tests enforce safety and generated-configuration contracts. Explains fixture isolation, interruption cleanup and retry coverage, CI execution, and the opt-in boundary for real hardware validation.
 tags: [testing, verification, hermetic-tests, shellcheck, continuous-integration, hardware-testing]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T19:27:17.811Z
+    at: 2026-09-07T21:04:55.481Z
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
+  - id: openwiki-source-450df187d5ad439853de20f8
+    resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-37c158c9536a90efb6244860
     resource: repo://tests/e2e/workflow-test.sh
   - id: openwiki-source-5b62419cd0f65416572d3a5c
     resource: repo://tests/hardware/strix-halo-test.sh
   - id: openwiki-source-7e7512e407094ae5459c27c3
     resource: repo://tests/integration/command-contract-test.sh
+  - id: openwiki-source-26a3de5b6e814d54fa75015b
+    resource: repo://tests/integration/desktop-test.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
   - id: openwiki-source-88924c94a24b0b53c27ce5b1
@@ -23,22 +27,34 @@ sources:
     resource: repo://tests/integration/system-transaction-test.sh
   - id: openwiki-source-7c71e27f2868c519ae41ea5b
     resource: repo://tests/integration/tty-prompt-test.sh
+  - id: openwiki-source-7997073c9ad75793bd82e502
+    resource: repo://tests/lib/environment.sh
   - id: openwiki-source-069e6674f1853a4ec99c387e
     resource: repo://tests/run.sh
+  - id: openwiki-source-0a74db2e0a08b76004f77ae4
+    resource: repo://tests/unit/agent-isolation-test.sh
+  - id: openwiki-source-541f776fb471a4440a00842a
+    resource: repo://tests/unit/bootstrap-test.sh
   - id: openwiki-source-f1ae2d5f642d02ba96539003
     resource: repo://tests/unit/common-test.sh
   - id: openwiki-source-f381d2986802f05dd46ae1ad
     resource: repo://tests/unit/config-test.sh
+  - id: openwiki-source-2bfebeecd601890ffee00bd8
+    resource: repo://tests/unit/environment-test.sh
   - id: openwiki-source-5d4536c7fc3a8c095af323ce
     resource: repo://tests/unit/manager-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
+  - id: openwiki-source-db939c4ff52f98e5af90a315
+    resource: repo://tests/unit/platform-test.sh
+  - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
+    resource: repo://tests/unit/runtime-safety-test.sh
+generated: { by: "openwiki/0.5.0", at: "2026-09-07T21:04:55.481Z" }
 ---
 
 > **Testing policy.** The portable suite proves control flow, generated-state safety, and failure recovery without treating a developer machine as a test fixture. Real Strix Halo, systemd, Vulkan, and GGUF behavior is intentionally an explicit workstation operation.
 
 ## Entrypoints and execution boundary
 
-`tests/run.sh` is the test dispatcher. `syntax` finds every repository `*.sh` file other than `.git` and runs `bash -n`. `offline` (the default) performs that syntax pass, then runs the `unit`, `integration`, and `e2e` groups in sorted filename order. `all` first runs the offline target and only then considers `tests/hardware/*-test.sh`; hardware is skipped unless `RUN_LOCAL_AI_E2E=1`. The dispatcher states the portable contract directly: offline must not need network access, `sudo`, systemd, or model files.
+`tests/run.sh` is the test dispatcher. `syntax` finds every repository `*.sh` file **and the `local-ai` executable**, excluding `.git`, and parses each with `bash -n`. `offline` (the default) sources the fixture environment, performs that syntax pass, then runs the `unit`, `integration`, and `e2e` groups in sorted filename order. `all` runs that offline target before considering `tests/hardware/*-test.sh`; hardware is skipped unless `RUN_LOCAL_AI_E2E=1`. The dispatcher states the portable contract directly: offline must not need network access, `sudo`, systemd, or model files.
 
 ```bash
 bash tests/run.sh syntax
@@ -51,7 +67,7 @@ RUN_LOCAL_AI_E2E=1 RUN_LOCAL_AI_PERF_E2E=1 bash tests/run.sh all
 
 ```mermaid
 flowchart TD
-  Syntax["syntax: bash -n every shell file"] --> Offline["offline: syntax then unit integration e2e"]
+  Syntax["syntax: bash -n shell files and local-ai"] --> Offline["offline: fixture environment then syntax unit integration e2e"]
   Offline --> Complete["portable result"]
   Offline --> All["all target"]
   All --> Enabled{"RUN_LOCAL_AI_E2E equals 1"}
@@ -68,10 +84,10 @@ flowchart TD
 
 | Layer | Primary contract | Representative evidence and failure meaning |
 |---|---|---|
-| Shell syntax | Every repository shell program parses as Bash. | `bash -n` covers all discovered `.sh` files. It catches parse regressions, not runtime semantics. |
-| ShellCheck | Shell constructs meet error-level static analysis under Bash semantics. | CI runs ShellCheck over the same broad shell-file population with `--severity=error --shell=bash`; it complements parsing and is not a replacement for fixture-based behavior tests. |
-| Unit | Pure or tightly bounded helpers reject unsafe input and preserve local ownership semantics. | Configuration enum/range and path validation; key/config and receipt helpers; removal/unload fail-closed truth tables; manager ordering; user dotfile preservation. A failure identifies a local contract regression before a full command workflow is needed. |
-| Integration | The engine composes helpers into generated files and guarded operations without touching the host. | Byte-sized artifact locks plus mocked `systemctl`, `curl`, `llama-server`, SSH, and filesystem tools exercise transactions, readiness, routing, downloads, and security policy. |
+| Shell syntax | Every repository shell program parses as Bash. | `bash -n` covers discovered `.sh` files and `local-ai`. It catches parse regressions, not runtime semantics. |
+| ShellCheck | Shell constructs meet error-level static analysis under Bash semantics. | CI runs ShellCheck over the same `.sh`-plus-`local-ai` population with `--severity=error --shell=bash`; it complements parsing and is not a replacement for fixture-based behavior tests. |
+| Unit | Pure or tightly bounded helpers reject unsafe input and preserve local ownership semantics. | Configuration enum/range and path validation; key/config and receipt helpers; removal/unload fail-closed truth tables; pinned-agent isolation; platform/bootstrap guards; manager ordering; user dotfile preservation. A failure identifies a local contract regression before a full command workflow is needed. |
+| Integration | The engine composes helpers into generated files and guarded operations without touching the host. | Byte-sized artifact locks plus mocked `systemctl`, `curl`, `llama-server`, SSH, package, boot-image, and filesystem tools exercise transactions, readiness, routing, downloads, desktop entries, and security policy. |
 | Offline end to end | A realistic CLI lifecycle has the correct observable state transitions under a hermetic substitute runtime. | `plan` is non-mutating; `apply` creates desired/service/routing state; `status` stays observational; signal, bad-catalog, and performance failures restore state. |
 | Hardware end to end | The configured Arch workstation can serve its actually installed models behind the authenticated router. | Real `plan`, status schema/authentication checks, and smoke generation run per installed tier. Optional real `perf` is intentionally disruptive. |
 
@@ -79,7 +95,7 @@ This division matters: a mock can establish that the code refuses unsafe transit
 
 ## Hermetic fixtures model interfaces, not the workstation
 
-Offline tests create a `mktemp` root, set `HOME` and all managed roots below it, and remove it through an EXIT trap. They replace external commands by putting a per-test `mock-bin` first in `PATH` and invoke the production `setup-qwen38-pi.sh` with controlled environment variables. The workflow suite also supplies a derived fixture `models.lock`: it retains production tiers, variants, IDs, shard relationships, and artifact kinds, but replaces each artifact with deterministic small content and its computed byte count and SHA-256.
+Offline tests create a `mktemp` root, set `HOME` and managed roots below it, and remove it through an EXIT trap. They replace external commands by putting a per-test `mock-bin` first in `PATH` and invoke the production `setup-qwen38-pi.sh` with controlled environment variables. The shared fixture environment supplies a fixture OS-release and makes `command -v` refuse host `pi`, `omp`, `omarchy`, and `omarchy-update` unless a test explicitly provides a fixture command; this prevents lazy host launchers from becoming an accidental dependency. The workflow suite also supplies a derived fixture `models.lock`: it retains production tiers, variants, IDs, shard relationships, and artifact kinds, but replaces each artifact with deterministic small content and its computed byte count and SHA-256.
 
 The high-value mock surfaces are deliberately stateful:
 
@@ -100,19 +116,35 @@ The generated-configuration integration suite is the broad regression home for a
 
 Use this suite when changing the ownership predicate, artifact verification, generated `models.ini`/unit/launcher content, OMP routing, credential transport, or status schema. Pair it with `config-test.sh` or `common-test.sh` if the change introduces a new local validator or parser.
 
+Other focused unit/integration homes protect boundaries that are easy to accidentally bypass. `runtime-safety-test.sh` makes removal and unload checks fail closed for transitional, unknown, or unverifiable runtime states; verifies performance prompt headroom and a locale-stable operation-lock identity; and blocks a UFW change behind an active firewalld state. `agent-isolation-test.sh` ensures pinned private Pi/OMP installs and generated launchers never execute or fall back to mutable Omarchy stubs. `desktop-test.sh` protects repeatable, credential-free desktop-entry generation while refusing to overwrite user files or symlinks and forwarding only literal, validated terminal arguments. `bootstrap-test.sh` and `platform-test.sh` assert that host/reboot checks precede persistence or runtime work and that supported-platform package/boot-image paths preserve failure output.
+
 ### Operations and transactions
 
 `operations-test.sh` models failures that occur across external command boundaries: service readiness must include the authenticated router catalog and startup-tier state; `STARTUP_TIER=none` still validates router identity without warming a model; a conflicting insecure listener remains visible even when the managed unit is inactive; disk reserve blocks curl before partial creation; and concurrent mutations are denied by the lifecycle lock.
 
+### Interruption cleanup and immediate retry
+
+The focused regression for interrupted parallel downloads belongs in `operations-test.sh`, not the workflow or hardware layer. Its fixture starts a `model coder` download with two mock `curl` workers that continuously append to separate `.part` files, records their PIDs, and sends `TERM` to the operation-lock owner. It then requires exit status `130`, no live worker (a zombie is tolerated where the OS reaper owns it), unchanged partial-file byte totals after interruption, and removal of the lock directory.
+
+The test immediately invokes the same download against those partials with a finite, stateful download mock and requires all four coder `.gguf` shards to be installed. This is an ordering contract: cleanup must stop writers **before** releasing the lock, so a retry can exclusively own and complete the partials rather than race a surviving writer. The fixture deliberately supplies an inherited `XDG_RUNTIME_DIR` different from its explicit private test runtime directory, exercising lock-runtime selection without a real user service, network request, or model artifact.
+
+Run the narrow regression directly when changing `locked_command`, signal handling, download worker management, lock ownership, or partial-download recovery:
+
+```bash
+bash tests/integration/operations-test.sh
+```
+
+Leave its diagnostics visible on failure. A passing test proves cleanup, lock handoff, and retry control flow under deterministic process and filesystem substitutes; it does not prove that a real workstation's network, storage, or GPU has recovered.
+
 Its destructive-operation cases also make the ordering observable: removal requires a stopped router, preflights every candidate before the first rename, preserves user files/symlink targets, restores staged shards after a signal, and keeps a changed artifact namespace stopped if post-maintenance apply fails. The same suite covers managed raw-benchmark stop/start restoration and the pending-reboot gate before service mutation.
 
-`system-transaction-test.sh` is the focused root-operation simulator. Its mocked privileged commands verify SSH drop-in rollback on TERM and EXIT, host-key preparation without opening an inactive daemon, effective `AuthorizedKeysFile` validation before key parsing, and restoration of both current/legacy TTM policy files plus initramfs rebuild on interrupted GTT work. Keep root-level safeguards here rather than requiring a contributor's actual SSH or kernel policy.
+`system-transaction-test.sh` is the focused root-operation simulator. Its mocked privileged commands verify SSH drop-in rollback on TERM and EXIT, host-key preparation without opening an inactive daemon, and effective `AuthorizedKeysFile` validation before key parsing. It also verifies that interrupted or failed kernel tuning restores both current and legacy TTM policy files and their modes, then rebuilds the prior Limine UKIs; symlinked policy paths are rejected before boot-image work. Keep root-level safeguards here rather than requiring a contributor's actual SSH or kernel policy.
 
 ### CLI and interactive contracts
 
 `command-contract-test.sh` asserts that help forms expose the public command surface and that `plan`, `status`, parser/arity failures, and an absent runtime do not create managed state. `manager-test.sh` asserts the ordering delegated by the interactive manager: prospective quant download before persistence/apply, launcher regeneration after agent persistence, safe startup-tier migration before deletion, and one engine-owned transaction for maintenance or managed raw benchmarks.
 
-`tty-prompt-test.sh` is an integration test because it creates a real pseudoterminal with Python. It proves that a mutating command reads its confirmation from the controlling TTY and that a fast foreground lifecycle child keeps its real exit status. Keep prompt/job-control regressions there, not in a plain stdin fixture.
+`tty-prompt-test.sh` is an integration test because it creates a real pseudoterminal with Python. It proves that a mutating command reads its confirmation from the controlling TTY. It also exercises the foreground-job race for normal and delayed completion, preserving explicit child exits `0`, `1`, and `127`, and preserves `130` when the foreground process group is interrupted. Keep prompt/job-control regressions there, not in a plain stdin fixture.
 
 ## Workflow-level behavior and rollback
 
@@ -147,13 +179,13 @@ These cases define expected recovery behavior. When a new operation changes more
 
 ## Real hardware and model assertions
 
-`tests/hardware/strix-halo-test.sh` is deliberately small and opt-in. It requires `RUN_LOCAL_AI_E2E=1`, `pacman`, and `jq`, then runs real `plan` and requires `status --json` to report schema version 1, an active unit, `service.api == "authenticated"`, `authEnforced == true`, and at least one installed tier. It runs `smoke` for each installed tier, then rechecks authenticated status. With `RUN_LOCAL_AI_PERF_E2E=1`, it additionally invokes real `perf` for each installed tier.
+`tests/hardware/strix-halo-test.sh` is deliberately small and opt-in. It requires `RUN_LOCAL_AI_E2E=1` and `jq`, starts by running the engine's real `check` and `plan`, and requires `status --json` to report schema version 1, an active unit, `service.api == "authenticated"`, `authEnforced == true`, no reboot requirement, and at least one installed tier. It runs `smoke` for each installed tier, then rechecks authenticated status. With `RUN_LOCAL_AI_PERF_E2E=1`, it additionally invokes real `perf` for each installed tier.
 
-Run it only as an announced maintenance action on the configured Arch workstation. Smoke can load/swap a real model; performance deliberately changes residency and can take a long time. The hardware suite is the correct place to assert actual router reachability and generation with installed artifacts. Detailed Vulkan placement, GTT/memory headroom, MTP acceptance-rate interpretation, model response quality, and performance thresholds remain operator benchmark work: they are environment- and workload-dependent measurements, not portable pass/fail constants.
+Run it only as an announced maintenance action on a host that passes `check`. Smoke can load/swap a real model; performance deliberately changes residency and can take a long time. The hardware suite is the correct place to assert actual router reachability and generation with installed artifacts. Detailed Vulkan placement, GTT/memory headroom, MTP acceptance-rate interpretation, model response quality, and performance thresholds remain operator benchmark work: they are environment- and workload-dependent measurements, not portable pass/fail constants.
 
 ## CI and change-selection guidance
 
-GitHub Actions triggers on pushes, pull requests, and manual dispatch. Its single Ubuntu 24.04 job has a ten-minute timeout, runs error-severity ShellCheck over every shell script, then runs `bash tests/run.sh offline`. Thus CI enforces the hermetic baseline and never selects the opt-in hardware path.
+GitHub Actions triggers on pushes, pull requests, and manual dispatch. Its single Ubuntu 24.04 job has a ten-minute timeout and read-only repository permission; concurrency is scoped to workflow and ref and cancels an in-progress run for the same scope. It runs error-severity Bash ShellCheck over repository `.sh` files and `local-ai`, then runs `bash tests/run.sh offline`. Thus CI enforces the hermetic baseline and never selects the opt-in hardware path.
 
 A practical selection guide:
 

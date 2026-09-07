@@ -1,17 +1,21 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:2e14004e0e71c4fa04fcbef1239763bd1de1ed4a690f899962d919a91cb40bbf",
+  "pageVersion": "sha256:ccb63beb23b2d819da296b230665894ec98137a44f4388ff0fb9488a0ef8ed7a",
   "claims": [
     {
       "id": "claim_a040dd6a860048658bbbbcc65572a6fa",
       "statement": "`status --json` is an observational, version-1 machine interface: it queries `/v1/models?autoload=0` and does not issue model generation or autoload a model.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3132-L3229",
-          "version": "repo-lines-v1:sha256:c1964a7b92429cf46c74fbad82bae05b8ac445d491894920a47070f2ac78a683:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmVkMDRhZWU5NWI3ZjY4NWNlMzJhMGMwNGYyODIxZWNkYzc0ZWU1YTFiYzcyNDgwYTk3OGE4ZDhlYzljODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhM2Q4ZmZjMzE0ODhmZWFjMTcyMzE2YWRiN2ZhYWYwNGEyMGQ0NTY5OTQzZjZkNWFiYjg1ZjE2Y2FhN2FhNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc3NTJjM2UwNDZjNDA1YjIzYjkzNjAwNDBhYzQyY2NhYzFiZjYwYTg1MzQ2NjI2NTE5NzkyODk2OTFkOGRmNDAifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L3127-L3130",
+          "version": "repo-lines-v1:sha256:1b2c8ff640832e23b8cef7f786e905dc13f138553ceec56df947073a43a43c55:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZTkyZDZkZTFlMTRlNjJmMjdjMjc4YjE5YzM5NmMyZGQ4Y2I2YTBjMjJhMDcyN2FhNzZhNzg3YWRlYjY4YjM2NSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTgxNTlhOTQ3MGQ4MTY3MWIyZGRlZThkNDI2N2UwNjNjODk3ZWVkNTc2MmRkZGZhYjM3YTczZDVjZTVlMTRlMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMDM4Njk5Nzg2ZjljNzQxNGQ2MTQyMDIyN2Y4ZjdkOGY4MDMxNDIwNjc2MzAwODJlMDNiN2NkMmRiMmQzMmExMCJ9"
         },
         {
-          "resource": "repo://tests/integration/generated-config-test.sh#L1069-L1110",
+          "resource": "repo://setup-qwen38-pi.sh#L3192-L3282",
+          "version": "repo-lines-v1:sha256:af745be746a5118cda689203ad3649df797858b6a32d210cd51409742e593dd7:eyJzZWxlY3RlZExpbmVDb3VudCI6OTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmVkMDRhZWU5NWI3ZjY4NWNlMzJhMGMwNGYyODIxZWNkYzc0ZWU1YTFiYzcyNDgwYTk3OGE4ZDhlYzljODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyODk0YmNkMTI5MGRhZjQ5OWY4MjA1Yzc2ZGRkYjg4YTQzNDk3MjQzYWYyNjBlNzg2ZjUxYjZkYWNhZTY4ZTgifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L1071-L1112",
           "version": "repo-lines-v1:sha256:2ee9a3fa95f6e1a7afca5cbbe6be81c5e8e586507bb253cf922df4020de9e007:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFlOTE3NWFhMWY0MTc2MTY3NjdhNTk1NjI0Nzg5ZjYzZDE3NmQ4ZjRmZmJmYWI2MWQzNWNkZjQyNGRhYmFjMGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzNWZiZDRhZWE2ZjljNjFhZDJjZjQ4YjY2MjExNDhhMTg3ZDlmNjM1ODlkNzE4OWU3ZGE1OWM0YTMzNWYzNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyMTZiYTI2YmYyN2ZlMzFjYTg4ZTc3ZDEzODQ2YzVmMzdlNWE0N2Y4ZWU5OTA4OGY2ZmMyZThhMDhiM2Y4OTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4NTkwZjIxNGMwOWFmZDY5YTQ2Y2RjNjI2MjVlYTU4NDkyM2U1MDdmMTI3YTNkZTJmYzcyZmNkYWU1ODMzNDAifQ"
         }
       ]
@@ -39,16 +43,16 @@
       "statement": "Status reports separate disk artifact completeness and router runtime state for every tier, maps recognized runtime values to loaded/loading/unloaded/sleeping/failed/unknown, reports byte progress, and derives `loadedModel` from a loaded catalog entry.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3049-L3065",
+          "resource": "repo://setup-qwen38-pi.sh#L3109-L3125",
           "version": "repo-lines-v1:sha256:3bca2593a9d376a0eb129a75ed6dc548f674b21002f78aabdbb039b074860993:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3NWFiYTEzZWMyN2RkM2U4YTFiNzhmOWM0ODVmMjA1ZWI5YzFlODZjZWFkZjExOWExNjY0NjAzNzQxNGNhYTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyZWMyNjJlOGQzYjgwMzM5ODE0ZTZhMDBlNzFkZjlmZDY4M2ZlNjk4ZDZmMzIwOGJiZWVkOGYyMmU0NGNlNDAifQ"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3174-L3212",
-          "version": "repo-lines-v1:sha256:f278b240893905acbdade2256ad8b1570e5b535679fbdc1448d6310782d24c15:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ZTAzMzlhNjEwMzQzYjExOWY5YzY3YmExMmVjNjY0NjA0ZDA1YjViOWMzNzllYjQ4ODczZTkyMzYxZjUxYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2N2QwNGU4ODUwN2I0YTcyY2EyYzkxYzY4ZjY0N2NkNGNjNmZjMzc5YjYyZDM0NTE0OTEzNWVlM2ZhNDMyOWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3MWI3MzFkOGJhZTM3ZTkxNzRhZjA5M2U5NjIyMTg4NDg0Y2QxZDc1N2ZlMTkyNjA4NGRjOTE4N2ViOTM5NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0Y2U4MDllYWRhOGU3YWJkNmVlYmE3YjZiYmQ3NjU5MGVjMjdkMTM2N2UyMmYxZjJiYWIzMDFhNjQ2ZjYxY2EifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L3234-L3272",
+          "version": "repo-lines-v1:sha256:1c932c05b18e18bfc63d3bc09618954880711cf0e1a5a88ed18de7071470f643:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI4ZTAzMzlhNjEwMzQzYjExOWY5YzY3YmExMmVjNjY0NjA0ZDA1YjViOWMzNzllYjQ4ODczZTkyMzYxZjUxYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZDU2YTZjNzhiZTFmNDZiYjM0MWVhM2NkOWJkNTUyNGU0OTE2YzhlNDE0Njg2OWVkNjc0Njk5YWY4ODQ1NDMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3MWI3MzFkOGJhZTM3ZTkxNzRhZjA5M2U5NjIyMTg4NDg0Y2QxZDc1N2ZlMTkyNjA4NGRjOTE4N2ViOTM5NjMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0Y2U4MDllYWRhOGU3YWJkNmVlYmE3YjZiYmQ3NjU5MGVjMjdkMTM2N2UyMmYxZjJiYWIzMDFhNjQ2ZjYxY2EifQ"
         },
         {
-          "resource": "repo://tests/integration/generated-config-test.sh#L1078-L1095",
-          "version": "repo-lines-v1:sha256:15f5f9d3ba3f64f2817f5436daaac3f13bb980e48b96a8e37c73e0a8a5d91a3c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NjUxMWZmZDFkZDU2YWJhMDFhMGJkOGU5ZGMyNmU4YTRkYTFkMTNiYmM4ZDIwZTYzYWViZjZjZTQ5Yzc4YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc0NGJhODEzMGI1MWIxNzVlMjRiYTQ5NDBmMDZlNTVkZmZjM2RmMzdjMzBhZjU0MTg1MWRiZDIzNDkxM2YzNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5NWQxY2NiYzY1NzY4NGFiMGI0YTQwYjg5OWE4NTc3NjFhNjM1OTY5ZDZhNWZiMzVlYTExN2U5ZTEwNWVkYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI3YTYyMmViNjM5YWIzY2M4ZTM4MWQ2MDEyODEzYTk5OWNkN2VhYzBiNzU3N2I1NGJmZTViOTc5M2NjMzNlYWIifQ"
+          "resource": "repo://tests/integration/generated-config-test.sh#L1080-L1095",
+          "version": "repo-lines-v1:sha256:325b6d55baff6a060336d48b326efbb060b953a9d08c798f45a9fe39842ad355:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0NjUxMWZmZDFkZDU2YWJhMDFhMGJkOGU5ZGMyNmU4YTRkYTFkMTNiYmM4ZDIwZTYzYWViZjZjZTQ5Yzc4YzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0YjA2OTAwYTUwMzExNmRlNTk5MmJhNDdmZGJlYTk4ODQ0ZDRjMjZlMmY0ZmY5ODNiNmMyY2ViYTNkYzRmYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU5NWQxY2NiYzY1NzY4NGFiMGI0YTQwYjg5OWE4NTc3NjFhNjM1OTY5ZDZhNWZiMzVlYTExN2U5ZTEwNWVkYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0NzhmOTYzOTllYWZhMzI4YjViZDg4ODY2MTkxZDkyMjA1YTI0ZWEyNDAyNmQ0MWY4NmIzZDgxYmE5M2Q0NGIifQ"
         }
       ]
     },
@@ -71,30 +75,26 @@
       "statement": "`smoke` requires a complete requested tier, proves keyless protected-chat rejection, validates authenticated `/v1/models`, then sends a selected-model chat request and accepts non-empty assistant content or reasoning content; the request can trigger a swap and has a 600-second timeout.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3232-L3285",
-          "version": "repo-lines-v1:sha256:a5713e483f45cd66175ac2d2481788c190940b97268ef9c46a4e03c6b794bd31:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2YmVkNjFjZTEzYzIwYzk0N2ZmMjE0ZGM0YjA2YjEzNmMzMDU4ZDc0NWZmYzg5N2RiYjY0ZGE2ODFhNWY4NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzNzBlMTcyMWFlMDRkODEzMjM1YmRhODc2NGI4ZDhlZTNkNDExMjk5OWRmZjkyMjE0ZjQ0MGM2MDA5ZDAyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiMjYzN2VhYzgyZGIwZGQ5YTM5Y2VjOTgzMmFiN2U4NDI4ZjExZTlkZmVlZTg1YjExMWMyNTUyNjFhMzdmNTAifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L3293-L3347",
+          "version": "repo-lines-v1:sha256:8a2b83eab20cb93b3baa0e7c8162a69c2876076ad73bf277090cb5e88609dc43:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2YmVkNjFjZTEzYzIwYzk0N2ZmMjE0ZGM0YjA2YjEzNmMzMDU4ZDc0NWZmYzg5N2RiYjY0ZGE2ODFhNWY4NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzNzBlMTcyMWFlMDRkODEzMjM1YmRhODc2NGI4ZDhlZTNkNDExMjk5OWRmZjkyMjE0ZjQ0MGM2MDA5ZDAyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFiMjYzN2VhYzgyZGIwZGQ5YTM5Y2VjOTgzMmFiN2U4NDI4ZjExZTlkZmVlZTg1YjExMWMyNTUyNjFhMzdmNTAifQ"
         },
         {
-          "resource": "repo://tests/integration/generated-config-test.sh#L1057-L1067",
-          "version": "repo-lines-v1:sha256:75b5f6b08d14de5127ca7b1e3423408020ea8f398acd53136a553954cdc36358:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyZGVkNGRjMTg3OTU1ZTI4YTRlMmE2NWFlMDFiMGIzY2Q3NWI5MjE5ODYzMjE5Zjg4ODYwYmJkNmY0OWIwZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYjdkNzI4NTFiOTdlYmVlOWQ5YTE1MWEwM2UzZWI1MTYyMjBjMTQ2NmE0MmY5N2I4OGMyMzJlNGMwOGYzMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1NTE0ZTZjYjI0Nzc5ZThmYTZhYjM3ZGM2YjhhODM3OGE3YTI3NzcyYjg1YmFjZjYwZjc4NzhjNzhiMjBkNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4OGZmYzYzZTM4OWJjZTIxMmRlNzEyYzU2YzFlZWNkNjE1YjFiZmM5ZGQ3MzI3YmVjZmExMTk4ZmRlMmNmZDQifQ"
+          "resource": "repo://tests/integration/generated-config-test.sh#L1057-L1069",
+          "version": "repo-lines-v1:sha256:992548c6359c7f758f3c436a2710afc6455d94ed1567fb14e2956a78cf7f6b08:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU1MzYwOWQ0MzUxN2ZhMzVkM2ZmNDI3NzA5NDg0NjU2NzJhZjExMDlmZDUwMmYwNGVmMDZjZmE1ODI2MjQ4YjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYjdkNzI4NTFiOTdlYmVlOWQ5YTE1MWEwM2UzZWI1MTYyMjBjMTQ2NmE0MmY5N2I4OGMyMzJlNGMwOGYzMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY1OTZhYjY3NzAxOTJmNTY4NTViZDUzOWU2NTQ5NWIxYWU1MzhjZWMzMjFhNWQwZGJlY2FkY2U5OTk1MmMxOTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4OGZmYzYzZTM4OWJjZTIxMmRlNzEyYzU2YzFlZWNkNjE1YjFiZmM5ZGQ3MzI3YmVjZmExMTk4ZmRlMmNmZDQifQ"
         }
       ]
     },
     {
       "id": "claim_d79d0f9e5b7a4dddb3c607dc4a0a190c",
-      "statement": "Hardware end-to-end checks are opt-in with `RUN_LOCAL_AI_E2E=1`, require an active authenticated auth-enforced status with installed tiers, smoke every installed tier, and run production perf only when `RUN_LOCAL_AI_PERF_E2E=1` is set.",
+      "statement": "Hardware end-to-end checks are opt-in with `RUN_LOCAL_AI_E2E=1`, run only through `tests/run.sh all`, require an active authenticated auth-enforced status with no reboot required and installed tiers, smoke every installed tier, and run production perf only when `RUN_LOCAL_AI_PERF_E2E=1` is set.",
       "evidence": [
         {
-          "resource": "repo://tests/hardware/strix-halo-test.sh#L7-L52",
-          "version": "repo-lines-v1:sha256:2f41dec5b71867dd22cc91003d306eb2cd506356e6c522e3318f003efcb85c7e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZGU4ZTAzNTgxNDJiOGQ4Mjc4MGMwMDdhODFhZDJkMDJjY2U5Yjg3YTkyYjY5MjA3ODVhYTg3MmVhNjZhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYWQzMjA4OTc5ZTNiNjRiMDUyZmQwNWQ4M2I4NzliMTc2ZDNiMWEzNTkwNzMzNDIxNjU1NzBkNjRkMTFkN2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ZDg2Nzc5NjUzZTI2M2Q0YzUxMjFjM2MwYmM1NTQ5MTJhMWY4NmI4ZjQzZTBiMjg4NzA4MzQzZTA3YjM5YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmODY1ZDUxNjYxMWM3N2I5ZDA5NTE0ODA2ZGNiYzI1ZjJhMmU5Mjc5Njk4MTFkZmJiODE5NzU0NDkyODBhMmUifQ"
+          "resource": "repo://tests/hardware/strix-halo-test.sh#L7-L50",
+          "version": "repo-lines-v1:sha256:fc1741690ba238bb239fe05bd161c900d9b6e0e30179f41cfa548b1a813e6c8c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwZGU4ZTAzNTgxNDJiOGQ4Mjc4MGMwMDdhODFhZDJkMDJjY2U5Yjg3YTkyYjY5MjA3ODVhYTg3MmVhNjZhNTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNlYWQzMjA4OTc5ZTNiNjRiMDUyZmQwNWQ4M2I4NzliMTc2ZDNiMWEzNTkwNzMzNDIxNjU1NzBkNjRkMTFkN2UiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA4ZDg2Nzc5NjUzZTI2M2Q0YzUxMjFjM2MwYmM1NTQ5MTJhMWY4NmI4ZjQzZTBiMjg4NzA4MzQzZTA3YjM5YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmODY1ZDUxNjYxMWM3N2I5ZDA5NTE0ODA2ZGNiYzI1ZjJhMmU5Mjc5Njk4MTFkZmJiODE5NzU0NDkyODBhMmUifQ"
         },
         {
-          "resource": "repo://tests/run.sh#L64-L105",
+          "resource": "repo://tests/run.sh#L69-L110",
           "version": "repo-lines-v1:sha256:1302f2d97381a7b25f8bde30b49e2e690a451fb306db2b97c39f6b8db928357f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YmI0ZjlmMzFjY2ZjYWIyN2VhOTQ2ZDUwZTYzYzIxYjUyM2UxN2FlZTc3NzVjOTY0MmE1Mzg4NGU0YmUwNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiYjY1M2YwMjEyNWExOWJhNmJjMTQ1MTYzNWJkYTljYmE3MTU5OTNjZTE1NDQzNWMxMTdkNzIzYWMxZDVhZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmU2NTQ5OGQwNzgwYTllYjRhYjg4ODE1YzgwMmM4YWU5NjBjNzVhMTQwYjk3MDdmODc3YzU2OGFmNzQ4OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMWJlNzdlYWZlYzZlMmRiZWY2N2M3NjE0ZDc4ZDEwZjIzNDFjMDkyNmJmYmQxZmJlZDIxOWJhODQ0MzgyMmYifQ"
-        },
-        {
-          "resource": "repo://tests/run.sh#L7-L18",
-          "version": "repo-lines-v1:sha256:53e443082ceef3cce643578a8ed868a660acc5b4420bbb4fb01cf12f82e3f769:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZGJkNWExYTVkZDNiNGJkZTdmNDQzYTI0NjRkOGVlYzZiOGY4ZjI2NWJlNDAxMmY3ZTM0YTg1YzJlYzk0ZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3MWIxYWNhNGY1YTJiYTBmNWYwNzVkZTZjNGNiMGM0MDdiMDQ2MzFiZGNhOWZiNjhhY2FlM2NjMmJmODI4ZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MjQxZjY1ZDNjZjQ0ZmYwOTUwY2VmY2VlNjgwYmFhODM5MmViZGZiODJkYzU3M2MyYjcxYjVjMTNjMDI4NjAifQ"
         }
       ]
     },
@@ -117,12 +117,16 @@
       "statement": "A performance run captures pre-existing loaded IDs, unloads them to make the target load genuinely cold, measures target load plus identical cold and warm streaming requests, records the first non-empty SSE token as TTFT, and captures usage/timing data and post-request RAM/GTT snapshots.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3436-L3538",
-          "version": "repo-lines-v1:sha256:c318e66e9dee124e80918c9d8af9c1cbca34589b80a680861866eeced39d51bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjYmI5Y2Q0MjIwZDkwMjNkNTBhNmVlMTNhNGEwZTE3Mzg1YzE4OThmYzE4ZDkwMDgwYTY5N2IxMzU4ZTVmNmU3IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJiNWFhNzRmNWJlNzIwNmRiMTc2YTUzMzJhZmFhNWEyMjM3NzA0NzZjMjA2OWNiYjY3MjMwY2U4YTQ3YmExMDVhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiZTY3M2E2MmVmYjlhMDQ1YWNmMzA0Y2RkMTY1NzE5YTZkODdhODU2N2RmMDE4ODYzOGNlYjc2ZTA4MjI3Njc4In0"
+          "resource": "repo://setup-qwen38-pi.sh#L3511-L3587",
+          "version": "repo-lines-v1:sha256:068ce2b994b0d4810a73b8c8bb4fd6c096ccd35320b616b1e4ae33680f8e876d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNiYjFkMzY2Y2ZjYTc4MTA2YzZmMmJiODY0NDJlYTk0MTExYjg3NjdiYzcxMGQ3Yjc2ODAyZjhmMjZlOWExYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwMTY3MzYzY2Q1MWEyZmIyYWI5YzM2N2NjODhhOTBlNjVlZDhkYjdhNWE3ZTQ4NWQ2YmZmNTkyY2YzODllMjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNlMDAyYmY5NjlkM2QwNmRhOWE2MjE0NmY2NjBjOGY3MzczZjA1Y2FkYmIzYjQ3MTBjNDNhM2QwNTFmMzk5NzcifQ"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L3663-L3695",
-          "version": "repo-lines-v1:sha256:48612f8f9969962b70117506b2939f3a34769ca9c0e3269aad79549743f84323:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMDRmMzFjNGQ2MjBiNzg0MzY3NmZkYTllMmQ5NzM0YjI4ZjNkNWIwOTE5MDc3MTExMjdkMDVhNTM2NjlhZjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZWFmMmZlZWE3MDc3MzVkNTAxZGNmOGNkNDExYWYxOWRiNmEzODc3N2UyZjAxYzcwNzQ3NDY5MGFkMDY5ZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRlZDViOTExNTAxNGUwNGE4NGMzNWE3NjI0ODgxNmI4ODE5Y2RmYzMyOWEwMDc4NjI4NzJiOGVhOTY5Zjg3ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwOWQ4NWViMjkwNTg4YTM2ZDNkYTdjNDFkNmViYTUzNzFkZjFjNjVkYWQ4ZDI0YjQwN2U3ZWJiODI0NzNhNzEifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L3589-L3600",
+          "version": "repo-lines-v1:sha256:0f986a065683d39b14b26fd57e2e64d78ddc5b481a67765566f342edd3f74cd5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMGNlZjEwZjRkODc1ZDdlZWE5YzVhY2E2YjFkNWEwZDE1Y2YyMGJhYmY3OTM4ZTlmMDRiNTA5MGNkM2YxMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZjOTRlMTVlMzg0ZTEyOGY1ZjIwMGIzMDcxZDg4MGE2ZDM1NDMwODBmZmYxZDM0MzhjMTg2N2MyZGYwZWQ0MTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlNjczYTYyZWZiOWEwNDVhY2YzMDRjZGQxNjU3MTlhNmQ4N2E4NTY3ZGYwMTg4NjM4Y2ViNzZlMDgyMjc2NzgifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3680-L3757",
+          "version": "repo-lines-v1:sha256:dcbbf0b6e191b92b151e5f1542011d5f8c316d8b30b1feca1be3ae2c91639acf:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZmFiYzNiN2E5ZDBhODQyMTMxMGVkYTA3NDIwMTdkNzFhZDE4ZmRlNzU3MDU1NDhmNzMyNTFiMzRlZGNhMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZWFmMmZlZWE3MDc3MzVkNTAxZGNmOGNkNDExYWYxOWRiNmEzODc3N2UyZjAxYzcwNzQ3NDY5MGFkMDY5ZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5ZjMwNDUxZGZlMjgzNzFmMzE2MTIwYmJhNWEyY2I3Nzg2ZDE0MTk5Mjc5NTU1N2Y5MmNhNDMxMmJkYzU5ZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAwOWQ4NWViMjkwNTg4YTM2ZDNkYTdjNDFkNmViYTUzNzFkZjFjNjVkYWQ4ZDI0YjQwN2U3ZWJiODI0NzNhNzEifQ"
         },
         {
           "resource": "repo://tests/e2e/workflow-test.sh#L335-L350",
@@ -187,10 +191,64 @@
           "version": "repo-lines-v1:sha256:99ee2fcdabbeb8a5954e8e9507fa9dfaf7de1277c28d04d4b7e258e00936b2e5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZjE0ZDhkZjM4YjM3NDczNTk1YzgxMjZiZTBlYmE4YzhjMmQ3YWFjNDEwNjQ0NjcxNTc5OWFjODZhNjgzNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4MmM0OTQyNjQ1YzZjNWFhYTJmNzhmMTVhMjU3YmE5MGY2MTI1Y2IyOWJkY2Q3ZDIyMWFkYjU5ZDRhZmJkZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5MDc2YTdkMzJjYjM5MzhmM2FjYTVhOGQwMGEyOWUwMmU4NDJjNWVjOWE0NjM2YWRkODlmN2RiYWM1YzFlNjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1ZTc1N2ZmNTBhYWYyM2Q1YjExMjBjNjM3Y2U4Njk5ZTRiYTFjMDg0MDMyNzdiYWJlYjRkMzRmMmMyYjcwMjQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_f581a6c1670c4529b1f5b3c8e56f5c78",
+      "statement": "Service activation is transactional: after staged generated inputs are installed and the unit restarted, normal health checking requires an HTTP health response, authenticated protected-chat and router-catalog verification, every installed alias in the catalog, startup-tier readiness when configured, and managed-unit listener ownership; a failed check rolls back the prior service transaction.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1523-L1620",
+          "version": "repo-lines-v1:sha256:93967edc7e973f1af187e6857841db944df479d538de9f491ab238053e6cf026:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiMjhlMjNhOTkzYTc1YjdiOTk5MjVmNWI5MGI0MzFjNTNhMjhkMThlOWQ4ZjY4YmVjYWM5NDQwODM4ZTBlMjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Nzk2MTY5YWM1NmFjMGEzZjVjYmFmMzQ3NDI2MGVmNjI4NWMwMTcwZWVhYTc2MWQwNTM2YTI1NDFjNDIzMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2MGU4Njg4YWIyNmJiNjNiOTVhYmNhYzFkYThiMTE3NmFhZGFlMGU3ZTg5YzVmZDQ2YTU5NzA0MWYyYzQyYzUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1641-L1700",
+          "version": "repo-lines-v1:sha256:d04d62fdd5a9487d8efa46878e5d39fe516137a642185a2f4df7514f5ebc8853:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZDhkNDg5MWEyMmExOTViYjhhNmJhY2FhMzdlNzA1NGEyYWQ5ZGM1YjdiNDVkMmY5MWY1OTYxNzQwYWNiNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MGVlOTM3YTVmYmM3ZjQ4MzdkZmQwN2RmZjNmN2MxNDFjOWFlZjJiMmMxYjBjMTZlNDJmZTU5NjI0MmJmMmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ODZmMmY2YmFjZjk5YTI4ZTQ3YTkwZGY3ZDcyNjNjMzI5M2RhNTkwZjMzZmU3ZmE3YWU5YzkyZDcxOGYwMWQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/operations-test.sh#L171-L241",
+          "version": "repo-lines-v1:sha256:400c68ba9c29ce04606bac323ed9095053970546ad19cbeb493d07a9d03d074c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyMTRmYTZlY2UxZThkOTlmYTY2ODExOTU3OTgzZjIyZmM4NjA2Mjk3ZjQ2NjdlNTQwYjBiMzA1ODY3YmI2ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyN2NkNjA5M2Q4MjAwMTBmZmIzODkwYzdjZWJhMThlOWM3OTYyYjljZTBjZmM5ZmYyMjU4YjIyZDA3ZGRiYTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4NjNlNTgzOWEyOWI1OWEyZTdiNmRkZDdmMzlkZDk1NzgwMzI2MmUzYzRlYTJhNjMwNDlkOTg4MGU5YzExYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzMyNGY3NzljOTBhMGFlMGFlZmZjNzNhMzlkZDhkNjc3MTc1MGYxZDZmYzUwMjBjZGM2NzEzNTlhZTA0MGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1ac072edaec143e78e32ad0fa2af3ba1",
+      "statement": "`perf` refuses to mutate router residency unless the active preset matches desired state, the target integrity and authenticated API wall pass, context has conservative prompt headroom, and no model is loading or sleeping; after capturing state it restores prior loaded IDs on failure or interruption, while `--keep` skips restoration only after a completed run.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3449-L3496",
+          "version": "repo-lines-v1:sha256:ddbd8e940147936dbcdd7f27486013ad6541b2a1618c837b522e05b3dbaeb519:eyJzZWxlY3RlZExpbmVDb3VudCI6NDgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjYWM0MWMzMWUzNTNiYTU0M2FhZmYwN2Y5NWUwMWI2Y2YyMTZhYmIzOTljYmIzNjY3ZTA4ZmQzYWRmZWZhNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIzZjZmN2EwMzhkNGM4Mzc2MzIyYjk5ZTViZjA4ZDdkODYxY2MzZTE4MGE5ZjQyZWNhYjY0NzYxNDZmYWE1NmMifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3646-L3678",
+          "version": "repo-lines-v1:sha256:67dd4bfd1cb60720de4af0ff43ae0a239ad855b2b25fd976c453d87bd5e0ac4a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhMzE1MjQ3YzlmYWRiMWViODU4Nzg4OGExYTExNmVmM2IwMmNlYTBlMDQwMjE4MmVkNmEwMzQ4NzIzMmYxYzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5NzM5NTQ2MDU2MzBmODcxZTU0MWI1NTcyNDYzOGEyODgyZWI5MjJkM2U1NTZkYTA4NzQzYTE3NGIxYWE1ZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhNWE2MDRhYzBjNDQ5OTI2ODdmMjFlZDIzNTk1NTdhMzEzNzYwZDZjMjcyMDIzNzA0YzBjNmRhYzFiM2EyOTAifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3680-L3737",
+          "version": "repo-lines-v1:sha256:a521d6e233e3fbf99cf261e5da1e8646fff5bb149324fa0f27a2ac849f8f0cc1:eyJzZWxlY3RlZExpbmVDb3VudCI6NTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImExZmFiYzNiN2E5ZDBhODQyMTMxMGVkYTA3NDIwMTdkNzFhZDE4ZmRlNzU3MDU1NDhmNzMyNTFiMzRlZGNhMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5YjM0MGExOGVmZDQ0MTAxMTZjMDQzMTljOGNiNTQ0MzA1MWEwMzUzNjZiODU4MTBlNTYwYjYyMTY0ZjNmYjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI5ZjMwNDUxZGZlMjgzNzFmMzE2MTIwYmJhNWEyY2I3Nzg2ZDE0MTk5Mjc5NTU1N2Y5MmNhNDMxMmJkYzU5ZjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmYTJiYTZhODgxMmZmNjA5MWNmNDIxNjQxZmU2OWM2MWYxZmJjZGQxY2EwMGFlMWUyYjc0YmM0YTM0NTlmZTMifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/workflow-test.sh#L352-L429",
+          "version": "repo-lines-v1:sha256:476ec75add88ad3c63c8a24e070818a549e590eeb76e139638ce3871a8d719a0:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4ZjcwNmM0MWYxNmI4OTYxYzk1ZjJiMzQ5NzFjZDJmZTdhZTMwYTJlZmY1MWE4YjUyZjg0YmJjMGY0NDExNTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA0NmE1NjQ1YWE3NWE5YjZlNzA4N2NhOTA3Nzk4ZWM1OTAzYzEwYTNhNWI1ZjEzZjFjMzY4NDc3Mjg0Yjc0OGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1NTMwMjJlZDYxYjM5ZjExNjhiZWRiYTk0NGYyZmJkOWMyOTE0OWUzYWY3MmIzZDIxN2NkY2IyM2Y0MjhjYTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzMDllNjE3OThhMzk5MjYwNzE0Mzg0OTgzNGU5MzVkYWU2OTlkMjczNjIzZjZhZWUxY2EwYmQ0YzczNDNhZmEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_de90c3c568194d9887053fe4eceb87e4",
+      "statement": "`bench` is a raw `llama-bench` pp512/tg128 baseline that requires the router to be stopped; `--manage-service` records prior service activity, stops an active unit, and restores it through authenticated control-plane readiness on exit or interruption.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2986-L3022",
+          "version": "repo-lines-v1:sha256:3d53eabd8f1db6e4a7808c3268de7994593269fa5db41c9169ac0c6f483bdc82:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2ZDE5NDEzMmY1ZDkxZDEzNTg3NWVmZDQ5ZGEwNWM0YzkyODQ5MmYwMDdkNGViNWMyNWVjMDY5NTc3MmIyZDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFlMzFhMjgwZGQwOTIxM2NmMmY5NGE0ZWUwNDA2YmY0NGUzOTY3ZjU5YzQ0YzU2NWQ5NzVkNjcxZjc1NDkwOTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NTMzYTBkMjJiZTk3NDhiODQwMGM3ZTE4N2M2ZTZjNzQyM2UzOTU5Y2MxNjUxZDE2NDdkOWZiNWNhYjgzZjQifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3024-L3080",
+          "version": "repo-lines-v1:sha256:a3134bf43ff4bbd4a2a586f067607d59cbcc2210a5bc3868b94a97b801976108:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzJkZmU3ZjU4OGJlMDJmMzZiYTdhMTE3MGRmMGQyMThlMmIyZmU5MWE5NmFmMDAzZDNkNDM2MWQwZGIzZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2MjhiNGExMjNiZGJhMzZkN2ZiMzkyYjE2ZGIzZWY1MDQwN2FiNjE0MTI3MDk5Mjk0ZmY2NzI0YjQwOWJlYjQifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T19:27:17.811Z"
+    "at": "2026-09-07T20:31:06.055Z"
   }
 }

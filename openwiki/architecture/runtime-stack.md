@@ -1,139 +1,132 @@
 ---
-type: architecture overview
+type: runtime architecture
 title: Runtime Stack and Ownership Boundaries
-description: Architecture of the local llama.cpp inference stack, from its shell control surfaces and locked model artifacts to its generated user service, authenticated loopback API, and coding-agent routing.
-tags: [local-inference, llama-cpp, systemd, model-routing, ownership-boundaries]
+description: How the Omarchy-focused local coding stack moves from repository and desktop entry points to an authenticated llama.cpp user service, pinned artifacts, and selected coding agents. It identifies generated state, user-owned state, and the safety boundaries for changing each.
+tags: [local-inference, llama-cpp, systemd, coding-agents, omarchy, ownership-boundaries]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T19:27:17.811Z
+    at: 2026-09-07T20:31:06.055Z
 sources:
+  - id: openwiki-source-03ffc32a0ca502ab67c54b25
+    resource: repo://install.sh
+  - id: openwiki-source-bdfe539399fb1bd67701f2e2
+    resource: repo://lib/local-ai-agents.sh
   - id: openwiki-source-3bd2ed3dac4f5554f20e6944
     resource: repo://lib/local-ai-common.sh
+  - id: openwiki-source-2e9ec2f9c4214d7a3a160f3d
+    resource: repo://lib/local-ai-desktop.sh
+  - id: openwiki-source-e74e9b6efe2ee2ecde41adcc
+    resource: repo://lib/local-ai-platform.sh
+  - id: openwiki-source-e845b6622635329fca37f1f6
+    resource: repo://local-ai
   - id: openwiki-source-597ac7b7d26678e1e9c41f66
     resource: repo://manage.sh
   - id: openwiki-source-8cdd30afc64cff2f9cb15c13
     resource: repo://models.lock
-  - id: openwiki-source-23775c3de52f3ab95a13cb8b
-    resource: repo://README.md
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
 ---
 
-The repository owns a **per-user local inference deployment**, not a general remote model platform. Its runtime path is deliberately narrow: a coding agent calls an authenticated llama.cpp router on `127.0.0.1`; the router selects from complete, pinned model presets and keeps at most one model resident. `omp` is the primary task-routed agent, while `pi` is a manual fallback.
+This project deploys a **per-user, local coding stack** for the Framework Desktop target, rather than a hosted model platform. The operational route is a selected coding agent to an authenticated OpenAI-compatible llama.cpp endpoint on loopback. Model artifacts may all be stored locally, but the generated router is constrained to one resident model; OMP is the default routed agent and pi is an explicit manual alternative.
 
 ```mermaid
 flowchart LR
-  Manager["manage.sh interactive manager"] --> Engine["setup-qwen38-pi.sh setup engine"]
-  Engine --> Lock["models.lock artifact manifest"]
-  Lock --> Artifacts["locked GGUF artifacts in MODELS_DIR"]
-  Engine --> Config["setup.env models.ini llama.key"]
-  Engine --> Launcher["llama-qwen38-server launcher"]
+  Install["install.sh"] --> All["setup engine all"]
+  Desktop["Omarchy desktop entry"] --> Front["local-ai front door"]
+  Front --> Menu["manage.sh menu"]
+  Menu --> Engine["setup-qwen38-pi.sh"]
+  Front --> Engine
+  Engine --> State["setup.env and generated files"]
   Engine --> Unit["llama-server.service user unit"]
-  Unit --> Launcher
-  Launcher --> Router["llama-server model router"]
-  Config --> Launcher
+  Unit --> Launcher["llama-qwen38-server launcher"]
+  State --> Launcher
+  Lock["models.lock"] --> Artifacts["verified GGUF artifacts"]
+  Launcher --> Router["llama-server router"]
   Artifacts --> Router
-  Router --> API["OpenAI compatible API on 127.0.0.1"]
-  Engine --> OmpFiles["OMP models.yml config.yml and wrappers"]
-  OmpFiles --> OMP["omp coding agent"]
-  Pi["pi fallback agent"] --> API
-  OMP --> API
+  Agent["local-ai-agent or omp tier wrapper"] --> API["authenticated loopback API"]
+  API --> Router
 ```
 
-*Control and request flow: the manager delegates all mutations to the setup engine; generated artifacts configure the user-service router, while agents authenticate to its loopback API.*
+*Runtime flow: repository and desktop entry points converge on the setup engine, which generates the user-service inputs; coding-agent wrappers then call the router's authenticated loopback API.*
 
-## Components and control surfaces
+## Entry points and control flow
 
-### Two entry points, one implementation policy
+`install.sh` is intentionally narrow: with no arguments it `exec`s the engine's `all` command. `all` verifies the workstation, saves configuration after that check, installs prerequisites, stops for a required reboot before attempting model/GPU work, then installs the Everyday artifacts, service, selected agent, and desktop integration.
 
-- `./manage.sh` is an interactive control panel. It locates and invokes `setup-qwen38-pi.sh` for every action rather than duplicating provisioning logic. Its status display consumes `status --json` and independently checks that protected chat rejects a keyless request and accepts the local key.
-- `./setup-qwen38-pi.sh` is the scriptable engine. It provides explicit lifecycle commands such as `model`, `plan`, `apply`, `service`, `routing`, `status`, `smoke`, `bench`, and `perf`; invoking it without an action only shows help. `plan` and `status` are observational. In particular, `status` uses `/v1/models?autoload=0` and does not load a model or generate text.
-- `lib/local-ai-common.sh` is the side-effect-free shared layer used by both entry points. It centralizes safe configuration lookup, portable file metadata/identity helpers, semantic-version parsing, strict API-key validation, and authenticated curl invocation. The curl helper supplies the bearer token through curl configuration on standard input, keeping it out of argv and ordinary process listings.
+The installed `local-ai` command is the daily front door and deliberately points back to the checkout. `local-ai menu` starts `manage.sh`; `local-ai logs` follows the user-service journal; ordinary subcommands are passed directly to `setup-qwen38-pi.sh`. Its `--desktop menu|logs` mode uses `omarchy-launch-tui` when available, otherwise `xdg-terminal-exec`, so a graphical launcher opens the same terminal-oriented interface rather than a second implementation.
 
-Configuration is resolved as **explicit environment variable → saved `setup.env` → built-in default**. The engine accepts only a fixed set of persisted keys, validates their ranges/enums, and atomically writes the private saved file. Environment-only controls such as `SERVICE_READY_TIMEOUT` are intentionally not persisted.
+`manage.sh` is a keyboard-first, interactive Omarchy-aware panel. It sources the common, platform, and agent helper libraries, displays engine `status --json`, and delegates mutations to the engine. The engine is the scriptable implementation boundary: its command dispatcher distinguishes read-only operations including `plan`, `status`, catalogs, configuration display, history, and checks from lifecycle commands protected by a per-user operation lock. In particular, `status` queries `/v1/models?autoload=0`; it does not generate output or autoload a model. `smoke`, by contrast, sends a selected-model chat request and can cause a swap.
 
-### Desired state versus generated runtime state
+The shared `lib/local-ai-common.sh` is side-effect-free so both manager and engine can use the same safe configuration reads, file metadata helpers, semantic-version parsing, and credential handling. A credential must be a nonempty regular, non-symlink file containing a restricted token format. Authenticated curl calls supply `Authorization: Bearer ...` through curl's stdin configuration, rather than curl argv.
 
-`plan` is the review boundary and `apply` is the coordinated commit boundary. A successful `apply` first reruns preflight, snapshots desired-state, OMP, launcher, preset, and unit files; writes `setup.env`; refreshes applicable OMP routing and the selected-agent launcher; then regenerates/restarts the router. If an earlier phase fails, it restores the snapshots and does not proceed to change the router. The lower-level `service` and `routing` commands remain available for focused repair, but ordinary changes should follow `save-config`, `plan`, then `apply`.
+## Setup engine, desired state, and concurrency
 
-The engine also serializes mutating lifecycle work with a per-user private operation lock. That prevents independently launched download, maintenance, routing, and apply operations from racing shared configuration, artifacts, or the router.
+The engine imports focused libraries rather than making Omarchy package or desktop files its own:
 
-## Persistent locations and ownership
+- `lib/local-ai-platform.sh` detects a genuine Omarchy installation from `os-release` plus Omarchy entry points/version data without executing Omarchy tools. Package installation refuses pending system upgrades and uses the configured pacman repositories; it does not add repositories or fall back to a source build/AUR.
+- `lib/local-ai-agents.sh` isolates pinned agent binaries from Omarchy's moving `pi`/`omp` launchers. On Omarchy, its private prefix is under `${XDG_DATA_HOME:-~/.local/share}/local-ai/agents`; an absent private binary is treated as uninstalled even if an Omarchy stub exists.
+- `lib/local-ai-desktop.sh` owns only marked launchers and desktop entries. It generates `~/.local/bin/local-ai` plus `Local AI` and `Local AI Logs` entries under the user's XDG applications directory, preserves unmarked or symlinked paths, and can remove only its own marked entries.
 
-Paths can be overridden by the documented environment variables, but these are the defaults and the ownership model that a contributor must preserve.
+Persisted configuration has a strict precedence: **an explicitly exported supported variable, then `setup.env`, then a built-in default**. Only the fixed `CONFIG_KEYS` set is read or written. The engine validates enumerations, paths, numeric ranges, and exact agent version syntax; it rejects a symlink or non-regular `setup.env`, stages the replacement in its parent, sets mode `0600`, and renames it atomically. Operational switches such as `SERVICE_READY_TIMEOUT` are intentionally environment-only. Saved legacy `MODELS_MAX>1` and `REASONING_EFFORT=none` have narrow migration paths when not explicitly supplied, while explicit invalid values fail validation.
 
-| Location | State and owner | Safe change boundary |
+`plan` is the review boundary and `apply` is the coordinated desired-state commit. `apply` reruns planning; snapshots saved configuration, OMP configuration, agent/tier wrappers, preset, launcher, unit, and prior service enabled/active state; then saves configuration, refreshes applicable routing and selected-agent wrapping, and generates/restarts the service. A routing or launcher failure restores files before the router phase. A service failure rolls the transaction back instead of leaving the new desired files partially committed.
+
+Mutating commands run under one private, user-scoped operation lock. It is deliberately independent of `MODELS_DIR`, which is configurable: downloads, model maintenance, configuration, agent routing, service state, and system operations still share other mutable resources. The lock validates private ownership/mode, records PID plus a process-start cookie, and handles stale PID reuse before recovery.
+
+## Artifacts and service ownership
+
+`models.lock` is repository-owned data, separate from executable shell code. Every pipe-delimited row binds a tier and variant to a router ID, model directory, repository, immutable revision, remote path, exact byte count, SHA-256, and kind. A selected tier includes its `ALL` rows: Everyday has main quant plus MTP draft and vision projection; Coder is four main shards; Senior is three main shards. Downloads are verified before completion, and service generation verifies complete tiers against the lock (with identity-bound verification receipts as a fast path). A partial, wrong-sized, or unverified tier is excluded from the preset and OMP catalog.
+
+| Location | Owner and role | Change boundary |
 |---|---|---|
-| `models.lock` in the checkout | Repository-owned source of truth for model artifacts | Review/change it with the setup code; rows define tier, variant, router ID, model directory, immutable revision, remote path, bytes, digest, and kind. |
-| `~/llm/models` (`MODELS_DIR`) | User-owned storage populated with manifest-owned GGUF files | The engine reads complete selected rows from this tree and verifies them before serving. Keep unrelated files out of managed paths; model removal/pruning targets manifest-owned paths. |
-| `~/.config/local-ai/setup.env` | Engine-managed desired configuration, mode `0600` | A symlink or non-regular path is rejected. Do not hand-edit while an operation is in progress; use `save-config`. |
-| `~/.config/local-ai/models.ini` | Generated llama.cpp per-model preset | Managed only as part of the preset/launcher/unit trio. Put model-specific options here through supported configuration, not in the global launcher. |
-| `~/.config/local-ai/llama.key` | Local bearer credential, mode `0600` | Generated atomically if absent and validated as a regular, non-symlink file. Treat it as a secret even though the API is loopback-only. |
-| `~/.config/local-ai/verified-models` | Engine verification receipts | Receipts bind a locked digest/size to file identity, avoiding repeated full hashing; replacement or modification invalidates the fast path. |
-| `~/.local/bin/llama-qwen38-server` | Generated router-wide launcher | It owns host, port, key-file, preset, autoload, and residency arguments. It must not accumulate model-specific flags. |
-| `~/.config/systemd/user/llama-server.service` | Generated systemd user service | The engine updates it only when the whole managed trio is absent or recognized as managed. Custom, mixed, or symlinked files are preserved and block normal replacement. |
-| `~/.omp/agent/models.yml` and `~/.omp/agent/config.yml` | Generated OMP provider catalog and role mapping | They are an atomic pair. A custom half preserves both files and yields reviewable `.local-ai-setup.example` candidates; `routing --force` explicitly backs up and replaces them. |
-| `~/.local/bin/local-ai-agent` and `~/.local/bin/omp-*` | Generated selected-agent and tier-forcing wrappers | Existing unmarked/user-owned launchers are preserved. Tier wrappers are generated only for complete tiers and export the key and loopback URLs in the launching shell. |
+| `models.lock` in the checkout | Repository artifact contract | Change with review of artifact identity and setup behavior. |
+| `~/llm/models` by default | User storage containing engine-managed manifest paths | The engine may download, verify, remove, or prune only managed artifacts; unrelated user files are not desired state. |
+| `~/.config/local-ai/setup.env` | Engine-managed desired state | Use `save-config`, `plan`, and `apply`; do not replace it with a link or special file. |
+| `~/.config/local-ai/models.ini`, `~/.local/bin/llama-qwen38-server`, and `~/.config/systemd/user/llama-server.service` | One generated router-service trio | The engine replaces the trio only when all are absent or recognizable as managed; custom, mixed, symlinked, or non-regular paths are preserved and block replacement. |
+| `~/.config/local-ai/llama.key` and `verified-models/` | Private credential and integrity receipts | The engine creates/uses a regular `0600` key and validates it before an agent/service uses it. |
+| `~/.omp/agent/models.yml` and `config.yml` | Generated OMP provider and role-map pair | Custom ownership of either half preserves both and writes reviewable examples; `routing --force` backs up then replaces the pair. |
+| `~/.local/bin/local-ai-agent` and `omp-*` | Generated agent launchers | Managed files can be refreshed; unmarked user-owned launchers are preserved. Tier wrappers exist only for complete tiers. |
 
-The config directory is made mode `0700`. Generated service inputs use recognizable managed markers; this is an ownership check, not merely a comment. The service transaction stages and syntax-checks the launcher, optionally verifies a staged unit with `systemd-analyze --user verify`, backs up the prior trio, and rolls back files plus enabled/active unit state if installation, restart, or readiness fails.
+Service installation stages the preset, launcher, and unit, runs shell syntax validation and (when present) `systemd-analyze --user verify`, snapshots existing files, then enables and restarts the user unit. Failed installation, activation, or readiness restores the trio and its former enabled/active state. The generated unit is still a user process, but reduces its write/privilege surface with `NoNewPrivileges`, strict system protection, read-only home/model access, private temporary storage, namespace/SUID/kernel protections, a dedicated cache, and DRM character-device access.
 
-## Model artifact contract and runtime tiers
+## Router and API invariants
 
-`models.lock` separates remote artifact identity from executable shell code. Each pipe-delimited row locks a tier/variant and its router-facing identity to a Hugging Face repository, immutable 40-character revision, remote path, exact byte count, SHA-256 digest, and artifact kind. The `ALL` rows are required alongside the selected variant, so an installed tier means the entire selected set—not simply one GGUF—is present.
+The generated launcher runs `llama-server` on `127.0.0.1:${PORT}` (default `8080`) with `--api-key-file`, `--models-preset`, `--models-max 1`, and `--models-autoload`. Router-wide host, credential, preset, and residency arguments belong in that launcher; common and tier-specific inference configuration is emitted in `models.ini` only for complete tiers.
 
-| Friendly tier | Router ID | Locked shape and runtime role |
-|---|---|---|
-| `everyday` | `qwen3.8-27b` | Qwen 3.8 27B with selected `UD-Q4_K_XL` default or `Q8_0`, plus required MTP draft and F16 vision projection. It is the normal implementation and vision tier, with reasoning and speculative MTP enabled. |
-| `coder` | `coder` | Qwen3-Coder-Next split into four `Q4_K_M` GGUF shards. It is the repository, tool, and debugging specialist; its neutral ID prevents OMP from classifying the officially non-thinking model as a reasoning model. |
-| `senior` | `qwen3.5-122b-a10b` | Qwen3.5-122B-A10B community MXFP4 MoE conversion split into three artifacts. It is the architecture/planning/review tier and uses binary reasoning behavior. |
+`MODELS_MAX` is fixed at exactly `1` for the 128 GiB target. Thus one available configured `STARTUP_TIER` receives `load-on-startup`; `STARTUP_TIER=none` makes the router cold. The router may subsequently autoload/swap among exposed aliases on a request, but OMP also constrains task concurrency and llama.cpp in-flight requests to one so concurrent requests do not fight the single resident slot.
 
-Artifact download verifies size and SHA-256 before a `.part` becomes a completed file. Service generation cryptographically verifies complete installed tiers before exposing them, although it can reuse a valid identity-bound receipt; `model-verify` deliberately rehashes selected artifacts. Incomplete, wrong-sized, or unverified tiers do not appear in the generated preset or OMP catalog.
+Loopback is not a trust boundary by itself. The service creates a 256-bit random key if absent, or validates the existing private key. Its readiness check requires a keyless protected chat request to return `401` or `403`, a keyed protected request to be semantically accepted, the keyed catalog with `autoload=0` to match installed aliases, and on Linux the managed systemd `MainPID` to own the listener. A configured startup model must reach `loaded` or `sleeping`; a listening port or `/health` alone is insufficient.
 
-`MODELS_MAX=1` is a hard safety invariant for this 128 GiB target, not a performance suggestion: all tiers can reside on disk, but the generated router is limited to one resident model process. Exactly one complete `STARTUP_TIER` is marked `load-on-startup`, or `none` produces a cold router. The router can then autoload/swap aliases on authenticated requests. Everyday and coder request full GPU layer offload; senior intentionally leaves placement to llama.cpp auto-fit rather than forcing all layers into the stock GPU-addressable allocation.
+## Agents and role routing
 
-## Generated router and API boundary
+The generated OMP provider calls `http://127.0.0.1:${PORT}/v1` using OpenAI completions, `LLAMA_API_KEY`, and an authorization header. It exposes only complete tiers and disables OMP's implicit keyless `llama.cpp` provider. Base selection is the first complete tier in **Everyday → Coder → Senior** order; a complete Coder becomes the specialist and a complete Senior becomes the architect. `sticky` keeps all roles on base, `balanced` sends `task` to specialist, and `quality` additionally sends slow, planning, advisor, and designer roles to architect. This makes absent tiers fall back safely rather than producing broken aliases.
 
-The launcher executes `llama-server` with `--host 127.0.0.1`, `--api-key-file`, `--models-preset`, `--models-max 1`, and `--models-autoload`. The default port is `8080`. The generated preset provides common Jinja, flash-attention, one parallel inference slot, KV-cache, cache-reuse, and stop-timeout values, then emits a section only for each complete tier. This clean division is intentional: router-wide flags belong in the launcher; tier behavior—context, loading mode, reasoning, sampling, MTP, vision projection, and startup designation—belongs in `models.ini`.
+`omp-everyday`, `omp-coder`, and `omp-senior` set the verified local key and loopback URLs before invoking OMP with a chosen model ID. They are deliberately withheld or removed when that tier is incomplete. `local-ai-agent` similarly chooses `omp` or `pi` from `AGENT`, verifies and exports the same credential/URLs, and never overwrites an unmarked launcher. Normal agent installation preserves an existing binary but rejects one that does not match the configured supported release; `agent-upgrade` is the explicit replacement path. On Omarchy, the project's pinned agent location is kept distinct from the distribution's launcher-managed commands.
 
-Loopback does **not** mean unauthenticated. The service creates a random 256-bit token when necessary and llama.cpp reads it from `llama.key`. Health/readiness validates both sides of the wall: a protected `/v1/chat/completions` request without a key must receive `401` or `403`, while an authenticated request must be accepted semantically. It then checks authenticated `/v1/models?autoload=0` against the generated installed aliases and, on Linux, confirms the managed systemd `MainPID` owns the listening port. A selected startup model must reach `loaded` or `sleeping`, not merely leave the HTTP service listening.
+## Operations and change checks
 
-The user unit minimizes its write and privilege surface: `NoNewPrivileges=true`, strict system protection, read-only home/model access, a narrowly managed Mesa cache, private temporary storage, restricted namespaces/SUID behavior, protected kernel controls, and DRM-character-device access. It is still a user service running local inference; coding agents retain the permissions of the user who launches them.
-
-## Agent integration and routing
-
-OMP's generated provider uses `http://127.0.0.1:${PORT}/v1`, OpenAI completions, `LLAMA_API_KEY`, and an authorization header. Its catalog presents only complete tier IDs and matches their distinct thinking/image capabilities. The routing config disables OMP's implicit keyless llama.cpp provider, sets `maxConcurrency: 1` and `llamacpp: 1` in-flight request, disables the always-on advisor, and keeps agent memory off.
-
-Role selection derives from installed artifacts: **base** is the first complete tier in `everyday → coder → senior` order; **specialist** is coder if complete or base; **architect** is senior if complete or base. `sticky` routes every role to base, `balanced` routes `task` to specialist, and `quality` additionally routes slow/plan/advisor/designer roles to architect. This avoids aliases that do not exist and makes model-swap cost explicit. `omp-everyday`, `omp-coder`, and `omp-senior` force a named router ID at a deliberate phase boundary.
-
-`pi` has no generated role map: it remains a lightweight manual fallback that can select the router models explicitly. The `local-ai-agent` wrapper follows persisted `AGENT=omp|pi`, verifies and exports the key, and exports `LLAMA_BASE_URL` and `LLAMA_CPP_BASE_URL` for same-shell use. Agent installers pin exact releases and disable dependency lifecycle scripts; existing binaries are left untouched unless `agent-upgrade` is explicitly requested.
-
-## Operational checks and failure interpretation
-
-Use read-only discovery before mutating state:
+Use read-only discovery before a coordinated change:
 
 ```bash
-./setup-qwen38-pi.sh status --json | jq .
-./setup-qwen38-pi.sh plan
-```
-
-Then apply reviewed desired state and test an intentional load:
-
-```bash
-./setup-qwen38-pi.sh apply
-./setup-qwen38-pi.sh smoke everyday
+local-ai status
+local-ai plan
+local-ai apply
+local-ai smoke everyday
 journalctl --user -fu llama-server.service
 ```
 
-`status` distinguishes `authenticated`, `insecure`, `unauthorized`, `down`, and `error`; it probes the loopback port even if systemd says the unit is inactive so a conflicting insecure listener is visible. `smoke` is intentionally disruptive relative to `status`: it verifies the unauthenticated rejection, reads the catalog with the key, and sends a tier-specific chat completion that may trigger a model swap.
+`status` probes the loopback port independently of systemd state: an inactive unit must not conceal a conflicting listener. It categorizes the API as `authenticated`, `insecure`, `unauthorized`, `down`, or `error` from keyless and keyed protected/catalog probes. `smoke` is intentionally load-bearing: after proving the auth wall and catalog it requests a completion for the selected tier.
 
-When changing this architecture, retain the focused regression boundaries in `tests/integration/generated-config-test.sh`: it verifies preset composition, one startup tier, launcher argument quoting, custom/symlink ownership preservation, service rollback, receipt invalidation, atomic OMP pair behavior, routing fallbacks, and token non-leakage through curl argv. `tests/unit/runtime-safety-test.sh` additionally exercises fail-closed router-removal state handling and context/output headroom. These tests are important because a syntactically valid generated file can still be unsafe if it overwrites user state, points a role at an absent tier, exposes a keyless API, or leaves a partial transaction active.
+When modifying this boundary, retain focused coverage in `tests/integration/generated-config-test.sh` for generated presets/launchers, one startup tier, custom and symlink ownership preservation, service rollback, verification receipts, atomic OMP pair behavior, routing fallbacks, and token non-leakage. The supporting unit suites exercise bootstrap sequencing, configuration validation, agent isolation, and runtime safety. These checks protect the architectural properties that syntax checks cannot: user state must not be overwritten, a role must not point at an absent tier, and an apparently healthy loopback service must not be unauthenticated or unrelated.
 
 ## Related pages
 
-- [Configuration artifacts and safety](/openwiki/concepts/configuration-artifacts-and-safety.md) for generated-file and credential safety details.
-- [Coding agents and role routing](/openwiki/integrations/coding-agents-and-role-routing.md) for OMP and pi behavior.
-- [Router health and performance](/openwiki/operations/router-health-and-performance.md) for readiness, smoke, and measurement operations.
-- [Model and desired-state lifecycle](/openwiki/workflows/model-and-desired-state-lifecycle.md) for download, plan/apply, removal, and recovery workflow.
+- [Configuration artifacts and safety](/openwiki/concepts/configuration-artifacts-and-safety.md)
+- [Coding agents and role routing](/openwiki/integrations/coding-agents-and-role-routing.md)
+- [Router health and performance](/openwiki/operations/router-health-and-performance.md)
+- [System and LAN security](/openwiki/operations/system-and-lan-security.md)
+- [Model and desired-state lifecycle](/openwiki/workflows/model-and-desired-state-lifecycle.md)
+- [Quickstart](/openwiki/quickstart.md)

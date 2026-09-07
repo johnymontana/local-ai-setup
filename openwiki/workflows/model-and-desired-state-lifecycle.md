@@ -3,15 +3,23 @@ type: lifecycle workflow
 title: Model, Desired-State, and Apply Lifecycle
 description: End-to-end operational lifecycle for locked model artifacts, desired configuration, read-only planning, coordinated router and agent apply, and safe recovery. Covers model maintenance locking, destructive removal and pruning, service restart semantics, and interruption rollback.
 tags: [model-lifecycle, desired-state, transactional-apply, operation-locking, model-maintenance, local-inference]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T19:27:17.811Z
 sources:
   - id: openwiki-source-597ac7b7d26678e1e9c41f66
     resource: repo://manage.sh
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
+  - id: openwiki-source-37c158c9536a90efb6244860
+    resource: repo://tests/e2e/workflow-test.sh
+  - id: openwiki-source-f1a57dc2ee647a64865101ee
+    resource: repo://tests/integration/generated-config-test.sh
+  - id: openwiki-source-88924c94a24b0b53c27ce5b1
+    resource: repo://tests/integration/operations-test.sh
+  - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
+    resource: repo://tests/unit/runtime-safety-test.sh
+generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-07T20:31:06.055Z
 ---
 
 The setup engine, `./setup-qwen38-pi.sh`, separates **artifacts on disk**, **desired configuration**, and the **active generated runtime**. That separation makes downloads and saved edits safe to prepare without silently changing a running router. `apply` is the controlled convergence point: it checks the whole prospective state, then coordinates persisted desired state, OMP routing/launchers, and a restarted `llama-server.service`.
@@ -114,9 +122,9 @@ sequenceDiagram
 
 *Apply commits only after service activation/readiness; a failed routing, launcher, service, readiness, or signal path restores the coordinated snapshot.*
 
-Service generation has its own nested transaction. It rejects a reboot gate and incompatible server before generation; verifies all complete tiers against the lock; refuses unavailable startup state; checks managed service-file ownership; and captures a stable unit state before it can alter a credential. It stages and syntax-checks the preset and launcher, optionally verifies the staged unit, snapshots the existing trio and unit enablement/activity, then replaces the three files and reloads/enables/restarts the unit.
+Service generation has its own nested transaction. It rejects a reboot gate and incompatible server before generation; verifies all complete tiers against the lock; refuses unavailable startup state; checks managed service-file ownership; and captures a stable unit state before it can alter a credential. It stages and syntax-checks the preset and launcher, optionally verifies the staged unit, snapshots the existing trio and unit enablement/activity, then installs the staged files one at a time under an armed rollback before reloading, enabling, and explicitly restarting the unit. The individual renames are not a single filesystem rename; the transaction restores the complete prior trio if any later install or activation step fails.
 
-The readiness commit point is stricter than an HTTP listener: the managed unit must be active with a live MainPID (and on Linux own the listener socket), the keyless request must be rejected, the key-authenticated request and router-shaped catalog must succeed, and installed aliases must match the catalog. With a startup tier, its status must become `loaded` or `sleeping` within `SERVICE_READY_TIMEOUT`; with `STARTUP_TIER=none`, the control plane and identity are checked without warming a model. Any activation, catalog, authentication, ownership, timeout, failed-model, or signal failure rolls the prior service state back.
+With the normal `SERVICE_HEALTHCHECK=1` operational setting, readiness is the commit point and is stricter than an HTTP listener: the managed unit must be active with a live MainPID (and on Linux own the listener socket), the keyless request must be rejected, the key-authenticated request and router-shaped catalog must succeed, and installed aliases must match the catalog. With a startup tier, its status must become `loaded` or `sleeping` within `SERVICE_READY_TIMEOUT`; with `STARTUP_TIER=none`, the control plane and identity are checked without warming a model. Any activation, catalog, authentication, ownership, timeout, failed-model, or signal failure rolls the prior service state back. `SERVICE_HEALTHCHECK=0` is accepted only as a controlled-test setting, so those API readiness probes are skipped in that mode.
 
 ## One lifecycle lock for every mutation
 

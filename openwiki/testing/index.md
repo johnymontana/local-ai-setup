@@ -1,3 +1,3 @@
 # Files
 
-- [Verification Strategy and Hermetic Test Boundaries](verification-strategy.md) - How the repository layers syntax, ShellCheck, unit, integration, hermetic workflow, and opt-in hardware verification around its safety contracts. Explains fixture boundaries, CI coverage, and where real model and workstation assertions belong.
+- [Verification Strategy and Hermetic Test Harness](verification-strategy.md) - How shell syntax, ShellCheck, hermetic unit, integration, and workflow tests enforce safety and generated-configuration contracts. Explains fixture isolation, interruption cleanup and retry coverage, CI execution, and the opt-in boundary for real hardware validation.

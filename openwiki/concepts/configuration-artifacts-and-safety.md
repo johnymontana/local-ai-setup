@@ -1,25 +1,31 @@
 ---
 type: safety invariants
-title: Configuration, Artifacts, and Safety Invariants
-description: Configuration precedence, locked model artifacts, verification receipts, and fail-closed ownership rules for the local inference deployment. Explains the boundaries that preserve one-model residency, secret handling, and transactional generated state.
-tags: [configuration, artifact-integrity, safety-invariants, local-inference, filesystem-security]
+title: Configuration, Model Artifacts, and Managed-File Safety
+description: Configuration precedence, locked model artifacts, verification receipts, and managed-file ownership rules for the local inference deployment. Explains the validation, symlink defenses, and transactions that preserve user state and safe runtime changes.
+tags: [configuration, artifact-integrity, managed-files, filesystem-security, local-inference]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T19:27:17.811Z
+    at: 2026-09-07T20:31:06.055Z
 sources:
   - id: openwiki-source-3bd2ed3dac4f5554f20e6944
     resource: repo://lib/local-ai-common.sh
+  - id: openwiki-source-2e9ec2f9c4214d7a3a160f3d
+    resource: repo://lib/local-ai-desktop.sh
   - id: openwiki-source-8cdd30afc64cff2f9cb15c13
     resource: repo://models.lock
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
+  - id: openwiki-source-a3837d24a42598759124dd51
+    resource: repo://tests/integration/system-transaction-test.sh
   - id: openwiki-source-f381d2986802f05dd46ae1ad
     resource: repo://tests/unit/config-test.sh
   - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
     resource: repo://tests/unit/runtime-safety-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
+  - id: openwiki-source-ecf6c3ee8bf187c4144f6437
+    resource: repo://tests/unit/user-config-preservation-test.sh
+generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
 ---
 
 > **Invariant-oriented guide.** The setup engine is deliberately conservative: a value, artifact, or generated file is usable only after it satisfies the applicable validation and ownership checks. A refusal is normally a request for explicit operator action, not an invitation to overwrite, follow, or guess.
@@ -32,9 +38,15 @@ generated: { by: "openwiki/0.5.0", at: "2026-09-07T19:27:17.811Z" }
 2. `SETUP_ENV` (by default `~/.config/local-ai/setup.env`);
 3. built-in default.
 
-The allowlist is `CONFIG_KEYS`; values outside it in the saved file are ignored. This makes `setup.env` a compact, engine-owned desired-state file rather than a shell script to source. `save-config K=V ...` validates the resolved configuration before persistence, stages the complete allowlisted set in the config directory, protects it as `0600`, and atomically renames it into place. The directory is protected as `0700` when service state is generated.
+The allowlist is `CONFIG_KEYS`; values outside it in the saved file are ignored. This makes `setup.env` a compact, engine-owned desired-state file rather than a shell script to source. `save-config K=V ...` validates the resolved configuration before persistence, stages the complete allowlisted set in the config directory, protects it as `0600`, and atomically renames it into place. The directory is protected as `0700` when saved or service state is generated.
 
 The engine will not read or replace a symlinked `setup.env`, nor accept a directory or other non-regular object at that path. It makes the same distinction when it reacquires the per-user lifecycle lock and merges current persisted state: this prevents a wait behind another mutation from losing a concurrent save, while preserving higher-precedence environment inputs.
+
+### Persisted tunables versus run-only controls
+
+The persisted allowlist includes the selected agent/model and the values used to generate routing and service state: contexts, `PORT`, `MODELS_DIR`, reasoning and draft settings, `MODELS_MAX`, routing/startup/load/cache profiles, download and disk reserve settings, GTT size, and pinned `PI_VERSION`/`OMP_VERSION`. The following operational controls are deliberately **not** persisted: `ALLOW_PENDING_REBOOT`, `SERVICE_READY_TIMEOUT`, `SERVICE_HEALTHCHECK`, and `PERF_PROMPT_WORDS`. They must be supplied in the environment for the invocation that needs them; in particular, health checks can be disabled only as `SERVICE_HEALTHCHECK=0`, which is reserved for controlled tests.
+
+Legacy saved values receive narrow compatibility migration: a non-explicit saved `REASONING_EFFORT=none` becomes `medium`, and a saved numeric `MODELS_MAX>1` becomes `1`. An explicit invalid value still fails. This preserves operability of older desired state without creating a one-run loophole.
 
 ### Validation boundaries that matter
 
@@ -47,9 +59,6 @@ Validation is not merely UI input checking; it protects values later embedded in
 | Context and output headroom | Contexts are positive and no more than 262144. Everyday and coder require at least 32768 tokens; senior requires at least 65536, so their respective output ceilings still leave prompt/tool headroom. `DRAFT_N` is 1–8. |
 | Resource bounds | `DOWNLOAD_JOBS` is 1–4, disk reserve is 1–128 GiB, and GTT is 64–115 GiB. The download-space check includes the remaining locked bytes **and** the reserve before `curl` can create a partial file. |
 | Generated-path safety | `MODELS_DIR` must be absolute and cannot contain newline; combined model/home-derived generated paths reject quotes, `%`, `$`, backslashes, carriage returns, and newlines because they are systemd-significant. |
-| Environment-only controls | `SERVICE_READY_TIMEOUT`, `PERF_PROMPT_WORDS`, `ALLOW_PENDING_REBOOT`, and `SERVICE_HEALTHCHECK` are validated operational controls but are not among the persisted keys. In particular, health checks can be disabled only as `SERVICE_HEALTHCHECK=0`, which the implementation labels as reserved for controlled tests. |
-
-Legacy saved values receive narrow compatibility migration: a non-explicit saved `REASONING_EFFORT=none` becomes `medium`, and a saved numeric `MODELS_MAX>1` becomes `1`. An explicit invalid value still fails. This preserves operability of older desired state without creating a one-run loophole.
 
 ## The lock file defines the model artifact contract
 
@@ -110,16 +119,32 @@ Generated files have ownership boundaries, not overwrite-by-path semantics:
 - OMP `models.yml` and `config.yml` are a **pair**. If either is custom or a symlink, ordinary `routing` preserves both pair members and launchers, writes both generated candidates as `.local-ai-setup.example`, and returns status 2. `routing --force` is the explicit replacement path and first writes timestamped backups. Pair and wrapper updates snapshot and restore the entire routing bundle on failure or signal.
 - Tier wrappers and `local-ai-agent` replace only marker-recognized regular files. Unmarked or symlinked user launchers are preserved. Wrappers for unavailable tiers are removed only if they carry the managed marker, preventing a stale managed command from selecting an absent alias.
 - Managed shell exports are replaced by marker identity, rather than blind line deletion. An unmarked user export is retained and the managed export is appended last. A dotfile symlink is resolved only with `realpath` to a regular non-symlink target; its mode is preserved, while dangling/unresolved/non-regular links refuse integration.
+- Desktop integration uses the same absent-or-marker-owned rule for its command wrapper and two desktop entries. It stages then renames managed regular files, while `desktop-remove` deletes only marker-recognized regular files and warns for user-owned or symlinked paths.
+
+Not every file the setup can create is a managed file intended for later replacement. `ensure_pi_settings` and `ensure_tmux_config` install private (`0600`) starter files only when their paths are absent. Existing regular settings retain both content and mode; existing symlinks, dangling links, and other non-regular paths are left untouched with a warning. Users can therefore take ownership simply by creating or editing these conventional configuration files.
+
+## Coordinated apply and root-operation rollback
+
+`apply` first reruns `plan`; a previously viewed plan does not authorize writes after configuration, artifacts, or ownership changed. It snapshots `setup.env`, the OMP pair, selected and tier launchers, and the service trio before saving desired configuration, refreshing applicable routing and the selected-agent launcher, then invoking the nested service transaction. A failure before the service phase restores desired/routing state without touching the router; a later failure also restores the service files and prior enabled/active state. If a rollback cannot finish, recovery copies remain in the transaction directory instead of being silently discarded.
+
+Root-facing changes use the same transaction principle. The SSH drop-in update snapshots the previous policy, validates a staged policy before reload, and restores the prior file, mode, and—when relevant—daemon policy on failure or signal. Kernel GTT work similarly snapshots both current and legacy modprobe policy paths; an interrupted or failed initramfs rebuild restores their prior state and rebuilds the prior boot image. Both refuse symlinked policy targets rather than following centrally managed links.
 
 ## Focused verification and safe change practice
 
-The configuration unit test exercises supported enums/ranges, context lower and native upper bounds, fixed residency, bounded downloads, health-check values, and systemd-sensitive path rejection. The generated-config integration test is the core regression suite for this topic: it tests lock shape, partial catalog state, recovery/resume/refusal for `.part` files, download symlink rejection, config validation-before-persistence, preservation of non-regular config/key paths, service rollback, receipt fast-path invalidation, ownership boundaries, OMP pair transactions, and missing-tier fallback. Runtime-safety tests make removal and unload state queries fail closed and enforce prompt/output headroom.
+The focused tests make the most important boundaries executable:
+
+- `tests/unit/config-test.sh` checks documented defaults, accepted and rejected enums, native context and output-headroom bounds, single residency, download limits, health-check values, and systemd-sensitive model paths.
+- `tests/unit/user-config-preservation-test.sh` verifies that initial Pi and tmux files are private, while existing regular content/modes and both valid and dangling symlinks remain untouched.
+- `tests/integration/system-transaction-test.sh` uses mocked system commands to verify SSH policy rollback on TERM and EXIT, host-key preparation without opening an inactive daemon, and recovery of current/legacy kernel policy plus initramfs after interruption or rebuild failure. It also confirms a symlinked kernel policy is preserved without a rebuild.
+- `tests/integration/generated-config-test.sh` supplies the broader generated-state regression coverage: locked/partial artifact behavior, receipt invalidation, config/key path refusal, managed ownership gates, and service/OMP rollback.
 
 When changing these mechanisms, keep the order of checks meaningful: validate configuration and ownership before persistence or mutation; validate space before network writes; verify content before promotion/exposure; and snapshot a coherent group before changing any member. Do not weaken a refusal into automatic cleanup or replacement merely to make an idempotent run appear successful.
 
 ## Related pages
 
 - [Runtime Stack and Ownership Boundaries](/openwiki/architecture/runtime-stack.md)
+- [Coding Agents and Role Routing](/openwiki/integrations/coding-agents-and-role-routing.md)
 - [System and LAN Security](/openwiki/operations/system-and-lan-security.md)
+- [Quickstart](/openwiki/quickstart.md)
 - [Verification Strategy](/openwiki/testing/verification-strategy.md)
 - [Model and Desired-State Lifecycle](/openwiki/workflows/model-and-desired-state-lifecycle.md)

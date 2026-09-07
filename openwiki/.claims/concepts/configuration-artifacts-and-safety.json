@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:a1aa7b3e3c6c30f9595309a07dbc5d7aeb9fc5ef581f23acc23960fe95d72083",
+  "pageVersion": "sha256:9a4b4880a4fb48881d0250793467a4b14f785ae084a081d57e5bc4213e2d1816",
   "claims": [
     {
       "id": "claim_603c931fda4f454284d49299d3440029",
@@ -187,10 +187,74 @@
           "version": "repo-lines-v1:sha256:1f2d33c76eea5d1d84fe135a5c29bc6bd57c42b8ab933a5176e81a868bec3149:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiY2U3OGFjYWQxY2IyYzJjYTRkZmI1MmI3NjczMWZiYjE4NDI5NmM3ZDIxYjg3ZDBlY2NmMDU1NGIwZWM2MDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4YTgwZDI2YmE0MmE1YzFjNmNhOGFhOTYyNjkzYmVmZTFhMDVhZTVjMWZlOWRjYzc4NmViMWY2OTY4ZDc5Y2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkOGMyMWNlNGFkNjI4MGU4ZjNmNTY2Y2MyNTliZWRmNWEwOThkNGE5ODc1ZTZlNmMyYzYwYmI4ZWE5ZWE3YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY3Njc4YWQ5MTE5OTY4OGVhNzVkMmZiZTg0OWIyZGE0ODE2YjRkZmUzYmU2ZmQwZDAwZWVkN2I3YWZiNTA1NGQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_c06f70fa8a284900b4a9517757f23aa1",
+      "statement": "Desktop integration writes its local command wrapper and desktop entries only when each destination is absent or carries the desktop-integration marker; it stages replacements, and desktop removal preserves unmarked or symlinked paths.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-desktop.sh#L26-L70",
+          "version": "repo-lines-v1:sha256:f052cd127c78b2e2c2d879cc2b2a35bacc3453fa2c6d79108a43f18c0fb9c77b:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVhNWIwMjZiY2Q3ZmJiMTBjYWNlYWM3MjE5ODYwOTA1NGQ3ZmNmNDFhYzQ1YzFmMDI0YmU5ZWYwNDg1MDU4MDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhmODEwMzFhZWE0MGFiOTU3MjA4YzNjYTI1ZDdmYzVlZGQ5MjZiY2E0ZjZjMDYzNDlmOThiOWRmZGM0M2RlZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhZjg4MjA0NGNkYzBjZWQ1OGE2ODY4NzkxNTdlMDg3ZTFkYTRmODkwZTU1NzdkNWNlMjZkYTRmY2UxY2Q0MDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzM2IxNDU5ZGNmNzQxYTc0ZjI2MjdiNTYxN2QwNjQ2N2NkMDc5NThiYmNlYjg3ODU1YjkzM2Q2ZWViMTNiM2IifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-desktop.sh#L5-L10",
+          "version": "repo-lines-v1:sha256:aecf7ca163971ba08387f607b1b806a6c4067b7f71fd146574e012a2c5af4cf9:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTc3NzZmZjIxOWEwNDVhMmI4MjdhMzRlYjY3YWJiMDhiZGRhNTY3NjY3ZDE0MDQwOGNmM2I4YmNiMWUwMWJkNyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjgyNGExYTQ2NTExMTY4MmUzNWIxYjI0ZTcxM2RhZGRkZWMzMmZlOGEyZjhkMTUwYWVkMDc3YTUxY2I1MjBmZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjUyMGI1MDJjZTBmMmYxMGE1NmFjYjczOTgzODM5ZGFjMWFhZTc2OTJhODhmYjViZjM2ODQyNjE4ZTZhOTg0OSJ9"
+        },
+        {
+          "resource": "repo://lib/local-ai-desktop.sh#L79-L93",
+          "version": "repo-lines-v1:sha256:67a81a3dfe918255cc35558cc9ce063c4e901a5df8d67f8dc8c7eb31b651f1e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhN2Y5ZWI5NzE0MjRiMTNiYjFmZDBlZDVjODE2NjdiNWMwMzEwZjU2YzI3OTA5YTk4ODliN2U0YjFmYmM4NjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkOTMxNTZkMzY1OTFlYzNhNWI5MGYwOTdmYjJmMjliZmZhNjVjZWMwOTEyNGExNjUzY2IwZWNkYWY5ZDVhNjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJiNjcwNzdiZmE2ZGE4NTdiOTczYTU1MDVmZjg0NDU4NzJhN2MyNTliMGU2MDA2ODcyMzRlM2Y3N2M2ODZmMGQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1c3090056a0d44d4a9d1a3463dfa81cd",
+      "statement": "Pi settings and tmux configuration are starter files, not continuously managed state: each is created privately only when absent, while existing regular files retain content and mode and symlinked or non-regular paths are preserved.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1718-L1741",
+          "version": "repo-lines-v1:sha256:3bc878ab94ae0bbde00c7584b57e332c5354b076585cc2d66442a7913dc67f4e:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3NDUxYzRiODQ2YzY3NDBlNTUwOTVmZGYzZTZmOTI4OWZkMjcyNDA0YWYwNGJhNTZiZTYzMmJhNzQ0Nzk3NTgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0NzQ1ODFjZTQzYjlhYmFiODMzNDBkYjA3NGU3N2NhZWI3YWM3NTE1OTM0M2M2NzBiMWY2OGRiYjQ2OGUxYjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYwMjQyNWEwNjRiNWFkNjJkNGNhYzQxMDAzMzNjNjdkNDNkMTg3OWQ0N2JlNTFjMmZiZjhiMTRiMThlMzY4NDYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4468-L4499",
+          "version": "repo-lines-v1:sha256:4730ae9b030334910fdc38ec5f0b4323ab7ca2ec55f805def82a789dccac2003:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxZjFjNTBiMDkwMTkwYWY3NjM0MTZiYzMxZTEzOTZiNWMwNWQzYzVjMTZhY2U1ODk2M2IwZTk1NzhlMDE5ZDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkNDkyZGNiZmE0YjVjYjEzODhiZWZmYmU4NGY2NzdiODg4YmMzNTRlNWViYjg3NDU3Y2ViMTRjYTg4MzFlMDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVhY2QwN2Q0MGQ3NGYwMzQ2OWQzODdlYzMwNTBmOGFmMjE3NjFhY2M4NmJjMDE0M2I4ODdmNWUyMzY1YzJmY2YifQ"
+        },
+        {
+          "resource": "repo://tests/unit/user-config-preservation-test.sh#L30-L95",
+          "version": "repo-lines-v1:sha256:6c9f83519e9d094330a8098750d1749432aeee72b6aa4f54c09ddbc26931830d:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxMTkzZGM3OTkyZDExNTRmNDQ3OTUwYzNmNTE5ZmNkMGYzMTI4ZDUyY2NiMTEzZDEzYzg3ZWE0NjE4YTcxZmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZmNGEwMDAxMTIwYmJmMTIyNjY5ZmM4NjFiNmM0N2UxOGJjYjBkN2FhNWVhODM2YzBhMjliYTk1YzQxNzhiNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkOGMyMWNlNGFkNjI4MGU4ZjNmNTY2Y2MyNTliZWRmNWEwOThkNGE5ODc1ZTZlNmMyYzYwYmI4ZWE5ZWE3YTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNhODVkYjdkODc5MTgxMTkyYTI5OTcwZGM0YzBjZjVjOWNhNTcyZGM2YzIzZjkwYmVkMWFmOTNjZjNlM2FmMmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_71fce058773f4bf4bdd6e6cea9e357df",
+      "statement": "Coordinated apply reruns planning, snapshots desired configuration, routing, launchers, and service files, then restores those snapshots and the former service state if a later stage fails; incomplete restoration retains the transaction directory for recovery.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2666-L2721",
+          "version": "repo-lines-v1:sha256:79abc6373d56b61a57f25489ef6bb2ca2a8648d1a66f71e79c34ec026c897b04:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRiYjQ5ODI0NTg0ZGE1ZDI5MzU4MTQ4ZmQxNmEwMTMzOTg3OTc2OWViYTljMjdkMzJmYTQwOTM4MDgzMjQ2ZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMGQ3YTU0MzdhNzVjYTFkZDI2ZTZlYWVmOGU2MjY1NDYxZDEyYzI3NGQ5YjBjMDY2ZDYwYTg1ZDVkOGM3YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1OTRhZmM0ZDJiYjA2YjUwN2ExNjViM2VjOGUwOTgxOTQ0Y2QyYjZjZmJkZWI0NWNlZTRmMjJkNmFlM2E5NDUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2724-L2777",
+          "version": "repo-lines-v1:sha256:470bb4cbde68a37ae0f7098443cabab651b9fe50c62da7673988b490f864c0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ccfdd252b5fc45adb2e44aaf571684e2",
+      "statement": "The system transaction test verifies that interrupted or failed SSH and kernel-policy operations restore prior files and modes, avoid opening an initially inactive SSH daemon during host-key preparation, and preserve a symlinked kernel policy without rebuilding boot images.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/system-transaction-test.sh#L178-L263",
+          "version": "repo-lines-v1:sha256:aa7b3cad120e00716ef3670dd1d15a772002038f3d9aa602a77667749ef8a930:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhMzc5NzFjYTUxNzFmM2IzMjcxYmRjMWFlODVhNzg2MjdjYjIyMzI4MzZmNjljNTIwNjA4NTMzZmU1MTcwMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImIzMWJhMDFjMWRkMTEwM2VlOGIxZDk0ZjIwODk4NzU2NWZjMmNiMDRmNzc0ZTNlZjdjZGM2NGQ2YzYxZjY5OGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmODNjNThjYTAyNDBhY2Q1ZTg2YWRkYjczNTIzMWJjMmFkOTUwZmE0ZDBkYzdmNjg0MzhkYWVhM2QwZmY3OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNmNzEwZWViZTdjZmYzODdjZDBiNWYxMjM2YmE4M2NkYzg3YjEyZDA5NGQ2NWNlOWI4NWM5OThkYzFmYmNiMWIifQ"
+        },
+        {
+          "resource": "repo://tests/integration/system-transaction-test.sh#L353-L437",
+          "version": "repo-lines-v1:sha256:5ca28cdb13aa7657854c55a44d1ce26df818fcba987c0797b48be66d056564ca:eyJzZWxlY3RlZExpbmVDb3VudCI6ODUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmYWIzZDkwY2MyZTI3M2UwMjFhYjExZTUwNzk0N2M1YzFkMDg3YjQ3N2U0NjJlZDk2NjY1OTI0MGFkODc4YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlZjVhM2QyZDQzZjcyYzQ5ZDk2MDM0ODBlNjcxZGQzMDZiNzJiMzdjNDg4YTUyYWUwMDBlYjA3ZGUwMWQ5YzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmM0ZTMyMDQ2OTM1Y2QzNzMxYzVjOWEzZjYyZDBlZTMwNWFkOTY1NzM4YjY5Yzc0YTE2YzBkZjU4ZDc4ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiM2FjMDY2NWQwYTM5MmJjOWI3YzRhMjIwNWJmZWI3ZDA2NTVhNTc2N2U2ZmUzNjI2MzllZjliYTkwNTdhYTgifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T19:27:17.811Z"
+    "at": "2026-09-07T20:31:06.055Z"
   }
 }

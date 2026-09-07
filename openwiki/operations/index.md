@@ -1,4 +1,4 @@
 # Files
 
-- [Router health and performance](router-health-and-performance.md)
-- [Host Tuning and LAN Access Security](system-and-lan-security.md) - Safe operating procedures for validating the Arch/Strix Halo host, opting into persistent AMD TTM GTT tuning, and exposing a key-only SSH and mosh workflow only on a verified LAN perimeter.
+- [Router Health, Runtime State, and Performance](router-health-and-performance.md) - How the local AI router is preflighted, authenticated, observed, smoke-tested, and measured. Explains the distinct readiness, status, smoke, perf, and raw benchmark operations and their restoration safeguards.
+- [System and lan security](system-and-lan-security.md)
