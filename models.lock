@@ -1,0 +1,22 @@
+# local-ai-setup model artifact lock file
+# Generated/verified against the Hugging Face metadata API on 2026-08-29.
+#
+# Fields (pipe-delimited):
+# tier|variant|router_id|model_dir|repo|revision|remote_path|bytes|sha256|kind
+#
+# `ALL` rows are required for every variant in that tier. Revisions are immutable
+# commits, and every downloaded byte is verified against both size and SHA-256.
+
+everyday|UD-Q4_K_XL|qwen3.8-27b|Qwen3.8-27B|unsloth/Qwen3.8-27B-GGUF|4ca720788d1e01f1bff70c033e0d0028fd02e502|Qwen3.8-27B-UD-Q4_K_XL.gguf|17559178144|3f227079003add2511437e5b1e94812e363385225bf6a9b47b0054a72bc8b01e|main
+everyday|Q8_0|qwen3.8-27b|Qwen3.8-27B|unsloth/Qwen3.8-27B-GGUF|4ca720788d1e01f1bff70c033e0d0028fd02e502|Qwen3.8-27B-Q8_0.gguf|29047086048|a680f44a06920e5d689774823782006aa3acc8db95750323373b24139b67e348|main
+everyday|ALL|qwen3.8-27b|Qwen3.8-27B|unsloth/Qwen3.8-27B-GGUF|4ca720788d1e01f1bff70c033e0d0028fd02e502|MTP/mtp-Qwen3.8-27B-Q4_0.gguf|1369590656|50d9ce5a6da381bbcfb31061cf73df94a90e6faf8efeddee379a9cb8f1501c6e|draft
+everyday|ALL|qwen3.8-27b|Qwen3.8-27B|unsloth/Qwen3.8-27B-GGUF|4ca720788d1e01f1bff70c033e0d0028fd02e502|mmproj-F16.gguf|927607488|cbb841a9ee0636b2ec172f5bb8df2ea8dfeb01e90fe7c6126581d662a0b4e43e|mmproj
+
+coder|Q4_K_M|coder|Qwen3-Coder-Next|Qwen/Qwen3-Coder-Next-GGUF|b82fb7382639d97b38fa7672e526c760c2fb358e|Qwen3-Coder-Next-Q4_K_M/Qwen3-Coder-Next-Q4_K_M-00001-of-00004.gguf|15524827040|6bcfc9f9c37901eeb92172e2ab871224dab36a453d263bcb2547f737409534da|main
+coder|Q4_K_M|coder|Qwen3-Coder-Next|Qwen/Qwen3-Coder-Next-GGUF|b82fb7382639d97b38fa7672e526c760c2fb358e|Qwen3-Coder-Next-Q4_K_M/Qwen3-Coder-Next-Q4_K_M-00002-of-00004.gguf|14872168352|817def0691ee9d08bf3dc4444be7aed29c9e52091e8fa9d97901ce7e7f6f01d3|main
+coder|Q4_K_M|coder|Qwen3-Coder-Next|Qwen/Qwen3-Coder-Next-GGUF|b82fb7382639d97b38fa7672e526c760c2fb358e|Qwen3-Coder-Next-Q4_K_M/Qwen3-Coder-Next-Q4_K_M-00003-of-00004.gguf|14503294496|23aa634d47dca9b4ca3ea249384e6f01951b24c83cdc076f37f6f43d6c99883f|main
+coder|Q4_K_M|coder|Qwen3-Coder-Next|Qwen/Qwen3-Coder-Next-GGUF|b82fb7382639d97b38fa7672e526c760c2fb358e|Qwen3-Coder-Next-Q4_K_M/Qwen3-Coder-Next-Q4_K_M-00004-of-00004.gguf|3510702144|249c768cc5f130dc731567d6edcbdacc48e14dec9e02c5dbe2b2185d2c5bdb2b|main
+
+senior|MXFP4_MOE|qwen3.5-122b-a10b|Qwen3.5-122B-A10B|unsloth/Qwen3.5-122B-A10B-GGUF|51eab4d59d53f573fb9206cb3ce613f1d0aa392b|MXFP4_MOE/Qwen3.5-122B-A10B-MXFP4_MOE-00001-of-00003.gguf|10943552|467c9bd92ea518539cf75bf5a5fbfbd35e9a0b40d766ccaa67bf120e12041df3|main
+senior|MXFP4_MOE|qwen3.5-122b-a10b|Qwen3.5-122B-A10B|unsloth/Qwen3.5-122B-A10B-GGUF|51eab4d59d53f573fb9206cb3ce613f1d0aa392b|MXFP4_MOE/Qwen3.5-122B-A10B-MXFP4_MOE-00002-of-00003.gguf|49639075904|96826e65ea619e50311763d56332ecf13f274b4d383fa3981b2c842d5c7a41fd|main
+senior|MXFP4_MOE|qwen3.5-122b-a10b|Qwen3.5-122B-A10B|unsloth/Qwen3.5-122B-A10B-GGUF|51eab4d59d53f573fb9206cb3ce613f1d0aa392b|MXFP4_MOE/Qwen3.5-122B-A10B-MXFP4_MOE-00003-of-00003.gguf|25014389152|e3d0c53a236f6628928918ff3db806ab410b2b337d5e041076f57d9296ce47f5|main
