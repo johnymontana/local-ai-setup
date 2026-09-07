@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1120" viewBox="0 0 1120 1120" role="img" aria-labelledby="title desc">
+  <title id="title">Omarchy and local AI file ownership</title>
+  <desc id="desc">Omarchy owns its package defaults under /usr/share/omarchy. Local AI keeps its desired configuration, router presets, and API key in the user's home directory, alongside model storage, a systemd user service, private pinned agent packages, command launchers, and desktop entries. The installed command points to the retained project checkout. Default paths are shown; supported configuration and XDG overrides can change locations.</desc>
+  <defs>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #d3c6aa; }
+      .eyebrow { font-size: 18px; letter-spacing: 2px; fill: #a7c080; }
+      .title { font-size: 36px; font-weight: 700; }
+      .body { font-size: 20px; }
+      .small { font-size: 18px; fill: #9da9a0; }
+      .label { font-size: 18px; letter-spacing: 1px; fill: #7fbbb3; }
+      .path { font-size: 21px; }
+      .panel { fill: #2e383c; stroke: #475258; stroke-width: 1.5; }
+    </style>
+  </defs>
+  <rect width="1120" height="1120" fill="#272e33"/>
+  <path d="M40 32H1080" stroke="#475258"/>
+  <text x="40" y="64" class="eyebrow">LOCAL AI / 02 / OWNERSHIP</text>
+  <text x="40" y="119" class="title">At home in your home directory.</text>
+  <text x="40" y="155" class="small">Omarchy keeps its defaults. Your workspace has its own place.</text>
+
+  <rect x="40" y="194" width="1040" height="128" fill="#232a2e" stroke="#475258" stroke-width="1.5"/>
+  <rect x="40" y="194" width="5" height="128" fill="#dbbc7f"/>
+  <text x="66" y="231" class="label" style="fill:#dbbc7f">SYSTEM / OMARCHY OWNED</text>
+  <text x="66" y="273" font-size="27">/usr/share/omarchy</text>
+  <text x="519" y="269" class="body">Package defaults and theme sources</text>
+  <text x="519" y="298" class="small">Maintained through Omarchy's updater</text>
+
+  <rect x="40" y="354" width="1040" height="667" fill="none" stroke="#a7c080" stroke-width="1.5"/>
+  <rect x="40" y="354" width="1040" height="57" fill="#232a2e"/>
+  <text x="64" y="390" class="label" style="fill:#a7c080">HOME / YOUR LOCAL AI WORKSPACE</text>
+  <text x="932" y="390" class="small">USER OWNED</text>
+
+  <rect x="64" y="435" width="484" height="181" class="panel"/>
+  <text x="87" y="468" class="label">01 / CONFIGURATION</text>
+  <text x="87" y="507" class="path">~/.config/local-ai/</text>
+  <text x="87" y="542" class="small">setup.env · desired settings</text>
+  <text x="87" y="569" class="small">models.ini · router presets</text>
+  <text x="87" y="596" class="small">llama.key · private API credential</text>
+
+  <rect x="572" y="435" width="484" height="181" class="panel"/>
+  <text x="595" y="468" class="label">02 / MODEL STORAGE</text>
+  <text x="595" y="507" class="path">~/llm/models/</text>
+  <text x="595" y="542" class="small">Locked GGUFs and support artifacts</text>
+  <text x="595" y="577" class="small">Keep weights outside the checkout.</text>
+  <text x="595" y="604" class="small">Mount the disk before service start.</text>
+
+  <rect x="64" y="640" width="484" height="181" class="panel"/>
+  <text x="87" y="673" class="label">03 / USER SERVICE</text>
+  <text x="87" y="712" class="path">~/.config/systemd/user/</text>
+  <text x="87" y="743" class="path">  llama-server.service</text>
+  <text x="87" y="787" class="small">Managed with systemctl --user</text>
+
+  <rect x="572" y="640" width="484" height="181" class="panel"/>
+  <text x="595" y="673" class="label">04 / PINNED AGENT</text>
+  <text x="595" y="712" class="path">~/.local/share/local-ai/agents/</text>
+  <text x="595" y="748" class="small">Private packages and executables</text>
+  <text x="595" y="787" class="small">~/.omp/agent/ · OMP configuration</text>
+
+  <rect x="64" y="845" width="992" height="152" class="panel"/>
+  <text x="87" y="878" class="label">05 / COMMANDS + DESKTOP</text>
+  <text x="87" y="916" class="body">~/.local/bin/</text>
+  <text x="403" y="916" class="small">local-ai → retained checkout · local-ai-agent · omp-*</text>
+  <text x="87" y="952" class="body">~/.local/share/applications/</text>
+  <text x="520" y="952" class="small">Local AI + Local AI Logs app entries</text>
+
+  <text x="40" y="1059" class="small">Default paths shown. XDG_DATA_HOME, LOCAL_BIN_DIR, MODELS_DIR can change locations.</text>
+  <text x="40" y="1090" class="small">Back up home configuration separately from Omarchy's root snapshots.</text>
+</svg>

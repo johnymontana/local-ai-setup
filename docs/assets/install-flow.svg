@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1100" viewBox="0 0 1120 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Fresh Omarchy local AI installation flow</title>
+  <desc id="desc">First update Omarchy and reboot if requested. Clone and review the project, then run install.sh as your desktop user. The installer checks the system and installs packages. If it requests a reboot, reboot and rerun install.sh before model downloads or GPU loading. It then verifies Everyday model artifacts, activates the authenticated user service, installs the pinned agent, and adds launchers. Finally use local-ai status to read state and local-ai smoke everyday to load a model and generate a response.</desc>
+  <defs>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #d3c6aa; }
+      .eyebrow { font-size: 18px; letter-spacing: 2px; fill: #a7c080; }
+      .title { font-size: 36px; font-weight: 700; }
+      .body { font-size: 20px; }
+      .small { font-size: 18px; fill: #9da9a0; }
+      .label { font-size: 18px; letter-spacing: 1px; fill: #7fbbb3; }
+      .heading { font-size: 26px; font-weight: 600; }
+      .panel { fill: #2e383c; stroke: #475258; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #a7c080; stroke-width: 2; marker-end: url(#arrow); }
+      .loop { fill: none; stroke: #dbbc7f; stroke-width: 2; marker-end: url(#loop); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#a7c080" stroke-width="1.5"/></marker>
+    <marker id="loop" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#dbbc7f" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1120" height="1100" fill="#272e33"/>
+  <path d="M40 32H1080" stroke="#475258"/>
+  <text x="40" y="64" class="eyebrow">LOCAL AI / 03 / FIRST INSTALL</text>
+  <text x="40" y="119" class="title">From fresh desktop to first prompt.</text>
+  <text x="40" y="155" class="small">Run from your normal desktop login. Keep the reviewed checkout.</text>
+
+  <rect x="40" y="188" width="696" height="108" class="panel"/>
+  <text x="64" y="220" class="label">01 / UPDATE THE OPERATING SYSTEM</text>
+  <text x="64" y="256" class="heading">$ omarchy update</text>
+  <text x="64" y="282" class="small">Reboot first if Omarchy requests it.</text>
+  <path d="M388 296V332" class="arrow"/>
+
+  <rect x="40" y="338" width="696" height="118" class="panel"/>
+  <text x="64" y="370" class="label">02 / CLONE + REVIEW + INSTALL</text>
+  <text x="64" y="407" class="heading">$ ./install.sh</text>
+  <text x="64" y="439" class="small">Review the checkout; run as your desktop user.</text>
+  <path d="M388 456V494" class="arrow"/>
+
+  <rect x="40" y="500" width="696" height="118" class="panel"/>
+  <text x="64" y="532" class="label">03 / CHECK SYSTEM + INSTALL PACKAGES</text>
+  <text x="64" y="569" class="heading">Stop here if a reboot is required.</text>
+  <text x="64" y="601" class="small">Before downloading a model or loading the GPU.</text>
+  <path d="M736 559H788" class="loop"/>
+
+  <rect x="794" y="500" width="286" height="118" fill="#232a2e" stroke="#dbbc7f" stroke-width="1.5"/>
+  <text x="816" y="532" class="label" style="fill:#dbbc7f">IF REQUESTED</text>
+  <text x="816" y="572" class="heading">Reboot</text>
+  <text x="816" y="601" class="small">Then rerun installer</text>
+  <path d="M936 500V397H742" class="loop"/>
+  <text x="780" y="429" class="small" style="fill:#dbbc7f">resume setup</text>
+
+  <path d="M388 618V670" class="arrow"/>
+  <text x="412" y="649" class="small">no reboot pending</text>
+  <rect x="40" y="676" width="1040" height="170" fill="#232a2e" stroke="#a7c080" stroke-width="1.5"/>
+  <text x="64" y="710" class="label" style="fill:#a7c080">04 / BUILD THE EVERYDAY BASELINE</text>
+  <rect x="64" y="732" width="220" height="89" class="panel"/>
+  <text x="82" y="765" class="body">Everyday model</text>
+  <text x="82" y="797" class="small">Download + verify</text>
+  <path d="M284 777H314" class="arrow"/>
+  <rect x="320" y="732" width="220" height="89" class="panel"/>
+  <text x="338" y="765" class="body">User service</text>
+  <text x="338" y="797" class="small">Authenticated API</text>
+  <path d="M540 777H570" class="arrow"/>
+  <rect x="576" y="732" width="220" height="89" class="panel"/>
+  <text x="594" y="765" class="body">Pinned agent</text>
+  <text x="594" y="797" class="small">Private packages</text>
+  <path d="M796 777H826" class="arrow"/>
+  <rect x="832" y="732" width="224" height="89" class="panel"/>
+  <text x="850" y="765" class="body">Launchers</text>
+  <text x="850" y="797" class="small">Terminal + apps</text>
+  <path d="M288 846V888" class="arrow"/>
+
+  <rect x="40" y="894" width="496" height="130" class="panel"/>
+  <text x="64" y="926" class="label">05 / READ THE STATE</text>
+  <text x="64" y="966" font-size="24">$ local-ai status</text>
+  <text x="64" y="1002" class="small">No model load or generation</text>
+  <path d="M536 959H578" class="arrow"/>
+  <rect x="584" y="894" width="496" height="130" class="panel"/>
+  <text x="608" y="926" class="label">06 / TRY INFERENCE</text>
+  <text x="608" y="966" font-size="24">$ local-ai smoke everyday</text>
+  <text x="608" y="1002" class="small">Loads a model + generates a response</text>
+
+  <text x="40" y="1069" class="body">Enter your project, then run <tspan fill="#a7c080">local-ai-agent</tspan>.</text>
+  <path d="M40 1090H1080" stroke="#475258"/>
+</svg>

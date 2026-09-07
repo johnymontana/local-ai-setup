@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:febd63dc6d5ac95e8aab550ffffbad6f21d9d4d39c004dc9f381450dd2c8aeb5",
+  "claims": [
+    {
+      "id": "claim_79ef63e09bf1434ab15bec9ad698b916",
+      "statement": "The engine separates locked model artifacts, persisted desired configuration, generated runtime artifacts, and live router state: model downloads do not change the running router, while apply is the convergence operation that persists configuration, refreshes applicable routing/launchers, and activates the service.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2687-L2740",
+          "version": "repo-lines-v1:sha256:470bb4cbde68a37ae0f7098443cabab651b9fe50c62da7673988b490f864c0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L765-L794",
+          "version": "repo-lines-v1:sha256:5c84b3819c491598f58ffd63941cadfa9ab3aca662855a3684272000b73438c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMWIyMGRiYTU4OGE1M2Y4NThlMTk2YmEzNDNjYWZkYTVhYzYwYzViYTQxMzQzMzZkNzE4NzU4ZWJiMjAxY2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzYzM3ZDExNzQzNzU1ODMyY2U2NjkzNzFlY2EzNWQ1MTYwZjQ2MDZiNjRlNTM2NDc5ZDEwMmJkYTMxNzcwMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjMTk4YWZkMjFmODYzNjZhMWUzYWI2ODU4YjFkZTU2ZDA4NjI3MWYzYjVhYzJjYmRiMzczMDliZjEyNTdiZDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e4891589c7454377a909156e5fb3b92c",
+      "statement": "`plan` is a read-only preflight that reports resolved tier availability, role targets, startup configuration, and gates; it fails rather than allowing apply when there is no complete tier, selected/incomplete everyday artifacts, unavailable startup tier, unsafe generated ownership, incompatible dependencies, or a reboot gate.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2563-L2651",
+          "version": "repo-lines-v1:sha256:98cb08cbc4b6cbee0972abda3118605883a0506ab0f40a1d94e2a468acb8cd68:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4OTQ1NzM0ZmMzYmZlMWZlYmVmNWRlNTZhNjg3ZDhjNTczNmY3NDlhNzJkNGJiNGVhNzM0NGQ4NGJkMzk3NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0OGI2N2M5OTMwMDAxM2Q2YjI4MzY0NTk0ODQyMmFjZTVmZTNhOTliZjI2MTk4ZGRkNmU2MzhjZDQ2YmRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMzJkNGFhNTlmNmE4OTllZTdkNGE1MzQ0Njg1ZGMxMmM4NzVmMTNmYzc5ZjNkMjMyNTAyZTY4ZGM2YTI3MWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e20d7de32b1046d6b98dbf2e28b7ba62",
+      "statement": "Artifact acquisition checks aggregate disk reserve before network writes, downloads pinned immutable URLs into `.part` files with bounded parallel workers, and only promotes artifacts after byte-count and SHA-256 verification; corrupt or oversized partial files are retained and refuse automatic recovery.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L664-L763",
+          "version": "repo-lines-v1:sha256:2adb843f59b20f0b41414a35eb1d5bdab4b81ed53c332855a568e67f0ff05600:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhZDEzMTgyOGI4YWRjN2RlMGQ4MjJhMmY4ZDNlM2YwOWI1MDU1NDMyYTIyZDg0Y2FmMWM1YTRlNTcxOThlYzc5IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlNDBhYWY2MDZlZWI5NzE4NDk5NzA4NTkyZDE4ZDQ5YjdhZTlhMjhhNGM5MDM0Y2M0Yzc3NGI5OTY1NDk3NTUyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI4NWFkZDVkNWM4MDYxZTE3NWE0MTY2ODM5MjZlMDBhODE4NTlkNTk2MWU3N2UyMmU2NTAyYWZkOGE4MGJmOTIzIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_aa612086c9e74a9da9137294f5ecb703",
+      "statement": "Apply rechecks plan while holding the mutation lock, snapshots desired configuration, OMP routing, managed launchers, and service files, then orders persistence, routing, launcher generation, and service activation; any intermediate failure restores the snapshots and avoids changing the router when failure precedes the service phase.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2616-L2740",
+          "version": "repo-lines-v1:sha256:460f990b9d1875dc321b5f6e6ab52910944b795785670bc6e0f5915754e3d85e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYmRhNDYzNDE5OGIxNTZhMzU5OGZjZjcwMGRmY2ViNzdjZTQwZTIyMjMwZmE3YTQ5NmE3NjFjNWI3N2IyZDIzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhYjE2NjVmNmZjZWEzM2U3YmYxMTFiMzEyOTAwM2MxYWM0ZTgyYTYwZTVjZTk1NDg0MzE1ZmVmMWIxNzA4MmJmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlMzNiYmYwMjAyYzI2YTEzZWQ5MmVjNTcwOTc0NGZjMTBmODVmNjFiOGY5ZGY0ZjE3YzEzNWQyNDBlMTEzNjM5In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_c5292836a9e640a691020ab513b6a9a9",
+      "statement": "`service` preflights compatible artifacts, startup state, ownership, and a stable unit; stages and validates the preset, launcher, and unit; then installs the three files under rollback protection and explicitly restarts the user unit. Activation failure restores the previous transaction; with the normal `SERVICE_HEALTHCHECK=1` setting, authenticated router/catalog checks, startup-tier readiness, and managed-unit listener ownership are additional commit conditions, while `SERVICE_HEALTHCHECK=0` is reserved for controlled tests and skips those probes.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1523-L1715",
+          "version": "repo-lines-v1:sha256:5d122886c1eb72fdadc74c4714b9f0a5f72625359c1854574eb3004dae33d175:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYjI4ZTIzYTk5M2E3NWI3Yjk5OTI1ZjViOTBiNDMxYzUzYTI4ZDE4ZTlkOGY2OGJlY2FjOTQ0MDgzOGUwZTIxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyOTJmYjU3YzcwZmJlMWIxNWE2ZjY2YTZlMjBlYjk5ZDJlZWI4Yjg4Y2M5M2Q5YWU1OWY2ZmI5OGQ1YThhMTAxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiMWMzZThiNTE2N2UzYmQ3NWRiMTc5OWE1NjY1NzNiZmEzNmRiM2FlOThkOGRjNjRkYmY3MThhOTI0NzhkMmQ4In0"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L266-L285",
+          "version": "repo-lines-v1:sha256:de7be78f2dcbf4c7f55a3c886a8c9cd0dd0714ee7f73adb24f35b169b5c43994:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTRmMGQxM2NjZmM1MmQ4ZTZlMjJlN2IzYTQ0YTE2YjYxZmNiZTliOThjZTkxNjQwYWVmNjk4MjBiMzVjMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjNGY0OTRiMWM4MDNhNDFlYmM3NzQwODdkYzdmOWUwYWVkYThlYWNkZjIyZGJlNzJmZTI2MDdiOWMyMGM0NjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZjI4Zjg0NjA1NDNjNWI1MjQxM2JjMzc1NTJmMWYzODQ0YzcyMzdiZjU5NTY3ZmE0OWIzMTkwMDEwYmIxNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3OWVjYzMwZWYwYjRhZDJkZTkxNGY2MzlkYTRjMzZlODJhMGUzMmI2YzRkMjI0OGMxMGYzY2MwYjU5YTU1NTcifQ"
+        },
+        {
+          "resource": "repo://tests/e2e/workflow-test.sh#L278-L333",
+          "version": "repo-lines-v1:sha256:336dc8de8236c60f47807917a2ca26115d78a60bf85d9d0bafa4e44d5bf2b340:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxYzcyOGViNzRhOGRjYzUzZDI2YTE1ZDk2OWY2OGRkM2Q0Yzg3YzczNDc3YzU1NDNjOTNlZTI3ZjdmNTIxOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNWZiZWQ4NjQ2MmEyZmY0NzQ2ZDkwNGZiNDNiNjdjNWM0NTZjNjIwOWM2ZWZkNjlkYmFiODEwNThiYjU2MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJiNWJlNTQ3ZDE1NzA0ZjJjNGRjMWI0ZWUwZDg2ZDJmZjcyMmQ4NTNhOGJmZjU1OTQ0YjQwMjQ0ODZjYWY1MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzYzVjYjhjMWM3MjZjNTU5ZDg0YmY0NDlhNDRmNTQ0OGE0OTVjOTNiZDZlMmE4YmExZDA3Y2Q5N2RmMzg1ZjEifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L704-L715",
+          "version": "repo-lines-v1:sha256:7db776bbf3f17516daa361a5440d8ae0ae650b2ae8d120167aab6b2e13b74230:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMGEwYmQxNzNkYmU1NjBiZmRmYWNiZTgxNjA2MzBmNmQ3ZDU4NTEwMGQ0ZDQ3OGM3MDlmMTBjM2ZiZGI0MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzM5ZjExNGNjMmI4ODI4ODM1NDNiODE2ZWY5M2QxYTJkZTJkMzRjMzEyNGVhNTBiMWE2MTNhYTRmN2UxOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmMTEyMjY1ZDg1N2M2ODg5MTkzNzBlYjhlN2M1ZTdlYzMxYTdmYzUzMTgyYjA2MDQ0NmI2ZjdhOTBhNTMzZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxZDBiMDhmZGJmMDA4MThkYWY2ZGQzYzUyNjlkYTQ0MDFjNGEzNWE4MmY3ZmEwNjNkZjFjZGM0MTk3MzBjNjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e52b7c23586740c7903c9f162d105f3d",
+      "statement": "All mutable public commands use a per-user lifecycle lock, while `plan`, `status`, and catalog/history observation commands do not; the lock intentionally covers every mutable root because model directories are configurable but configuration, service, and launcher resources are shared.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4722-L4764",
+          "version": "repo-lines-v1:sha256:f456d2dc0377c67a5e1c378f994d6f3e6122e8ced7189c1786113e77b401a7ad:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmZjk5NDE5OWZkNzRhZTJmNzYxZDdiNzY5ZTI4ODE4OGZmODQ4NDVkMTYyMzliYTMxMmI3MTI5YjJmNWQ4MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMjc3OTY1YWY1MDY4MDE4YjI0NmMxNGJjMzdhMjFjMmE2NDNmOGQ0MGE1YTJmMjk3M2VlODEzMzVjZDU5NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyOGRhZjllZDc4ZGFlYTIwYWQxN2Q5ZDhmNzI2MjE4ZDM2Mjg4NjY4MzA3MzFlN2RhYThmMmU2MmVlMjUxN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZmVjOGQwZTFhZTE4YWVhZjRkNDY3Yzg5ZWM0NDQ1Yjc1YTIyODcyOGU1OWU0NGYyOTVhOTFhMTk1MGJhOTcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4838-L4926",
+          "version": "repo-lines-v1:sha256:4d427345b38664eab4e25a2936a24af9f5b1c9f9087c8eb2b8c80d71ce7679c0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZmNkYmQwMjVkYjYwNjI2OTk4MjRmZDgwMzk5OTA0OWZlZTRjOWQzMDljNDlkMThhNzJlZTUxNTczZmNlODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0YTJiZWNmZjhhZmIzNGRiMjYwZGFiYzk2OTE1ZmZlY2ZkZTg0ODkyOTU0MWM2MTkzZGU2ZDE2NGMyMWU4ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYifQ"
+        },
+        {
+          "resource": "repo://tests/integration/operations-test.sh#L320-L364",
+          "version": "repo-lines-v1:sha256:62bf0a24a8e06914f18cbe32e1afd3f3167881d9535319c258af50e29364ee6c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMjUwNjM0NDVmNjVhZGJjNjBhYjU2YWM4YjljNGVjYTYzMDA4M2I5YWE5MTlmOTk3NDc4MGUxNzYzZTVhNjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU0YjE4ZmUwMWMwYTEyMTQxNGQ0NTNjOGIyN2I3NzIyMzg5NGQ3MjE0YWM3NzhiOTUyZGI2YTA5ZDdiZjZiNTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRhYzdmMmJhMjQyODEzNGQ0ZTI0MjMwZGU4YWQ4OTQ4YzViZmJjNDUxMWRhOThmMTI4YTA5YjZmYTdjNDgyMTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdiNzk2ODljOWFhZGM3MGI4YjkwNDk3MGUyN2QyZTAyYTM4OGQ5ZDAzMzc2YWJiNTk2YjFkODc2N2JlMTE2MmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8e150113e7f44d98b870383447b3c0d9",
+      "statement": "The operation lock uses only private user-owned runtime locations, records a PID and process-start cookie, reloads persisted configuration after acquisition, and atomically claims stale locks so a waiter cannot overwrite a completed concurrent configuration change or delete a fresh lock.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4671-L4764",
+          "version": "repo-lines-v1:sha256:9f693d064979e9e24a66e2cabb5d47b003812a67058be9acfc7b9a34fd1c7f41:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3NGNmMTZkNjIxMTFlODQ4OGI0MzFkMGEzZDJhOTBhOGExMDhmMDQxMGZhODkxZDViNTIyYzAzMWIxOTg1YWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMjc3OTY1YWY1MDY4MDE4YjI0NmMxNGJjMzdhMjFjMmE2NDNmOGQ0MGE1YTJmMjk3M2VlODEzMzVjZDU5NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI3ZTE1MGVmYmI2MDBjOTYyYWU2ZGIxZTYxZmFhMjRlMjI2Zjg2NzYyMDA1NjhhNmJlZDdlODRkMjUxNzUxNGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZmVjOGQwZTFhZTE4YWVhZjRkNDY3Yzg5ZWM0NDQ1Yjc1YTIyODcyOGU1OWU0NGYyOTVhOTFhMTk1MGJhOTcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4838-L4887",
+          "version": "repo-lines-v1:sha256:91a37acfdb9d25516d636a4ba79c2b7dcb6b3561b9a6fe2aadf54c9ce0b64e59:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZmNkYmQwMjVkYjYwNjI2OTk4MjRmZDgwMzk5OTA0OWZlZTRjOWQzMDljNDlkMThhNzJlZTUxNTczZmNlODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwYTYwOTZkYWY2MjViMTQ4MzUzMzllMDIyZDFlZDcwOTIwODg2YzhiNmNjMTMyMGNjYjMxMDY5NzVjMTU4ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjJiYWRhYWY4MDVlOGNhZGRhYjQ2YTJhMjI4YWJiZjdhZWEzNDk5NDkzMDA0YjRkNmZjZTliMGVlZmQ0OTgifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L245-L256",
+          "version": "repo-lines-v1:sha256:2363f249a26c1f7a13b395db9f722e6750a3d0581a210a4cd5640f78d32a20c3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0OTQ3NjJjNzkxOTkxYTJkMGUzYTVlMmNmMmEwMzM4ZmRhYzNlMjJiYmZiYWY0ZjEwMmVkMmIzMWQwNWZlNmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZjdjY2FlNDRjNDkxNWUxMWEwMjAzYTM0NzRjZjFlZmYzNjc0MzkyMDA0NGVlYzcwZjIzNWE3YzI5OTk2YTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyNzczMWZkMWZhZmVkODBiOWI2MWM4YjY5YTdmMDE5ZTg1Yzc3Zjg3YjVkYTQ2MzgzZmRiNDYxODNjZGZkZWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlOTE2Njg2NGRhNDc1NzY0ZWViYmM3OTZjMzFhYmUxNDY3Nzk1MzQyZGE3YTdlOGZhMTU3ODlmNmY3OTdhNTAifQ"
+        },
+        {
+          "resource": "repo://tests/unit/runtime-safety-test.sh#L92-L103",
+          "version": "repo-lines-v1:sha256:fe5aef0e7155d251d2e05294c4b8283807e0d2b0dde220d1ed2be665f497bdcc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwZGI4NDdjYzUxMGM1ZWI4MDQ4NzhiNDBmZmRhMjQzYWZhY2Y5ZjgxNmVkYmRjOTcxN2RmZWZjY2Y3YWZiNWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0YWJjZjMwMmQ3NTcxOTdjNjAzMjBmZmU4MTIxMjMwZDllZWQ5ZGYwMzY1MjZhOWUyMTE4NmYwMDllNDU3MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1ODQzYzU4ZmEzNWEzYjAyZWIyZjRlNzQ4ZGM3OTU0MTE1MWM2N2ZlZGJkZGU2NGYxM2E4MzAxZDg1MDk0NjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiZTkxOTE4ZDk1MWI5NDNiNmQ0NDQ1ZGYxODg5MTVlZTE3OGZmOTFmNmY3NGJiNzc4NjkxYjVjMTBkYmY1ZjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9dcd0ac1713a4741bf0ff716525ba7c5",
+      "statement": "On terminal signals, the locked-command wrapper terminates the mutation process group or enumerated descendants before releasing the lock, preventing interrupted download workers from continuing to modify partial files after a retry can start.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4767-L4836",
+          "version": "repo-lines-v1:sha256:2f73525219f59b3bb3d1cb6fda45300ae2e79a3739c99f4285ec1777391f03a1:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxOWJhNDQ4MTk5MzY4M2E1NjI3NTA3YjA5NTY2NzQ4ZmVhMzA5MjJhZWM1ODcxM2RiMmRhMzBlYzY0NTI1NTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQzNmNkNjc5OWZmNzc2NDNjYzBmZTQ1ZDUxNTBjYzU0NTAxNzA5YzYwMGQ2NmEzZjdlMDU0MDE2N2QzMGFhYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZhYzdlYmI1YTlmNTE3YjgxZTQ4MjAxMjBmMDZlNzRlZWI3MWY2ZTc2NzMyZGRmYWYwZjE4ZTFmN2I0ODQ0ZjAifQ"
+        },
+        {
+          "resource": "repo://tests/integration/operations-test.sh#L366-L446",
+          "version": "repo-lines-v1:sha256:e80cc4f962f24f35ecdea69a663fd7a44b93c1db1095b2097e9a8bed1ae4e6a2:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5YjFkN2U5MDdjOWYxYmFjYmMzYTkxMjA0MDY1YzMzNmE2ZjRkOTQ1NjU1MzA3NzYxNDhiY2ZiMjRlNDgzM2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiMjI1MzhmN2I1NGI4YmZlOWY1ZDE0MzE3Mjg1YjRlNjA4ZjkyZDU2ZmJiMzJlOGJmNDM3ZDkwOTgyYWEzYjMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5ZTBmNWI4NzhjNjI1NzVhMjkyNzQ5ODMzMzY0MzkxMmQ2NTg3ODE2OGViYjBhZDFmOGY5NTlmYTM4Nzg5YzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliNTYyZDU0YzU3NzI0ODRkZWFmNDYxYjM1NzY4MjYyZmU3Yzg3MDAzNmYzMzExNWYxYWJmNjI5ZjJhOTRhYmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f0646a2d2b354917b65694be76e33f01",
+      "statement": "Direct model removal and pruning are destructive, require confirmation unless explicitly bypassed, fail closed unless the router is fully stopped with MainPID zero, and refuse removal of the configured startup tier until another startup tier or none is saved and applied.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L840-L876",
+          "version": "repo-lines-v1:sha256:0a3515430adb67de7d0b819ff22b13a9db7f3c5905f4b14b8b78ad7623624367:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5ZjNmMmZkNWViMDRlNWE5Yjc0Y2VhMjM4ZTRkNjJmMWMwMjUwZDYwMzYyNDdiODc1NjM1MmE2MjFjN2Y2NDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlNzAxNmZiYzFmMzEzNzRlNWM2ZTgwYWIwYTBkNTYzNGQ4ZTA0Yzc1M2Q5Y2JlZGI5ODE5ZDM1YmUwN2I0MWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc2MzIxMzRkYTc1NDYxOWIzMGRhYWY0NDc5N2Q4OTQ2YmEzZTU3ZGQzNjI1MjdjNjMyMTA3Y2MyN2EyMTM1NWEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L966-L1029",
+          "version": "repo-lines-v1:sha256:e5f9c82c99d000f0556cca8b062607df6c5d5ee20ecbfc32371b7fc86b84d428:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjOTA3NGE1YjhmY2Q1ODgwZjRjYzJlNTAyM2IwNjJkOWM4ZjA5ZjEwZTE4Yjk4YzE0ZTcwMmZmMzZmNThhY2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwODg4MjVlODMyOTFiYmUxMDZiYjczMDNhZGEzYWI2Y2I3Mzc3ZDc4MTFjZDJhZWI2MjJhYjI1YjNmZTY4MTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2OGE4YWQ4ODdlMWM2NDYwMDFlZjcwNzMwMGYwYjJjMmM5YzA1YTM5MzNjNTRjNDhmMTQ1MzQyNGViOTQyYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE4ZjNiZWNhNGNiOTk4ZDgyY2MzYjE4OGZlNjdlNDA2MzY4YTU5MzZiYjZjZDg1ZWUwNGZlODU2MzZiYmE0MzQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_50cc17c2f8b84e4c909bd45f606f88c7",
+      "statement": "Removal and pruning operate only on manifest-derived paths, preflight every candidate before the first rename, quarantine the complete set before unlinking, and restore staged files on failure or signal, protecting multi-shard tiers and unrelated user files.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L894-L964",
+          "version": "repo-lines-v1:sha256:77508a16b1110a22ab82126f4d1ef77e6a678d0e133a881a98ebdd11f029cf66:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM4MjQzYTJhNjU5Y2RiMjBkZTc3Nzg5NmQ1MzViYjQxYjBlYjAwYjBjNmVkYmI5YWRkZGU3N2ZlYmJhODk2NTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMmRkMzYxMzAwNzc1Zjc3Y2RlNGU0NzViNGM1MzJhNWIzOGMyNTY1NjAxZDViMWE0Y2U2OTQ4YzA0ODYwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjcyN2QyMDMxMjk3YWViOTViNmM4NzQ4NDI3MTc1M2Q3MjEyNDc1YTA0NTIxYmZkNzEwYjA2YTgyMjY3M2Q3YjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b17d13e1fda34ac991ad52ca1ca20497",
+      "statement": "`model-maintain` holds one lifecycle lock across optional router stop, destructive operation, plan, and apply; it restores a previously active router only if the artifact namespace fingerprint is unchanged, and deliberately leaves it stopped when artifacts changed but plan/apply fails so an old preset cannot reference removed files.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1032-L1135",
+          "version": "repo-lines-v1:sha256:73420ccd6556adb8a15b10a878ff973ad8228956b922fa3b33d0670673cb59e8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkMDQ1YTgxZmY1M2VmYzkxYTA2MDY2ZWE3OGYyYTExMzBkZmY5YzI4ZDdkM2MyNTcyZDJhYThkZDk4ZDk3MzhlIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxNTZhNzc2NDY4NmMxYzI2YWYxMzQxOGRhYzE5ZmM5OTYyZWJlYTg4NDU3YmNmZjZlMTJmYjVkNDM1MTJkMzUyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIyNThlZWU4ZjA4MDM2ZmJjMjRhMTAwYjExZmZmYjIwODk5ZWFmM2I0MTkyMGZkMTZkYWM1OTk3OTc1YjY3ZThjIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_b57fad7335cd4535a5e4b3cd415f7f4e",
+      "statement": "The interactive manager delegates plan/apply and maintenance to the engine, warns about active-router interruption, and transitions a startup tier through save-config, plan, and apply before it permits that tier's removal.",
+      "evidence": [
+        {
+          "resource": "repo://manage.sh#L337-L404",
+          "version": "repo-lines-v1:sha256:1ff99e3bcfe0c0f26f24c1eec288335199f3d2063a467266daf83c383b49e296:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjYWRmM2IzNTgxNDZlNTU5NmI2YmU0OGZhYTEwNGQ4YWQ4MzIzMzk3YTk5NDY5MTgzYzk4NzVhYzA2YzZmNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNjE0ZmMyMzkyM2UwNjJmNmM0NDFhZGYzMGI1ODhlZDU5YWE5N2JjMzlkMmE4NzVkYjRjNGRjZjk4MTBhMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5MDQ3MjVkNTY2YTEyODU2ZmM1OWYxN2YxYmZlZDcwNzQxMTMxMGNjZWE4ZDY3OWQ0YmJkZGM3NzFiMGUyNzMifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L406-L465",
+          "version": "repo-lines-v1:sha256:ba88c9ae27b8053e9c90685c831bff997637e38330217c33ec36e5be3dfe021b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2NTc5MjZmMjkwMzNkMTgxMmU4ODdmMDI1NDcxNTkxOGMwNDQ4YWQ4OWJkYmU2NDJjYzVjZjFjZTY3MzNkMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3MzhhNmI1YmNiZDNmNDRjMWM4NzBmYTJhNTcyZjhhOTEwYWE3MDMxN2E2OTA0MGIzMjQ1MTlhNWU5M2Q4NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOTZkYTkxOWMyMmM5YWZmY2RkODEwMmQyNDVjNzQwNmQ4YzQ0YTMwNzEyOGVhMzg0NzBiZTE0ZWZmNzU3YzgifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T20:31:06.055Z"
+  }
+}

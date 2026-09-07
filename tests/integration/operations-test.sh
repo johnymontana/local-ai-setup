@@ -17,12 +17,14 @@ trap cleanup EXIT
 lock_file="$TEST_TMP/models.lock"
 models_dir="$TEST_TMP/models"
 config_dir="$TEST_TMP/config"
+runtime_dir="$TEST_TMP/runtime"
 local_bin="$TEST_TMP/local-bin"
 omp_dir="$TEST_TMP/omp"
 unit_dir="$TEST_TMP/units"
 mock_bin="$TEST_TMP/mock-bin"
 systemctl_log="$TEST_TMP/systemctl.log"
-mkdir -p "$models_dir" "$mock_bin"
+mkdir -p "$models_dir" "$mock_bin" "$runtime_dir"
+chmod 700 "$runtime_dir"
 : > "$lock_file"
 : > "$systemctl_log"
 
@@ -162,6 +164,7 @@ readiness_log="$TEST_TMP/readiness-catalog.log"
 
 engine() {
   env HOME="$TEST_TMP/home" PATH="${TEST_EXTRA_BIN:-$mock_bin}:$mock_bin:$PATH" \
+    XDG_RUNTIME_DIR="${TEST_RUNTIME_DIR:-$runtime_dir}" \
     MODEL_LOCK="$lock_file" LOCAL_AI_CONFIG_DIR="${TEST_CONFIG_DIR:-$config_dir}" \
     MODELS_DIR="${TEST_MODELS_DIR:-$models_dir}" LOCAL_BIN_DIR="$local_bin" \
     OMP_AGENT_DIR="$omp_dir" UNIT_DIR="$unit_dir" SYSTEMCTL_LOG="$systemctl_log" \
@@ -369,6 +372,7 @@ signal_config="$TEST_TMP/signal-config"
 signal_workers="$TEST_TMP/signal-workers.pids"
 signal_runtime="$TEST_TMP/signal-runtime"
 mkdir -p "$signal_download_bin" "$signal_models" "$signal_runtime"
+chmod 700 "$signal_runtime"
 : > "$signal_workers"
 cat > "$signal_download_bin/curl" <<'EOF'
 #!/usr/bin/env bash
@@ -383,9 +387,11 @@ while :; do
 done
 EOF
 chmod 755 "$signal_download_bin/curl"
+# Exercise a caller with an inherited XDG runtime different from TMPDIR.
+# The fixture must explicitly select its lock directory on Linux as well.
 SIGNAL_WORKERS="$signal_workers" TEST_EXTRA_BIN="$signal_download_bin" \
 TEST_MODELS_DIR="$signal_models" TEST_CONFIG_DIR="$signal_config" DOWNLOAD_JOBS=2 \
-TMPDIR="$signal_runtime" \
+XDG_RUNTIME_DIR="$runtime_dir" TMPDIR="$signal_runtime" TEST_RUNTIME_DIR="$signal_runtime" \
   engine model coder > "$TEST_TMP/signal-download.log" 2>&1 &
 signal_setup_pid=$!
 for _ in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do
@@ -425,6 +431,7 @@ done < "$signal_workers"
 signal_size_after="$(find "$signal_models" -type f -name '*.part' -exec wc -c {} + 2>/dev/null | awk '{sum+=$1} END{print sum+0}')"
 [[ "$signal_size_after" == "$signal_size_before" ]] || \
   test_fail "a descendant continued writing partial files after lock release"
+[[ ! -e "$signal_lock" ]] || test_fail "interrupted download did not release its operation lock"
 
 # A retry immediately owns the same partials exclusively and can finish them.
 printf '0\n' > "$TEST_TMP/signal-curl.active"
@@ -432,6 +439,7 @@ printf '0\n' > "$TEST_TMP/signal-curl.max"
 CURL_ACTIVE_FILE="$TEST_TMP/signal-curl.active" CURL_MAX_FILE="$TEST_TMP/signal-curl.max" \
 CURL_COUNTER_LOCK="$TEST_TMP/signal-curl.counter.lock" TEST_EXTRA_BIN="$download_bin" \
 TEST_MODELS_DIR="$signal_models" TEST_CONFIG_DIR="$signal_config" DOWNLOAD_JOBS=2 \
+TEST_RUNTIME_DIR="$signal_runtime" \
   engine model coder >/dev/null
 [[ "$(find "$signal_models" -type f -name '*.gguf' | wc -l | tr -d ' ')" == 4 ]] || \
   test_fail "retry after interrupted parallel download did not complete the tier"

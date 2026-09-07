@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# manage.sh — interactive control panel for the local multi-model coding stack.
+# manage.sh — a keyboard-first local AI menu for Omarchy on Framework Desktop.
 # Every action delegates to setup-qwen38-pi.sh and remains scriptable directly.
 
 set -euo pipefail
@@ -11,6 +11,10 @@ COMMON_LIB="$HERE/lib/local-ai-common.sh"
 [[ -r "$COMMON_LIB" ]] || { echo "Can't find lib/local-ai-common.sh next to manage.sh" >&2; exit 1; }
 # shellcheck source=lib/local-ai-common.sh
 source "$COMMON_LIB"
+# shellcheck source=lib/local-ai-platform.sh
+source "$HERE/lib/local-ai-platform.sh"
+# shellcheck source=lib/local-ai-agents.sh
+source "$HERE/lib/local-ai-agents.sh"
 LOCAL_AI_CONFIG_DIR="${LOCAL_AI_CONFIG_DIR:-$HOME/.config/local-ai}"
 SETUP_ENV="${SETUP_ENV:-$LOCAL_AI_CONFIG_DIR/setup.env}"
 KEY_FILE="${KEY_FILE:-$LOCAL_AI_CONFIG_DIR/llama.key}"
@@ -22,11 +26,13 @@ UNIT_NAME="llama-server.service"
 
 # ------------------------------- styling ------------------------------------
 
-if [[ -t 1 ]]; then
+# ANSI palette colors follow the active Omarchy terminal theme. Avoid a fixed
+# RGB accent, Nerd Font requirement, or changing the user's terminal config.
+if [[ -t 1 && "${TERM:-dumb}" != dumb && -z "${NO_COLOR:-}" ]]; then
   B=$'\033[1m'; DIM=$'\033[2m'; R=$'\033[0m'
-  GRN=$'\033[1;32m'; YLW=$'\033[1;33m'; RED=$'\033[1;31m'; ORG=$'\033[38;5;208m'
+  GRN=$'\033[1;32m'; YLW=$'\033[1;33m'; RED=$'\033[1;31m'; ACCENT=$'\033[1;36m'
 else
-  B=""; DIM=""; R=""; GRN=""; YLW=""; RED=""; ORG=""
+  B=""; DIM=""; R=""; GRN=""; YLW=""; RED=""; ACCENT=""
 fi
 
 cfg() {  # read one persisted key, else print the fallback ($2)
@@ -218,11 +224,9 @@ colored_api_state() {
 
 agent_binary() {
   local agent="$1" found
-  found="$(command -v "$agent" 2>/dev/null || true)"
+  found="$(local_ai_agent_binary "$agent")"
   if [[ -n "$found" ]]; then
     printf '%s\n' "$found"
-  elif [[ -x "$LOCAL_BIN_DIR/$agent" ]]; then
-    printf '%s\n' "$LOCAL_BIN_DIR/$agent"
   else
     return 1
   fi
@@ -255,9 +259,11 @@ banner() {
   everyday_ctx="$(snapshot_text '.config.contexts.everyday' "$(cfg CTX 131072)")"
   coder_ctx="$(snapshot_text '.config.contexts.coder' "$(cfg CODER_CTX 40960)")"
   senior_ctx="$(snapshot_text '.config.contexts.senior' "$(cfg SENIOR_CTX 131072)")"
-  clear 2>/dev/null || true
+  if [[ -t 1 && "${TERM:-dumb}" != dumb && -z "${NO_COLOR:-}" ]]; then
+    clear 2>/dev/null || true
+  fi
   cat <<EOF
-${ORG}${B}  local-ai · multi-model control panel${R}
+${ACCENT}${B}  LOCAL AI${R}  ${DIM}/ Omarchy / Framework Desktop${R}
 ${DIM}  Qwen 3.8 everyday · Qwen3-Coder-Next specialist · Qwen3.5-122B senior${R}
 
    agent    ${B}${a}${R}  (${abin})
@@ -652,32 +658,95 @@ run_raw_bench() {
   pause
 }
 
-main_menu() {
-  banner
+# Use gum when an interactive terminal supports it; the plain menu stays useful
+# before packages are installed, over simple SSH sessions, and with piped input.
+# LOCAL_AI_MENU=plain also keeps the original single-key shortcuts available.
+use_gum_menu() {
+  [[ "${LOCAL_AI_MENU:-auto}" != plain && -t 0 && -t 1 &&
+     "${TERM:-dumb}" != dumb && -z "${NO_COLOR:-}" ]] &&
+    command -v gum >/dev/null 2>&1
+}
+
+MENU_CHOICE=""
+main_choice() {
+  MENU_CHOICE=""
+  if use_gum_menu; then
+    local selected option
+    local options=(
+      "1) Install local AI"
+      "2) Models and routing"
+      "3) Choose coding agent"
+      "4) Install selected agent"
+      "u) Upgrade coding agent"
+      "d) Add app launchers"
+      "x) Remove app launchers"
+      "5) Plan and apply settings"
+      "6) Tune model configuration"
+      "9) Install language servers"
+      "7) Set up remote access"
+      "8) Harden SSH"
+      "g) Optional kernel GTT tweak"
+      "p) Preview changes"
+      "s) Inspect status"
+      "t) Smoke and load test"
+      "b) Router performance"
+      "r) Raw benchmark"
+      "c) Show configuration"
+      "q) Quit"
+    )
+    # gum renders its interface on stderr and returns only the selected label.
+    # Explicit ANSI colors inherit the user's palette instead of gum's defaults.
+    selected="$(gum choose --height 10 --cursor.foreground 6 \
+      --selected.foreground 6 --header.foreground 6 \
+      --header 'Local AI · arrows / j,k · Enter to choose · Esc to quit' \
+      "${options[@]}")" || return 1
+    [[ -n "$selected" ]] || return 1
+    for option in "${options[@]}"; do
+      if [[ "$selected" == "$option" ]]; then
+        MENU_CHOICE="${selected%%)*}"
+        return 0
+      fi
+    done
+    return 1
+  fi
   cat <<EOF
 
-   ${B}1)${R} Full baseline setup    ${DIM}packages → everyday model → router → selected agent${R}
-   ${B}2)${R} Model team / routing   ${DIM}download, verify, and assign roles${R}
-   ${B}3)${R} Choose agent           ${DIM}omp primary ⇄ pi fallback${R}
-   ${B}4)${R} Install selected agent
-   ${B}u)${R} Upgrade an agent       ${DIM}explicit pinned replacement${R}
-   ${B}5)${R} Plan and apply desired state
-   ${B}6)${R} Tune configuration     ${DIM}per-model context/reasoning · quant · MTP${R}
-   ${B}7)${R} Remote access          ${DIM}optional/deferred LAN-only SSH + mosh${R}
-   ${B}8)${R} Harden SSH             ${DIM}switch to key-only auth${R}
-   ${B}9)${R} Install LSP servers    ${DIM}omp IDE features${R}
-   ${B}g)${R} Kernel GTT tweak       ${DIM}optional after baseline; never automatic${R}
-   ${B}p)${R} Plan current → desired ${B}s)${R} Status          ${B}t)${R} Smoke/load test
-   ${B}b)${R} Router performance     ${B}r)${R} Raw benchmark   ${B}c)${R} Show config
-   ${B}q)${R} Quit
+  ${ACCENT}Install${R}
+   ${B}1)${R} Local AI               ${DIM}packages → everyday model → router → agent${R}
+   ${B}2)${R} Models and routing     ${B}3)${R} Choose agent     ${B}4)${R} Install agent
+   ${B}u)${R} Upgrade agent          ${B}d)${R} Add app launchers
+   ${B}x)${R} Remove app launchers
+
+  ${ACCENT}Setup${R}
+   ${B}5)${R} Plan and apply         ${B}6)${R} Tune models      ${B}9)${R} Language servers
+   ${B}7)${R} Remote access          ${B}8)${R} Harden SSH       ${B}g)${R} Optional GTT tweak
+
+  ${ACCENT}Inspect${R}
+   ${B}p)${R} Preview changes        ${B}s)${R} Status           ${B}t)${R} Smoke/load test
+   ${B}b)${R} Router performance     ${B}r)${R} Raw benchmark    ${B}c)${R} Configuration
+
+   ${B}q)${R} Quit                   ${DIM}type a shortcut, then Enter${R}
 EOF
-  local c; read -r -p $'\n'"select: " c || { echo; exit 0; }
+  read -r -p $'\n'"  select > " MENU_CHOICE
+}
+
+main_menu() {
+  banner
+  if [[ ! -s "$SETUP_ENV" ]]; then
+    printf '\n  %sWelcome to local AI on Omarchy.%s\n' "$B" "$R"
+    printf '  Start with 1 to install, or run ./install.sh from the terminal.\n'
+  fi
+  local c
+  main_choice || { echo; return 1; }
+  c="$MENU_CHOICE"
   case "$c" in
     1) engine all; pause ;;
     2) model_menu ;;
     3) choose_agent ;;
     4) engine agent; pause ;;
     u|U) upgrade_agent ;;
+    d|D) engine desktop; pause ;;
+    x|X) engine desktop-remove; pause ;;
     5) plan_and_apply; pause ;;
     6) tune_config ;;
     7) engine remote; pause ;;
@@ -690,7 +759,7 @@ EOF
     b|B) run_perf ;;
     r|R) run_raw_bench ;;
     c|C) engine show-config; pause ;;
-    q|Q) exit 0 ;;
+    q|Q) return 1 ;;
     *) ;;
   esac
 }
@@ -698,5 +767,5 @@ EOF
 # ---------------------------------- loop ------------------------------------
 
 if [[ "${LOCAL_AI_MANAGE_LIB_ONLY:-0}" != 1 ]]; then
-  while true; do main_menu; done
+  while main_menu; do :; done
 fi

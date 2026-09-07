@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run ShellCheck
-        run: find . -path ./.git -prune -o -type f -name '*.sh' -print0 | xargs -0 shellcheck --severity=error --shell=bash
+        run: find . -path ./.git -prune -o -type f \( -name '*.sh' -o -name 'local-ai' \) -print0 | xargs -0 shellcheck --severity=error --shell=bash
 
       - name: Run syntax and hermetic integration tests
         run: bash tests/run.sh offline

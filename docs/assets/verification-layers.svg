@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="610" viewBox="0 0 1120 610" role="img" aria-labelledby="title desc">
+  <title id="title">Portable verification and opt-in workstation tests</title>
+  <desc id="desc">Pull-request checks run syntax, ShellCheck, unit, integration, and offline end-to-end verification using fixtures. They require no network, sudo, systemd, or downloaded model weights. Hardware checks are an explicit opt-in on an Omarchy Framework workstation with Vulkan, systemd user services, and installed models. Hardware checks cover authenticated status, smoke generation, optional performance recording, and post-run API authentication.</desc>
+  <defs><pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#475258" stroke-opacity=".17"/></pattern></defs>
+  <rect width="1120" height="610" fill="#272e33"/>
+  <rect width="1120" height="610" fill="url(#grid)"/>
+  <rect x=".5" y=".5" width="1119" height="609" fill="none" stroke="#475258"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+    <text x="40" y="43" fill="#a7c080" font-size="17" letter-spacing="2">CONFIDENCE, IN LAYERS</text>
+    <text x="40" y="89" fill="#d3c6aa" font-size="31" font-weight="700">Prove the contract.</text>
+    <text x="40" y="122" fill="#9da9a0" font-size="18">Portable checks first. Real workstation checks by choice.</text>
+    <!-- Portable checks are a connected stack inside the default boundary. -->
+    <rect x="40" y="152" width="660" height="373" fill="#2e383c" stroke="#a7c080"/>
+    <rect x="40" y="152" width="660" height="4" fill="#a7c080"/>
+    <text x="62" y="190" fill="#a7c080" font-size="18">OFFLINE / PULL-REQUEST CI</text>
+    <text x="62" y="221" fill="#9da9a0" font-size="17">Syntax + ShellCheck, then:</text>
+    <path d="M78 264V405" stroke="#475258" stroke-width="2"/>
+    <g fill="#a7c080"><rect x="72" y="257" width="12" height="12"/><rect x="72" y="326" width="12" height="12"/><rect x="72" y="395" width="12" height="12"/></g>
+    <text x="105" y="270" fill="#d3c6aa" font-size="22" font-weight="700">Unit</text>
+    <text x="105" y="297" fill="#9da9a0" font-size="17">Limits, routing, receipts, HTTP state</text>
+    <text x="105" y="339" fill="#d3c6aa" font-size="22" font-weight="700">Integration</text>
+    <text x="105" y="366" fill="#9da9a0" font-size="17">Generated files, downloads, rollback</text>
+    <text x="105" y="408" fill="#d3c6aa" font-size="22" font-weight="700">Offline end to end</text>
+    <text x="105" y="435" fill="#9da9a0" font-size="17">Plan → apply → status → smoke / perf</text>
+    <rect x="61" y="459" width="617" height="44" fill="#232a2e" stroke="#475258"/>
+    <text x="78" y="487" fill="#a7c080" font-size="18">$ <tspan fill="#d3c6aa">bash tests/run.sh offline</tspan></text>
+    <!-- The unconnected gold panel is deliberately outside ordinary CI. -->
+    <rect x="730" y="152" width="350" height="373" fill="#232a2e" stroke="#dbbc7f" stroke-dasharray="7 5"/>
+    <text x="752" y="190" fill="#dbbc7f" font-size="18">HARDWARE / OPT-IN</text>
+    <text x="752" y="237" fill="#d3c6aa" font-size="21" font-weight="700">On your workstation</text>
+    <text x="752" y="269" fill="#9da9a0" font-size="17">Omarchy + Framework</text>
+    <text x="752" y="296" fill="#9da9a0" font-size="17">Vulkan + user systemd</text>
+    <text x="752" y="323" fill="#9da9a0" font-size="17">Installed model files</text>
+    <path d="M752 345H1058" stroke="#475258"/>
+    <text x="752" y="375" fill="#d3c6aa" font-size="17">Auth + real generation</text>
+    <text x="752" y="404" fill="#9da9a0" font-size="17">Optional perf recording</text>
+    <rect x="751" y="441" width="307" height="62" fill="#2e383c" stroke="#475258"/>
+    <text x="768" y="466" fill="#dbbc7f" font-size="17">RUN_LOCAL_AI_E2E=1 \</text>
+    <text x="768" y="490" fill="#d3c6aa" font-size="17">bash tests/run.sh all</text>
+    <text x="40" y="564" fill="#d3c6aa" font-size="18">Offline: no network, sudo, systemd, or downloaded weights.</text>
+    <text x="40" y="592" fill="#9da9a0" font-size="17">Real GPU placement, memory headroom, and MTP interpretation need operator benchmarks.</text>
+  </g>
+</svg>

@@ -169,4 +169,53 @@ for maintenance_result in success failure; do
     "manager delegates one locked maintenance transaction after $maintenance_result"
 done
 
+# A freshly installed Omarchy system can open the menu before gum or desktop
+# launchers exist. Piped input must keep working even when gum is on PATH.
+gum() {
+  event "unexpected-gum|$*"
+  return 1
+}
+reset_events
+MOCK_ENGINE_OK=1
+main_menu <<< 'd' >/dev/null
+assert_eq 'engine|desktop' "$(<"$EVENT_LOG")" \
+  "plain menu installs app launchers through the engine"
+reset_events
+main_menu <<< 'X' >/dev/null
+assert_eq 'engine|desktop-remove' "$(<"$EVENT_LOG")" \
+  "plain menu removes app launchers through the engine"
+reset_events
+NO_COLOR=1 LOCAL_AI_MENU=plain main_choice <<< 's' >/dev/null
+assert_eq s "$MENU_CHOICE" "plain menu retains the status shortcut"
+assert_eq '' "$(<"$EVENT_LOG")" "noninteractive menu never starts gum"
+expect_failure "plain menu exits cleanly on end of input" main_menu </dev/null
+expect_failure "plain menu supports quitting" main_menu <<< 'q'
+
+# The chooser label is a display value, never executable input. Only complete
+# known labels dispatch, and Escape/Ctrl-C must not choose a default action.
+(
+  use_gum_menu() { return 0; }
+  GUM_SELECTION='d) Add app launchers'
+  GUM_RESULT=0
+  gum() {
+    (( GUM_RESULT == 0 )) || return "$GUM_RESULT"
+    printf '%s\n' "$GUM_SELECTION"
+  }
+  reset_events
+  main_menu >/dev/null
+  assert_eq 'engine|desktop' "$(<"$EVENT_LOG")" \
+    "gum selection dispatches the corresponding engine command"
+  for cancellation in empty interrupted unknown; do
+    reset_events
+    case "$cancellation" in
+      empty) GUM_SELECTION=''; GUM_RESULT=0 ;;
+      interrupted) GUM_SELECTION='1) Install local AI'; GUM_RESULT=130 ;;
+      unknown) GUM_SELECTION='1) Unexpected option'; GUM_RESULT=0 ;;
+    esac
+    expect_failure "gum $cancellation choice exits the menu" main_menu
+    assert_eq '' "$(<"$EVENT_LOG")" \
+      "gum $cancellation choice never starts an engine action"
+  done
+)
+
 printf 'Manager unit tests passed.\n'

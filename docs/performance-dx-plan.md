@@ -1,6 +1,15 @@
 # Performance and developer-experience implementation plan
 
-This plan turns the adversarial review into explicit behavior and acceptance
+[Start here](../README.md) · [Omarchy workstation guide](omarchy.md) · [Reference](reference.md)
+
+**The proving ground** · From a configuration rule to a verified operator workflow.
+
+This is the implementation record for the earlier performance and safety
+review; it is retained as contributor context. The supported workstation is
+now Omarchy Linux on the same Framework Desktop. Start with the
+[Omarchy guide](omarchy.md) for current installation and operations.
+
+This plan turns that review into explicit behavior and acceptance
 criteria. It is intentionally test-oriented: a change is complete only when
 its unit policy, generated integration surface, and operator workflow are all
 covered.
@@ -18,7 +27,7 @@ covered.
 | 7 | Eager everyday loading plus HTTP 503 can report a false-ready service | Add `STARTUP_TIER=everyday|coder|senior|none`; distinguish router-up from model-ready; wait for the selected model or roll back | Readiness tests cover no-startup, loaded, loading, timeout, crash, and transactional rollback |
 | 8 | Unbounded context and MTP values can cause avoidable OOMs | Cap all contexts at 262,144 and MTP draft depth at 1–8 (default four); validate before persistence or mutation | Unit boundary tests and non-mutation integration tests cover every limit |
 | 9 | Serial split downloads waste available bandwidth | Add bounded `DOWNLOAD_JOBS=1..4` (default two), aggregate disk preflight, resumable verified `.part` handling, and failure propagation | Mock download tests cover the concurrency bound, resume, complete promotion, corrupt/oversized/symlink rejection, and partial-state reporting |
-| 10 | No-argument execution and permissive arity make expensive actions easy to trigger accidentally | Make no arguments show help; require explicit `all`; validate every command's options/arity; separate read-only `plan`/`status` from mutating `apply`/`smoke` | Command-contract tests exercise help, missing/extra arguments, exit codes, and filesystem/service non-mutation |
+| 10 | No-argument execution and permissive arity make expensive actions easy to trigger accidentally | Make the setup engine show help without arguments; require explicit `all`; validate every command's options/arity; separate read-only `plan`/`status` from mutating `apply`/`smoke` | Command-contract tests exercise help, missing/extra arguments, exit codes, and filesystem/service non-mutation |
 
 ## Secondary improvements
 
@@ -55,16 +64,23 @@ covered.
   artifact-set identity in comparisons.
 - Run pinned, least-privilege CI with syntax, ShellCheck, unit, integration,
   and offline end-to-end tests. Keep real Strix Halo/model tests opt-in because
-  they require Arch, systemd user services, Vulkan, and hundreds of GiB.
+  they require the Omarchy workstation, systemd user services, Vulkan, and
+  substantial model storage.
 
 ## Test layers
+
+![Verification layers: default pull-request checks cover syntax, ShellCheck, unit, integration, and offline end-to-end behavior with fixtures. Real hardware checks require an explicit opt-in on the Omarchy Framework workstation.](assets/verification-layers.svg)
+
+*The portable suite checks the full operator workflow with controlled fixtures.
+Real model generation and performance recording belong to the opt-in workstation
+layer; a passing offline run does not establish GPU performance.*
 
 | Layer | Runs by default | Responsibility |
 |---|---|---|
 | Unit | Yes | Configuration boundaries, profile matrices, helpers, receipts, HTTP-state truth tables, argument parsing |
 | Integration | Yes | Generated presets/service/OMP files, transaction rollback, downloader mocks, status schema, manager delegation |
 | Offline end to end | Yes | Desired config → plan → apply → status → smoke/perf using hermetic command and HTTP mocks |
-| Hardware end to end | Opt-in | Authenticated real-service status, smoke generation for every installed tier, optional production perf recording, and authenticated post-run restoration |
+| Hardware end to end | Opt-in | Authenticated real-service status, smoke generation for every installed tier, optional production perf recording, and a post-run API authentication check |
 
 The portable entry point is `bash tests/run.sh offline`. Hardware cases require
 `RUN_LOCAL_AI_E2E=1 bash tests/run.sh all` on the target workstation and must

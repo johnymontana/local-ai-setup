@@ -3,7 +3,7 @@
 # setup-qwen38-pi.sh
 #
 # Repeatable, pinned multi-model setup for local agentic coding on a Framework
-# Desktop (AMD Ryzen AI Max+ 395 "Strix Halo", 128GB unified RAM), Arch Linux:
+# Desktop (AMD Ryzen AI Max+ 395 "Strix Halo", 128GB unified RAM), Omarchy Linux:
 #
 #   everyday  Qwen 3.8 27B          implementation loop + vision
 #   coder     Qwen3-Coder-Next      repository/tool/debug specialist
@@ -12,12 +12,14 @@
 # llama.cpp serves one model at a time through router presets. omp maps task
 # roles to the three aliases; pi remains a lightweight/manual fallback.
 #
-# Tip: run `./manage.sh` for a friendly interactive menu over all of this.
+# Start with `./install.sh`, then use `./local-ai` for the interactive menu.
 #
 # Usage:
-#   ./setup-qwen38-pi.sh all              # check + install + model + service + agent
+#   ./setup-qwen38-pi.sh all              # check + install + model + service + agent + desktop
+#   ./setup-qwen38-pi.sh desktop          # install command and app launchers
+#   ./setup-qwen38-pi.sh desktop-remove   # remove only managed desktop integration
 #   ./setup-qwen38-pi.sh check            # verify hardware/OS prerequisites
-#   ./setup-qwen38-pi.sh install          # install Arch packages
+#   ./setup-qwen38-pi.sh install          # install from Omarchy's configured repositories
 #   ./setup-qwen38-pi.sh model            # download everyday model (back-compatible)
 #   ./setup-qwen38-pi.sh model coder      # optional coding specialist (~45 GiB)
 #   ./setup-qwen38-pi.sh model senior     # optional senior engineer (~70 GiB)
@@ -87,6 +89,14 @@ COMMON_LIB="$SCRIPT_DIR/lib/local-ai-common.sh"
 [[ -r "$COMMON_LIB" ]] || { printf 'error: missing shared helper library: %s\n' "$COMMON_LIB" >&2; exit 1; }
 # shellcheck source=lib/local-ai-common.sh
 source "$COMMON_LIB"
+PLATFORM_LIB="$SCRIPT_DIR/lib/local-ai-platform.sh"
+[[ -r "$PLATFORM_LIB" ]] || { printf 'error: missing platform helper library: %s\n' "$PLATFORM_LIB" >&2; exit 1; }
+# shellcheck source=lib/local-ai-platform.sh
+source "$PLATFORM_LIB"
+# shellcheck source=lib/local-ai-agents.sh
+source "$SCRIPT_DIR/lib/local-ai-agents.sh"
+# shellcheck source=lib/local-ai-desktop.sh
+source "$SCRIPT_DIR/lib/local-ai-desktop.sh"
 MODEL_LOCK="${MODEL_LOCK:-$SCRIPT_DIR/models.lock}"
 LOCAL_AI_CONFIG_DIR="${LOCAL_AI_CONFIG_DIR:-$HOME/.config/local-ai}"
 SETUP_ENV="${SETUP_ENV:-$LOCAL_AI_CONFIG_DIR/setup.env}"
@@ -218,10 +228,18 @@ VERIFY_RECEIPT_DIR="${VERIFY_RECEIPT_DIR:-$LOCAL_AI_CONFIG_DIR/verified-models}"
 
 # ------------------------------- helpers ------------------------------------
 
-info() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
-ok()   { printf '\033[1;32m ok\033[0m %s\n' "$*"; }
-warn() { printf '\033[1;33mwarn\033[0m %s\n' "$*" >&2; }
-die()  { printf '\033[1;31merror\033[0m %s\n' "$*" >&2; exit 1; }
+local_ai_message() {
+  local color="$1" label="$2"; shift 2
+  if [[ -t 1 && "${TERM:-dumb}" != dumb && -z "${NO_COLOR+x}" ]]; then
+    printf '\033[1;%sm%s\033[0m %s\n' "$color" "$label" "$*"
+  else
+    printf '%s %s\n' "$label" "$*"
+  fi
+}
+info() { local_ai_message 36 '==>' "$*"; }
+ok()   { local_ai_message 32 ' ok' "$*"; }
+warn() { local_ai_message 33 warn "$*" >&2; }
+die()  { local_ai_message 31 error "$*" >&2; exit 1; }
 
 # Persist the current tunables so the menu and every subcommand agree.
 save_config() {
@@ -476,8 +494,7 @@ validate_manifest() {
 }
 
 need_arch() {
-  command -v pacman >/dev/null 2>&1 || die "pacman not found — this script targets Arch Linux."
-  [[ $EUID -ne 0 ]] || die "Run as your normal user, not root (sudo is used where needed)."
+  local_ai_require_omarchy || die "System installation requires the configured Omarchy workstation."
 }
 
 validate_config
@@ -491,6 +508,14 @@ validate_manifest
 
 cmd_check() {
   info "Checking hardware and OS"
+  info "Platform: $(local_ai_platform_name)"
+  local_ai_require_omarchy || return 1
+  ok "Omarchy detected; system updates belong to '$(local_ai_omarchy_update_command)'"
+  if command -v limine-mkinitcpio >/dev/null 2>&1; then
+    ok "Omarchy Limine boot-image tooling available"
+  else
+    warn "limine-mkinitcpio is unavailable; optional kernel-tweaks will stay disabled."
+  fi
 
   if lspci -nn 2>/dev/null | grep -qi 'radeon 8060s\|1150\|strix'; then
     ok "AMD Strix Halo iGPU (Radeon 8060S / gfx1151) detected"
@@ -512,14 +537,14 @@ cmd_check() {
   if [[ "$(printf '%s\n' "6.18.4" "${kver%%-*}" | sort -V | head -1)" == "6.18.4" ]]; then
     ok "Kernel ${kver} (>= 6.18.4)"
   else
-    warn "Kernel ${kver} is older than AMD's current 6.18.4 minimum for RDNA 3.5 on non-Ubuntu distributions — run sudo pacman -Syu."
+    warn "Kernel ${kver} is older than the 6.18.4 Strix Halo baseline — run '$(local_ai_omarchy_update_command)', reboot, then re-check."
   fi
 
   if command -v pacman >/dev/null 2>&1 && command -v llama-server >/dev/null 2>&1; then
     if pacman -Q ggml-cpu >/dev/null 2>&1; then
       ok "ggml-cpu backend installed"
     else
-      warn "ggml-cpu is MISSING — model loads will fail with 'no CPU backend found'. Fix: sudo pacman -Syu ggml-cpu"
+      warn "ggml-cpu is MISSING — model loads will fail with 'no CPU backend found'. Run '$(local_ai_omarchy_update_command)', then '$0 install'."
     fi
   fi
 
@@ -558,23 +583,24 @@ cmd_check() {
 
 cmd_install() {
   need_arch
-  info "Installing Arch packages (llama.cpp + Vulkan backend + tooling)"
+  info "Installing local AI packages from Omarchy's configured repositories"
+  info "Complete '$(local_ai_omarchy_update_command)' before first install; keep your selected Omarchy channel."
   # Note: ggml-cpu is NOT optional — llama.cpp needs the CPU backend as its
   # base even when inference runs entirely on Vulkan. Without it, model loads
   # fail with "make_cpu_buft_list: no CPU backend found".
-  # Arch does not support partial upgrades. Refresh and complete the system
-  # upgrade before installing the tightly coupled llama.cpp/ggml packages.
-  sudo pacman -Syu --needed --noconfirm \
+  # Omarchy owns full-system updates, snapshots, migrations, and repository
+  # channels. Install only this package set against its synchronized state.
+  local_ai_install_packages \
     llama-cpp ggml-cpu ggml-vulkan \
     vulkan-radeon vulkan-icd-loader vulkan-tools \
-    curl jq nodejs npm bun
+    curl jq nodejs npm bun pciutils || die "Local AI dependencies were not installed; resolve the package error above and retry."
 
   ok "Installed. llama-server: $(command -v llama-server || echo 'NOT FOUND')"
   llama-server --version 2>&1 | head -2 || true
 
   if system_reboot_required && [[ "$ALLOW_PENDING_REBOOT" != 1 ]]; then
     warn "The package/kernel/TTM state now requires a reboot; skipping GPU initialization until the new runtime is active."
-    warn "Reboot, then continue with '$0 model everyday' or '$0 all'."
+    warn "Use Omarchy's System > Reboot menu, then continue with '$0 model everyday' or '$0 all'."
     return 0
   fi
 
@@ -1507,7 +1533,7 @@ cmd_service() {
     if (( preflight_rc == 1 )); then
       die "llama-server not found — run: $0 install"
     fi
-    die "llama-server is missing one or more required router/MTP/reasoning/cache options; complete a full Arch update before installing this service."
+    die "llama-server is missing required router/MTP/reasoning/cache options; run '$(local_ai_omarchy_update_command)' before installing this service."
   fi
 
   command -v sha256sum >/dev/null 2>&1 || die "sha256sum is required (install coreutils)"
@@ -1716,9 +1742,10 @@ EOF
 
 cmd_pi() {
   info "Installing the pinned pi coding agent (${PI_VERSION})"
-  if command -v pi >/dev/null 2>&1; then
-    local current
-    current="$(pi --version 2>/dev/null || echo 'version unknown')"
+  local pi_bin current prefix pi_command
+  pi_bin="$(local_ai_agent_binary pi)"
+  if [[ -n "$pi_bin" ]]; then
+    current="$("$pi_bin" --version 2>/dev/null || echo 'version unknown')"
     ok "pi already installed: ${current} (left untouched)"
     [[ "$current" == *"$PI_VERSION"* ]] || warn "Reproducible baseline is ${PI_VERSION}; run '$0 agent-upgrade pi' to replace the existing binary with the configured pinned release."
   else
@@ -1726,9 +1753,14 @@ cmd_pi() {
     # Pi's official npm path needs no lifecycle scripts. Pinning the exact
     # package lets npm validate the registry SRI instead of executing a mutable
     # curl-to-shell installer.
-    mkdir -p "$HOME/.local"
-    npm install --global --prefix "$HOME/.local" --ignore-scripts \
+    prefix="$(local_ai_agent_prefix)"
+    mkdir -p "$prefix"
+    npm install --global --prefix "$prefix" --ignore-scripts \
       "@earendil-works/pi-coding-agent@${PI_VERSION}"
+    pi_bin="$prefix/bin/pi"
+    [[ -x "$pi_bin" ]] || die "Pinned pi package did not create $pi_bin"
+    current="$("$pi_bin" --version 2>/dev/null || true)"
+    [[ "$(local_ai_semver_from_text "$current")" == "$PI_VERSION" ]] || die "Installed pi reports '${current:-unknown}', expected ${PI_VERSION}"
     ok "pi ${PI_VERSION} installed from the pinned npm package (scripts disabled)"
   fi
 
@@ -1740,12 +1772,13 @@ cmd_pi() {
     ''
   add_api_key_export
   write_agent_launcher
+  printf -v pi_command '%q' "$pi_bin"
 
   cat <<EOF
 
   Connect pi to the local router (open a new shell so the exports load):
 
-     1. cd into a project and run: pi
+     1. cd into a project and run: ${pi_command}
      2. /llama  -> load qwen3.8-27b, coder, or qwen3.5-122b-a10b
      3. /model  -> select it for the session
 
@@ -1898,8 +1931,11 @@ install_omp_pair() {
 write_omp_launchers() {
   local force="${1:-0}"
   mkdir -p "$LOCAL_BIN_DIR"
-  local tier id launcher backup quoted_omp quoted_key launcher_tmp
-  printf -v quoted_omp '%q' "$LOCAL_BIN_DIR/omp"
+  local tier id launcher backup quoted_omp quoted_key launcher_tmp fallback=""
+  printf -v quoted_omp '%q' "$(local_ai_agent_bin_dir)/omp"
+  if ! local_ai_is_omarchy; then
+    fallback='if [[ ! -x "$omp_bin" ]]; then omp_bin="$(command -v omp 2>/dev/null || true)"; fi'
+  fi
   printf -v quoted_key '%q' "$KEY_FILE"
   for tier in everyday coder senior; do
     id="$(tier_id "$tier")"
@@ -1930,7 +1966,7 @@ write_omp_launchers() {
 # Managed by local-ai-setup: force the ${tier} router alias.
 set -euo pipefail
 omp_bin=${quoted_omp}
-if [[ ! -x "\$omp_bin" ]]; then omp_bin="\$(command -v omp 2>/dev/null || true)"; fi
+${fallback}
 [[ -n "\$omp_bin" && -x "\$omp_bin" ]] || { echo "error: omp is not installed; run '$0 agent-upgrade omp'" >&2; exit 1; }
 key_file=${quoted_key}
 [[ -s "\$key_file" ]] || { echo "error: API key missing; run '$0 service'" >&2; exit 1; }
@@ -2035,13 +2071,7 @@ omp_semver() {
 }
 
 omp_binary() {
-  local found
-  if [[ -x "$LOCAL_BIN_DIR/omp" ]]; then
-    printf '%s\n' "$LOCAL_BIN_DIR/omp"
-  else
-    found="$(command -v omp 2>/dev/null || true)"
-    [[ -z "$found" ]] || printf '%s\n' "$found"
-  fi
+  local_ai_agent_binary omp
 }
 
 cmd_routing() {
@@ -2229,22 +2259,24 @@ EOF
 
 cmd_omp() {
   info "Installing pinned oh-my-pi (omp ${OMP_VERSION})"
-  local omp_bin current current_version
+  local omp_bin current current_version agent_bin_dir bun_dir omp_command
   omp_bin="$(omp_binary)"
 
   if [[ -z "$omp_bin" ]]; then
     if ! command -v bun >/dev/null 2>&1; then
       need_arch
-      info "Installing Bun from Arch's signed repository package"
-      sudo pacman -Syu --needed --noconfirm bun
+      info "Installing Bun from Omarchy's configured repositories"
+      local_ai_install_packages bun || die "Could not install Bun"
     fi
     # Avoid mutable remote installers and dependency lifecycle scripts. The
     # exact npm package version is locked; Bun validates registry integrity.
-    mkdir -p "$LOCAL_BIN_DIR" "$HOME/.local/share/bun/install/global"
-    BUN_INSTALL_BIN="$LOCAL_BIN_DIR" \
-    BUN_INSTALL_GLOBAL_DIR="$HOME/.local/share/bun/install/global" \
+    agent_bin_dir="$(local_ai_agent_bin_dir)"
+    bun_dir="$(local_ai_agent_bun_dir)"
+    mkdir -p "$agent_bin_dir" "$bun_dir"
+    BUN_INSTALL_BIN="$agent_bin_dir" \
+    BUN_INSTALL_GLOBAL_DIR="$bun_dir" \
       bun install --global --ignore-scripts "@oh-my-pi/pi-coding-agent@${OMP_VERSION}"
-    omp_bin="$LOCAL_BIN_DIR/omp"
+    omp_bin="$agent_bin_dir/omp"
     [[ -x "$omp_bin" ]] || die "Pinned OMP package installed but did not create $omp_bin"
     current="$("$omp_bin" --version 2>/dev/null || true)"
     current_version="$(omp_semver "$current")"
@@ -2275,13 +2307,14 @@ cmd_omp() {
   add_bashrc_line 'export PI_NO_TITLE=1'
   remove_legacy_shell_export 'export OMPX_PARSER_ACTIVE=1'
   write_agent_launcher
+  printf -v omp_command '%q' "$omp_bin"
 
   cat <<EOF
 
   oh-my-pi binary and shell integration are ready. In a new shell (so the exports load):
 
      cd <your-project>
-     omp                       # everyday implementer
+     ${omp_command}            # everyday implementer
      omp-coder                # coding specialist, if installed
      omp-senior               # senior architect/reviewer, if installed
 
@@ -2384,15 +2417,18 @@ add_api_key_export() {
 }
 
 write_agent_launcher() {
-  local launcher="$LOCAL_BIN_DIR/local-ai-agent" quoted_bin quoted_key quoted_local_bin launcher_tmp
+  local launcher="$LOCAL_BIN_DIR/local-ai-agent" quoted_bin quoted_key quoted_local_bin launcher_tmp fallback=""
   mkdir -p "$LOCAL_BIN_DIR"
   if [[ -e "$launcher" || -L "$launcher" ]]; then
     if [[ -L "$launcher" || ! -f "$launcher" ]] || ! grep -q '^# Managed by local-ai-setup: selected agent launcher' "$launcher"; then
-      warn "User-owned $launcher was preserved; invoke ${AGENT} directly or move it before rerunning."
+      warn "User-owned $launcher was preserved; invoke $(local_ai_agent_bin_dir)/${AGENT} directly or move it before rerunning."
       return 0
     fi
   fi
-  printf -v quoted_bin '%q' "$LOCAL_BIN_DIR/$AGENT"
+  printf -v quoted_bin '%q' "$(local_ai_agent_bin_dir)/$AGENT"
+  if ! local_ai_is_omarchy; then
+    fallback='if [[ ! -x "$agent_bin" ]]; then agent_bin="$(command -v '"$AGENT"' 2>/dev/null || true)"; fi'
+  fi
   printf -v quoted_key '%q' "$KEY_FILE"
   printf -v quoted_local_bin '%q' "$LOCAL_BIN_DIR"
   launcher_tmp="$(mktemp "$LOCAL_BIN_DIR/.local-ai-agent.XXXXXX")" || die "Could not stage $launcher"
@@ -2402,7 +2438,7 @@ write_agent_launcher() {
 set -euo pipefail
 export PATH=${quoted_local_bin}:"\$PATH"
 agent_bin=${quoted_bin}
-if [[ ! -x "\$agent_bin" ]]; then agent_bin="\$(command -v ${AGENT} 2>/dev/null || true)"; fi
+${fallback}
 [[ -n "\$agent_bin" && -x "\$agent_bin" ]] || { echo "error: ${AGENT} is not installed; run '$0 agent-upgrade ${AGENT}'" >&2; exit 1; }
 key_file=${quoted_key}
 [[ -s "\$key_file" ]] || { echo "error: API key missing; run '$0 service'" >&2; exit 1; }
@@ -2420,17 +2456,15 @@ EOF
 }
 
 cmd_omp_lsp() {
+  need_arch
   info "Installing common language servers for omp's LSP integration"
   # These power omp's rename/refactor/diagnostics-on-edit. Install what matches
   # the languages you work in; the rest are harmless to skip.
-  if command -v pacman >/dev/null 2>&1; then
-    if ! sudo pacman -Syu --needed --noconfirm \
-      bash-language-server typescript-language-server \
-      python-lsp-server gopls rust-analyzer clang 2>/dev/null \
-    ; then
-      warn "Some LSP packages weren't found in the repos — install the ones you need by hand."
-      return 1
-    fi
+  if ! local_ai_install_packages \
+    bash-language-server typescript-language-server \
+    python-lsp-server gopls rust-analyzer clang; then
+    warn "Language servers were not installed; resolve the repository/update error above and retry."
+    return 1
   fi
   ok "LSP servers installed (omp auto-detects them per language)."
 }
@@ -2446,17 +2480,18 @@ cmd_agent() {
 
 cmd_agent_upgrade() {
   [[ $# -le 1 ]] || die "Usage: $0 agent-upgrade [pi|omp]"
-  local target="${1:-$AGENT}" binary output version routing_result=0
+  local target="${1:-$AGENT}" binary output version routing_result=0 prefix agent_bin_dir bun_dir
   case "$target" in
     pi)
       command -v npm >/dev/null 2>&1 || die "npm not found — run: $0 install"
-      mkdir -p "$HOME/.local"
-      npm install --global --prefix "$HOME/.local" --ignore-scripts \
+      prefix="$(local_ai_agent_prefix)"
+      mkdir -p "$prefix"
+      npm install --global --prefix "$prefix" --ignore-scripts \
         "@earendil-works/pi-coding-agent@${PI_VERSION}"
-      binary="$LOCAL_BIN_DIR/pi"
+      binary="$prefix/bin/pi"
       [[ -x "$binary" ]] || die "Pinned pi package did not create $binary"
       output="$("$binary" --version 2>/dev/null || true)"
-      [[ "$output" == *"$PI_VERSION"* ]] || die "Upgraded pi reports '${output:-unknown}', expected ${PI_VERSION}"
+      [[ "$(local_ai_semver_from_text "$output")" == "$PI_VERSION" ]] || die "Upgraded pi reports '${output:-unknown}', expected ${PI_VERSION}"
       add_bashrc_line 'export PATH="$HOME/.local/bin:$PATH"'
       set_managed_shell_export LLAMA_BASE_URL \
         'export LLAMA_BASE_URL=http://127.0.0.1:'"${PORT}" \
@@ -2468,13 +2503,15 @@ cmd_agent_upgrade() {
     omp)
       if ! command -v bun >/dev/null 2>&1; then
         need_arch
-        sudo pacman -Syu --needed --noconfirm bun
+        local_ai_install_packages bun || die "Could not install Bun"
       fi
-      mkdir -p "$LOCAL_BIN_DIR" "$HOME/.local/share/bun/install/global"
-      BUN_INSTALL_BIN="$LOCAL_BIN_DIR" \
-      BUN_INSTALL_GLOBAL_DIR="$HOME/.local/share/bun/install/global" \
+      agent_bin_dir="$(local_ai_agent_bin_dir)"
+      bun_dir="$(local_ai_agent_bun_dir)"
+      mkdir -p "$agent_bin_dir" "$bun_dir"
+      BUN_INSTALL_BIN="$agent_bin_dir" \
+      BUN_INSTALL_GLOBAL_DIR="$bun_dir" \
         bun install --global --ignore-scripts "@oh-my-pi/pi-coding-agent@${OMP_VERSION}"
-      binary="$LOCAL_BIN_DIR/omp"
+      binary="$agent_bin_dir/omp"
       [[ -x "$binary" ]] || die "Pinned OMP package did not create $binary"
       output="$("$binary" --version 2>/dev/null || true)"
       version="$(omp_semver "$output")"
@@ -2572,7 +2609,7 @@ cmd_plan() {
     if (( preflight_rc == 1 )); then
       echo "  gate: llama-server is not installed (run '$0 install')"
     else
-      echo "  gate: llama-server lacks required router/MTP/reasoning/cache options (complete the Arch update)"
+      echo "  gate: llama-server lacks required router/MTP/reasoning/cache options (run '$(local_ai_omarchy_update_command)')"
     fi
     blocked=1
   fi
@@ -2742,6 +2779,7 @@ cmd_apply() {
 
 KERNEL_TXN_ARMED=0
 KERNEL_TXN_FILES_TOUCHED=0
+KERNEL_TXN_STAGED=""
 KERNEL_TXN_TARGET=""
 KERNEL_TXN_TARGET_BACKUP=""
 KERNEL_TXN_HAD_TARGET=0
@@ -2752,6 +2790,7 @@ KERNEL_TXN_HAD_LEGACY=0
 reset_kernel_transaction() {
   KERNEL_TXN_ARMED=0
   KERNEL_TXN_FILES_TOUCHED=0
+  KERNEL_TXN_STAGED=""
   KERNEL_TXN_TARGET=""
   KERNEL_TXN_TARGET_BACKUP=""
   KERNEL_TXN_HAD_TARGET=0
@@ -2763,6 +2802,9 @@ reset_kernel_transaction() {
 rollback_kernel_transaction() {
   (( KERNEL_TXN_ARMED == 1 )) || return 0
   local failed=0
+  if [[ -n "$KERNEL_TXN_STAGED" ]]; then
+    sudo rm -f "$KERNEL_TXN_STAGED" || failed=1
+  fi
   if (( KERNEL_TXN_FILES_TOUCHED )); then
     if (( KERNEL_TXN_HAD_TARGET )); then
       sudo cp -p "$KERNEL_TXN_TARGET_BACKUP" "$KERNEL_TXN_TARGET" || failed=1
@@ -2774,10 +2816,9 @@ rollback_kernel_transaction() {
     else
       sudo rm -f "$KERNEL_TXN_LEGACY" || failed=1
     fi
-    # amd-ttm may have rebuilt initramfs before failing or receiving a signal.
-    # Rebuild from the restored files so the next boot cannot use a partially
-    # applied TTM policy.
-    sudo mkinitcpio -P || failed=1
+    # Rebuild Omarchy's UKIs from the restored files even if a prior rebuild
+    # failed or was interrupted, so the next boot cannot use a partial policy.
+    local_ai_rebuild_boot_images || failed=1
   fi
   if (( failed == 0 )); then
     reset_kernel_transaction
@@ -2796,7 +2837,7 @@ kernel_transaction_exit_handler() {
 
 kernel_transaction_signal_handler() {
   trap - EXIT HUP INT TERM
-  warn "Kernel tweak was interrupted; restoring the prior TTM files and initramfs."
+  warn "Kernel tweak was interrupted; restoring the prior TTM files and Limine boot images."
   rollback_kernel_transaction || true
   exit 130
 }
@@ -2809,43 +2850,52 @@ commit_kernel_transaction() {
 
 cmd_kernel_tweaks() {
   need_arch
+  local_ai_require_boot_rebuild || die "TTM policy was not changed"
+  local mem_kb requested_kb pages page_size
+  mem_kb="$(awk '/MemTotal/ {print $2}' "${LOCAL_AI_MEMINFO:-/proc/meminfo}")"
+  [[ "$mem_kb" =~ ^[0-9]+$ ]] || die "Could not determine physical memory before applying the TTM limit"
+  requested_kb=$((GTT_GIB * 1024 * 1024))
+  (( requested_kb < mem_kb )) || die "The ${GTT_GIB} GiB TTM limit must be below physical memory"
+  page_size="$(getconf PAGESIZE)"
+  [[ "$page_size" == 4096 ]] || die "This Framework Desktop tuning expects 4096-byte pages"
+  pages=$((GTT_GIB * 1024 * 1024 * 1024 / page_size))
   info "OPTIONAL: raise GPU-addressable unified memory to ~${GTT_GIB} GiB"
   echo
   echo "  Not needed for the everyday model; keep the stock allocation for baseline tests."
   echo "  Consider this only for the senior model, Q8 plus very large context, or"
   echo "  another model that cannot fully offload with the stock allocation."
   echo
-  echo "  This uses AMD's amd-ttm helper to persist only TTM pages_limit. It may"
-  echo "  rebuild initramfs and request a reboot; deprecated amdgpu.gttsize and"
-  echo "  page_pool_size settings are intentionally not written."
+  echo "  This persists TTM pages_limit and rebuilds Omarchy's Limine boot images."
+  echo "  Reboot afterward through Omarchy's System > Reboot menu."
+  echo "  This leaves about $(((mem_kb - requested_kb) / 1024 / 1024)) GiB outside the GPU limit; keep room for Hyprland and applications."
+  if (( requested_kb * 100 > mem_kb * 90 )); then
+    warn "This limit exceeds 90% of physical memory. Memory pressure can make the desktop unresponsive; reduce GTT_GIB if needed."
+  fi
   echo
   local reply=""
   read -r -p "Proceed? [y/N] " reply || true
   [[ "$reply" =~ ^[Yy]$ ]] || { warn "Skipped."; return 0; }
 
-  info "Ensuring AMD's recommended Arch amd-debug-tools package is current"
-  sudo pacman -Syu --needed --noconfirm amd-debug-tools || die "Could not install/update amd-debug-tools"
-  command -v amd-ttm >/dev/null 2>&1 || die "amd-ttm was not installed by amd-debug-tools"
   local target backup="" had_previous=0 legacy legacy_backup="" conflicts file
   target=/etc/modprobe.d/ttm.conf
   legacy=/etc/modprobe.d/99-strix-halo-llm.conf
 
   # First perform every read-only conflict/customization check. No active file
   # is moved until we know the complete migration can proceed.
-  sudo test -L "$target" && die "Symlinked TTM policy was preserved at $target; replace or merge it explicitly before using amd-ttm."
-  sudo test -L "$legacy" && die "Symlinked legacy GTT policy was preserved at $legacy; replace or merge it explicitly before using amd-ttm."
+  sudo test -L "$target" && die "Symlinked TTM policy was preserved at $target; replace or merge it explicitly before kernel-tweaks."
+  sudo test -L "$legacy" && die "Symlinked legacy GTT policy was preserved at $legacy; replace or merge it explicitly before kernel-tweaks."
   if sudo test -e "$target" && ! sudo test -f "$target"; then
-    die "Non-regular TTM policy was preserved at $target; replace or merge it explicitly before using amd-ttm."
+    die "Non-regular TTM policy was preserved at $target; replace or merge it explicitly before kernel-tweaks."
   fi
   if sudo test -e "$legacy" && ! sudo test -f "$legacy"; then
-    die "Non-regular legacy GTT policy was preserved at $legacy; replace or merge it explicitly before using amd-ttm."
+    die "Non-regular legacy GTT policy was preserved at $legacy; replace or merge it explicitly before kernel-tweaks."
   fi
   conflicts="$(sudo grep -ERl --include='*.conf' \
     'options[[:space:]]+amdgpu.*gttsize|options[[:space:]]+ttm.*(pages_limit|page_pool_size)' \
     /etc/modprobe.d 2>/dev/null || true)"
   while IFS= read -r file; do
     [[ -z "$file" || "$file" == "$target" || "$file" == "$legacy" ]] || \
-      die "Conflicting GTT/TTM settings remain in $file; merge/remove them explicitly before using amd-ttm."
+      die "Conflicting GTT/TTM settings remain in $file; merge/remove them explicitly before kernel-tweaks."
   done <<< "$conflicts"
 
   if sudo test -f "$legacy"; then
@@ -2859,18 +2909,18 @@ cmd_kernel_tweaks() {
          }
          END { exit !(n == 2 && a == 1 && t == 1 && !bad) }
        ' "$legacy"; then
-      die "A custom legacy GTT file exists at $legacy. Remove deprecated gttsize/page_pool_size settings manually before using amd-ttm."
+      die "A custom legacy GTT file exists at $legacy. Remove deprecated gttsize/page_pool_size settings manually before kernel-tweaks."
     fi
   fi
   if sudo test -f "$target" && \
      ! sudo awk 'NF && !/^#/ && $0 !~ /^options ttm pages_limit=[0-9]+$/ { bad=1 } END { exit bad }' "$target" && \
      [[ "${KERNEL_TWEAKS_FORCE:-0}" != 1 ]]; then
-    die "Existing custom $target was preserved. Merge it manually or rerun with KERNEL_TWEAKS_FORCE=1 to back it up before amd-ttm replaces it."
+    die "Existing custom $target was preserved. Merge it manually or rerun with KERNEL_TWEAKS_FORCE=1 to back it up before kernel-tweaks replaces it."
   fi
 
   if sudo test -f "$target"; then
-    # amd-ttm itself writes a single pages_limit line. Preserve/refuse any richer
-    # hand-maintained TTM policy unless the user explicitly opts into a backup.
+    # Accept an existing single pages_limit line (including amd-ttm output).
+    # Preserve richer hand-maintained policy unless explicitly overridden.
     backup="$(sudo mktemp "${target}.bak.XXXXXX")" || die "Could not create a backup for $target"
     sudo cp -p "$target" "$backup" || die "Could not back up $target"
     had_previous=1
@@ -2879,7 +2929,7 @@ cmd_kernel_tweaks() {
   # Back up every active file before removing either one. This keeps a failure
   # while preparing ttm.conf from leaving the old generated policy inactive.
   if sudo test -f "$legacy"; then
-    legacy_backup="$(sudo mktemp "${legacy}.pre-amd-ttm.XXXXXX")" || die "Could not back up $legacy"
+    legacy_backup="$(sudo mktemp "${legacy}.pre-omarchy.XXXXXX")" || die "Could not back up $legacy"
     sudo cp -p "$legacy" "$legacy_backup" || die "Could not back up $legacy"
   fi
 
@@ -2896,21 +2946,31 @@ cmd_kernel_tweaks() {
 
   if (( KERNEL_TXN_HAD_LEGACY )); then
     # Conservatively arm rollback before the first unlink. A signal between
-    # this removal and amd-ttm must restore both policy files.
+    # this removal and the UKI rebuild must restore both policy files.
     KERNEL_TXN_FILES_TOUCHED=1
     sudo rm -f "$legacy" || die "Could not remove the deprecated generated file $legacy"
     ok "Migrated deprecated generated GTT config (backup: $legacy_backup)"
   fi
+  # Persist the same page arithmetic as amd-ttm directly. That helper scans
+  # traditional initramfs files and offers reboot before Omarchy's UKI rebuild.
+  # Staging here lets us verify Limine succeeds before declaring completion.
+  KERNEL_TXN_STAGED="$(sudo mktemp "${target}.local-ai.XXXXXX")" || die "Could not stage the TTM policy"
+  printf '# Generated by setup-qwen38-pi.sh for Omarchy\noptions ttm pages_limit=%s\n' "$pages" | \
+    sudo tee "$KERNEL_TXN_STAGED" >/dev/null || die "Could not write the staged TTM policy"
+  sudo chmod 644 "$KERNEL_TXN_STAGED" || die "Could not set the TTM policy mode"
   KERNEL_TXN_FILES_TOUCHED=1
-  if ! sudo amd-ttm --set "$GTT_GIB"; then
-    warn "amd-ttm failed; restoring the prior TTM configuration."
+  sudo mv -f "$KERNEL_TXN_STAGED" "$target" || die "Could not activate the TTM policy"
+  KERNEL_TXN_STAGED=""
+  if ! local_ai_rebuild_boot_images; then
+    warn "Limine boot-image rebuild failed; restoring the prior TTM configuration."
     trap - EXIT HUP INT TERM
     rollback_kernel_transaction || true
     die "GTT tweak was not applied"
   fi
   commit_kernel_transaction
 
-  ok "amd-ttm configured a ${GTT_GIB} GiB TTM pages limit; follow its reboot guidance."
+  ok "Configured a ${GTT_GIB} GiB TTM pages limit and rebuilt Omarchy's Limine boot images."
+  warn "Reboot with Omarchy's System > Reboot menu before loading models; then run '$0 check'."
   [[ -z "$backup" ]] || ok "Previous modprobe configuration backup: $backup"
   [[ -z "$legacy_backup" ]] || ok "Deprecated configuration backup retained: $legacy_backup"
   echo
@@ -3192,11 +3252,11 @@ build_status_json() {
       fi
     fi
     models_json="$(jq -cn \
-      --argjson models "$models_json" --arg tier "$tier" --arg id "$id" --arg label "$label" \
+      --argjson models "$models_json" --arg tier "$tier" --arg id "$id" --arg modelLabel "$label" \
       --arg artifacts "$artifacts" --arg runtime "$runtime" --argjson progress "$progress" \
       --argjson routerProgress "$router_progress" \
       --argjson bytes "$artifact_total" --argjson done "$artifact_done" \
-      '$models + [{tier:$tier,id:$id,label:$label,bytes:$bytes,artifacts:$artifacts,runtime:$runtime,progress:$progress,routerProgress:$routerProgress,artifactProgress:{doneBytes:$done,totalBytes:$bytes}}]')"
+      '$models + [{tier:$tier,id:$id,label:$modelLabel,bytes:$bytes,artifacts:$artifacts,runtime:$runtime,progress:$progress,routerProgress:$routerProgress,artifactProgress:{doneBytes:$done,totalBytes:$bytes}}]')"
   done
   local loaded_model reboot_required=false
   loaded_model="$(jq -r '[.[] | select(.runtime == "loaded")][0].id // empty' <<< "$models_json")"
@@ -3208,8 +3268,8 @@ build_status_json() {
     --argjson modelsMax "$MODELS_MAX" --argjson everydayCtx "$CTX" --argjson coderCtx "$CODER_CTX" \
     --argjson seniorCtx "$SENIOR_CTX" --arg kv "$KV_CACHE_PROFILE" \
     --arg everydayLoad "$LOAD_MODE_EVERYDAY" --arg coderLoad "$LOAD_MODE_CODER" --arg seniorLoad "$LOAD_MODE_SENIOR" \
-    --argjson reboot "$reboot_required" \
-    '{schemaVersion:1,service:{state:$state,api:$api,port:$port,authEnforced:$auth},loadedModel:(if $loaded=="" then null else $loaded end),models:$models,config:{agent:$agent,routingProfile:$routing,startupTier:$startup,modelsMax:$modelsMax,contexts:{everyday:$everydayCtx,coder:$coderCtx,senior:$seniorCtx},kvCacheProfile:$kv,loadModes:{everyday:$everydayLoad,coder:$coderLoad,senior:$seniorLoad}},system:{rebootRequired:$reboot}}'
+    --argjson reboot "$reboot_required" --arg platform "$(local_ai_platform_name)" \
+    '{schemaVersion:1,service:{state:$state,api:$api,port:$port,authEnforced:$auth},loadedModel:(if $loaded=="" then null else $loaded end),models:$models,config:{agent:$agent,routingProfile:$routing,startupTier:$startup,modelsMax:$modelsMax,contexts:{everyday:$everydayCtx,coder:$coderCtx,senior:$seniorCtx},kvCacheProfile:$kv,loadModes:{everyday:$everydayLoad,coder:$coderLoad,senior:$seniorLoad}},system:{rebootRequired:$reboot,platform:$platform}}'
 }
 
 cmd_status() {
@@ -3222,6 +3282,7 @@ cmd_status() {
     return 0
   fi
   jq -r '
+    "Platform: \(.system.platform)",
     "Service: \(.service.state) · API: \(.service.api) · port \(.service.port) · auth enforced: \(.service.authEnforced)",
     "Loaded model: \(.loadedModel // "none")", "Routing: \(.config.routingProfile) · startup: \(.config.startupTier) · max resident: \(.config.modelsMax)",
     (.models[] | "  \(.tier): artifacts=\(.artifacts) runtime=\(.runtime) bytes=\(.artifactProgress.doneBytes)/\(.artifactProgress.totalBytes)"),
@@ -3240,7 +3301,8 @@ cmd_smoke() {
   model_id="$(tier_id "$tier")"
 
   info "Configuration: agent=${AGENT}  smoke-model=${model_id}  models-max=${MODELS_MAX}"
-  abin=$(command -v "$AGENT" 2>/dev/null || echo "NOT INSTALLED — run: $0 agent")
+  abin="$(local_ai_agent_binary "$AGENT")"
+  [[ -n "$abin" ]] || abin="NOT INSTALLED — run: $0 agent"
   echo "    ${AGENT} binary: ${abin}"
   echo
   info "Service:"
@@ -3518,10 +3580,10 @@ perf_api_request() {
   usage="$(jq -c '[.[] | .usage? | select(. != null)] | last // {}' <<< "$events")" || return 1
   timings="$(jq -c '[.[] | .timings? | select(. != null)] | last // {}' <<< "$events")" || return 1
   PERF_REQUEST_JSON="$(jq -cn \
-    --arg label "$label" --arg http "$http_code" --arg responseStart "$response_start" --arg total "$total" \
+    --arg requestLabel "$label" --arg http "$http_code" --arg responseStart "$response_start" --arg total "$total" \
     --argjson ttftMs "$ttft_ms" \
     --argjson usage "$usage" --argjson timings "$timings" \
-    '{label:$label,httpCode:($http|tonumber),responseStartSeconds:($responseStart|tonumber),ttftSeconds:($ttftMs/1000),totalSeconds:($total|tonumber),promptTokens:($usage.prompt_tokens // $timings.prompt_n // null),completionTokens:($usage.completion_tokens // $timings.predicted_n // null),tokensPerSecond:($timings.predicted_per_second // null),draftTokens:($timings.draft_n // 0),draftAccepted:($timings.draft_n_accepted // 0),draftAcceptanceRate:(if ($timings.draft_n // 0)>0 then (($timings.draft_n_accepted // 0)/$timings.draft_n) else null end),serverTimings:$timings}')" || return 1
+    '{label:$requestLabel,httpCode:($http|tonumber),responseStartSeconds:($responseStart|tonumber),ttftSeconds:($ttftMs/1000),totalSeconds:($total|tonumber),promptTokens:($usage.prompt_tokens // $timings.prompt_n // null),completionTokens:($usage.completion_tokens // $timings.predicted_n // null),tokensPerSecond:($timings.predicted_per_second // null),draftTokens:($timings.draft_n // 0),draftAccepted:($timings.draft_n_accepted // 0),draftAcceptanceRate:(if ($timings.draft_n // 0)>0 then (($timings.draft_n_accepted // 0)/$timings.draft_n) else null end),serverTimings:$timings}')" || return 1
 }
 
 runtime_memory_snapshot_json() {
@@ -4126,7 +4188,8 @@ legacy_session_helper() {
 }
 
 write_session_helper() {
-  local output="$1"
+  local output="$1" strict_agents=0
+  if local_ai_is_omarchy; then strict_agents=1; fi
   cat > "$output" <<'EOF'
 #!/usr/bin/env bash
 # Managed by local-ai-setup: LAN tmux coding-agent session helper.
@@ -4138,10 +4201,14 @@ write_session_helper() {
 #   ai-session                 list running agent sessions
 #   AGENT=omp ai-session <dir> override the agent for this session
 #
-# Detach with Ctrl-b then d — the agent keeps running on the machine.
+# Detach with your configured tmux prefix then d (Omarchy defaults to Ctrl-Space).
 set -euo pipefail
 export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
 export PI_NO_TITLE=1
+EOF
+  printf 'agent_bin_dir=%q\nstrict_agents=%s\n' \
+    "$(local_ai_agent_bin_dir)" "$strict_agents" >> "$output"
+  cat >> "$output" <<'EOF'
 
 # Pick the agent: explicit env > saved setup.env > omp.
 env_file="$HOME/.config/local-ai/setup.env"
@@ -4181,13 +4248,19 @@ path_digest="${path_digest%% *}"
 name="ai-${base//[^A-Za-z0-9_-]/-}-${path_digest:0:12}"
 
 if ! tmux has-session -t "=$name" 2>/dev/null; then
+  agent_command="$AGENT"
+  if (( strict_agents )); then
+    agent_bin="$agent_bin_dir/$AGENT"
+    [[ -x "$agent_bin" ]] || { echo "missing pinned agent: $agent_bin; run local-ai $AGENT" >&2; exit 1; }
+    printf -v agent_command '%q' "$agent_bin"
+  fi
   tmux new-session -d -s "$name" -c "$dir"
   # tmux servers may predate these environment variables. Have the new pane
   # read the 0600 key itself; the secret is never passed in a tmux argv.
   launch_cmd='export LLAMA_API_KEY="$(<"$HOME/.config/local-ai/llama.key")"; '
   launch_cmd+="export LLAMA_BASE_URL=\"http://127.0.0.1:${router_port}\"; "
   launch_cmd+="export LLAMA_CPP_BASE_URL=\"http://127.0.0.1:${router_port}\"; "
-  launch_cmd+="export PI_NO_TITLE=1; exec ${AGENT}"
+  launch_cmd+="export PI_NO_TITLE=1; exec ${agent_command}"
   tmux send-keys -t "=$name" "$launch_cmd" C-m
 fi
 exec tmux attach-session -t "=$name"
@@ -4327,7 +4400,7 @@ configure_firewall() {
   fi
 
   # Defense in depth against password brute force during the bootstrap window.
-  if sudo pacman -S --needed --noconfirm fail2ban >/dev/null 2>&1; then
+  if local_ai_install_packages fail2ban; then
     local jail_tmp jail_target jail_writable=1 jail_backup="" jail_had=0 jail_ok=0
     local fail2ban_was_active=0 fail2ban_was_enabled=0
     jail_target=/etc/fail2ban/jail.d/local-ai-sshd.local
@@ -4428,7 +4501,7 @@ EOF
 cmd_remote() {
   need_arch
   info "Setting up LAN-only remote access (SSH + mosh + tmux + mDNS)"
-  sudo pacman -Syu --needed --noconfirm openssh mosh tmux avahi ufw
+  local_ai_install_packages openssh mosh tmux avahi ufw || die "Remote-access packages were not installed"
 
   # Make sure key-based logins have somewhere to land.
   mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
@@ -4509,7 +4582,8 @@ cmd_remote() {
      Prefer mosh in Blink — it stays alive when iOS suspends the app.
 
   ai-session launches your selected agent (${AGENT}); all devices on the same
-  session mirror one screen. Detach: Ctrl-b then d · list sessions: ai-session
+  session mirror one screen. Detach: your tmux prefix, then d.
+  Check the prefix with 'tmux show-option -gv prefix'; list sessions: ai-session
 
   When every device has a key installed, lock out passwords:
      $0 ssh-harden
@@ -4546,8 +4620,8 @@ cmd_ssh_harden() {
 }
 
 cmd_all() {
-  save_config          # persist the agent/tunables this run used
   cmd_check
+  save_config          # persist only after verifying the target workstation
   cmd_install
   if system_reboot_required && [[ "$ALLOW_PENDING_REBOOT" != 1 ]]; then
     die "System packages/TTM changed and a reboot is required. No model download or GPU load was attempted; reboot and run '$0 all' again."
@@ -4555,6 +4629,7 @@ cmd_all() {
   cmd_model everyday
   cmd_service
   cmd_agent
+  cmd_desktop
   echo
   ok "Everyday baseline ready (agent: ${AGENT}). Try: $0 status; then cd <project> && $LOCAL_BIN_DIR/local-ai-agent"
   echo "   Optional model team: $0 model coder   and   $0 model senior"
@@ -4574,6 +4649,7 @@ Configuration:  plan | apply | show-config | save-config KEY=VALUE ... | routing
 Operations:     status [--json] | smoke [tier] | bench [tier] [--manage-service] | perf [tier] [--keep] | perf-history [tier|all]
 Agents:         pi | omp | agent-upgrade [pi|omp] | omp-lsp
 System:         kernel-tweaks | remote | ssh-harden
+Desktop:        desktop | desktop-remove (launchers only)
 
 Model download/verification/history also accept all; runtime load/bench/perf tiers are everyday, coder, or senior.
 Run '$0 plan' for the resolved read-only plan.
@@ -4595,7 +4671,7 @@ LOCKED_DESCENDANT_PIDS=""
 release_operation_lock() {
   (( OPERATION_LOCK_HELD )) || return 0
   [[ -n "$OPERATION_LOCK_DIR" && "$OPERATION_LOCK_DIR" == */local-ai-setup-*.lock ]] || return 1
-  rm -f -- "$OPERATION_LOCK_DIR/pid" 2>/dev/null || true
+  rm -f -- "$OPERATION_LOCK_DIR/pid" "$OPERATION_LOCK_DIR/wait-error" 2>/dev/null || true
   rmdir "$OPERATION_LOCK_DIR" 2>/dev/null || true
   OPERATION_LOCK_HELD=0
 }
@@ -4680,7 +4756,7 @@ acquire_operation_lock() {
     [[ ! -e "$stale_claim" && ! -L "$stale_claim" ]] || continue
     if mv -- "$OPERATION_LOCK_DIR" "$stale_claim" 2>/dev/null; then
       warn "Recovering stale local-AI operation lock${owner_pid:+ from PID $owner_pid}."
-      rm -f -- "$stale_claim/pid" 2>/dev/null || die "Could not clear claimed stale operation lock"
+      rm -f -- "$stale_claim/pid" "$stale_claim/wait-error" 2>/dev/null || die "Could not clear claimed stale operation lock"
       rmdir "$stale_claim" 2>/dev/null || \
         die "Claimed stale lock contained unexpected files; inspect $stale_claim"
     fi
@@ -4760,7 +4836,7 @@ locked_command_signal_handler() {
 }
 
 locked_command() {
-  local rc=0
+  local rc=0 fg_rc=0 used_fg=0 wait_error
   acquire_operation_lock
   reload_persisted_config_under_lock
   trap 'locked_command_signal_handler' HUP INT TERM
@@ -4777,17 +4853,26 @@ locked_command() {
     # controlling terminal. Put the mutation job in the foreground so model,
     # sudo, firewall, and kernel confirmation prompts remain usable while the
     # parent still owns the lifecycle lock and can terminate the whole group.
-    # The mutation can finish between `$!` and `fg`; in that case Bash drops
-    # the job-table entry and `fg %%` reports failure even though the command
-    # succeeded. Use fg only to transfer terminal ownership, then always wait
-    # by PID, whose saved exit status remains available in both cases.
+    # A fast child can finish before fg, while newer Bash versions can consume
+    # its status during fg. Keep both statuses: wait normally resolves the
+    # first race, and its explicit "not a child" diagnostic identifies the
+    # second. A genuine child exit 127 has no wait diagnostic and must remain
+    # 127, even if fg could no longer find the completed job.
     if kill -0 "$LOCKED_CHILD_PID" 2>/dev/null; then
       # Bash uses fg's stderr as its controlling terminal on older releases;
       # redirecting it can leave a prompt-reading child stopped indefinitely.
+      used_fg=1
       fg %% >/dev/null
+      fg_rc=$?
     fi
-    wait "$LOCKED_CHILD_PID"
+    wait_error="$OPERATION_LOCK_DIR/wait-error"
+    wait "$LOCKED_CHILD_PID" 2> "$wait_error"
     rc=$?
+    if (( rc == 127 && used_fg )) && [[ -s "$wait_error" ]]; then
+      rc=$fg_rc
+    elif [[ -s "$wait_error" ]]; then
+      cat "$wait_error" >&2
+    fi
   else
     set +m
     wait "$LOCKED_CHILD_PID"
@@ -4810,6 +4895,8 @@ case "$command_name" in
   all)            require_no_args all "$@"; locked_command cmd_all ;;
   check)          require_no_args check "$@"; cmd_check ;;
   install)        require_no_args install "$@"; locked_command cmd_install ;;
+  desktop)        require_no_args desktop "$@"; locked_command cmd_desktop ;;
+  desktop-remove) require_no_args desktop-remove "$@"; locked_command cmd_desktop_remove ;;
   model)          locked_command cmd_model "$@" ;;
   model-catalog)  require_no_args model-catalog "$@"; cmd_model_catalog ;;
   model-verify)   locked_command cmd_model_verify "$@" ;;

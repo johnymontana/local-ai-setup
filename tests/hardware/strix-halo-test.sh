@@ -10,22 +10,20 @@ ENGINE="$ROOT/setup-qwen38-pi.sh"
   printf 'Hardware E2E skipped (set RUN_LOCAL_AI_E2E=1).\n'
   exit 0
 }
-command -v pacman >/dev/null 2>&1 || {
-  printf 'error: hardware E2E targets the configured Arch workstation.\n' >&2
-  exit 1
-}
 command -v jq >/dev/null 2>&1 || {
   printf 'error: jq is required for hardware E2E.\n' >&2
   exit 1
 }
 
-"$ENGINE" plan >/dev/null
+"$ENGINE" check
+"$ENGINE" plan
 status_json="$("$ENGINE" status --json)"
 jq -e '
   .schemaVersion == 1 and
   .service.state == "active" and
   .service.api == "authenticated" and
   .service.authEnforced == true and
+  .system.rebootRequired == false and
   (.models | type) == "array"
 ' <<< "$status_json" >/dev/null || {
   printf 'error: router is not active and authenticated according to status --json.\n' >&2
@@ -40,10 +38,10 @@ mapfile -t installed_tiers < <(jq -r '.models[] | select(.artifacts == "installe
 
 for tier in "${installed_tiers[@]}"; do
   printf 'Hardware smoke: %s\n' "$tier"
-  "$ENGINE" smoke "$tier" >/dev/null
+  "$ENGINE" smoke "$tier"
   if [[ "${RUN_LOCAL_AI_PERF_E2E:-0}" == 1 ]]; then
     printf 'Hardware production perf: %s\n' "$tier"
-    "$ENGINE" perf "$tier" >/dev/null
+    "$ENGINE" perf "$tier"
   fi
 done
 
