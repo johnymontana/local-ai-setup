@@ -1,0 +1,31 @@
+  LOCAL AI  / Omarchy / Framework Desktop
+  Qwen 3.8 everyday · Qwen3-Coder-Next specialist · Qwen3.5-122B senior
+
+   agent    omp  (not installed)
+   current  server=inactive/disabled  api=down:8080  loaded=none
+   models   everyday:absent/unknown  coder:absent/unknown  senior:absent/unknown
+   desired routing=sticky  startup=everyday  max-resident=1  port=8080
+   context  everyday=131072  coder=40960  senior=131072  kv=f16
+   loading  everyday:none,coder:mmap,senior:mmap
+   everyday quant=UD-Q4_K_XL  reasoning=medium
+
+  Welcome to local AI on Omarchy.
+  Start with 1 to install, or run ./install.sh from the terminal.
+
+  Install
+   1) Local AI               packages → everyday model → router → agent
+   2) Models and routing     3) Choose agent     4) Install agent
+   u) Upgrade agent          d) Add app launchers
+   x) Remove app launchers
+
+  Setup
+   5) Plan and apply         6) Tune models      9) Language servers
+   7) Remote access          8) Harden SSH       g) Optional GTT tweak
+
+  Inspect
+   p) Preview changes        s) Status           t) Smoke/load test
+   b) Router performance     r) Raw benchmark    c) Configuration
+
+   q) Quit                   type a shortcut, then Enter
+
+  select >

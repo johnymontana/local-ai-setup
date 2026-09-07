@@ -1,0 +1,15 @@
+Resolved local-AI plan (read-only; no files or services were changed):
+  agent=omp routing=sticky models-max=1 KV=f16
+  contexts: everyday=131072 coder=40960 senior=131072
+  load modes: everyday=none coder=mmap senior=mmap
+  everyday  artifacts=absent    required=18.5 GiB id=qwen3.8-27b
+  coder     artifacts=absent    required=45.1 GiB id=coder
+  senior    artifacts=absent    required=69.5 GiB id=qwen3.5-122b-a10b
+  OMP roles: base=(blocked: install a complete tier) task=(blocked: install a complete tier) slow/plan/advisor/designer=(blocked: install a complete tier) (advisor disabled)
+  service: startup=none port=8080 preset=~/.config/local-ai/models.ini
+  gate: configured STARTUP_TIER=everyday is not installed
+  gate: llama-server is not installed (run '~/github/local-ai-setup/setup-qwen38-pi.sh install')
+  gate: OMP is not installed (run '~/github/local-ai-setup/setup-qwen38-pi.sh agent' or '~/github/local-ai-setup/setup-qwen38-pi.sh omp')
+  gate: runtime kernel/TTM state is ready
+  apply will persist setup.env, transactionally restart the router, update selected-agent routing, and refresh managed launchers.
+warn Plan is unresolved; satisfy the gate(s) above before apply.

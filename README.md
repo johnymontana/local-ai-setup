@@ -1,25 +1,28 @@
+![Local AI for Omarchy. Your machine. Your models. A terminal-first coding workspace for the Framework Desktop.](docs/assets/hero.svg)
+
 # Local AI for Omarchy
 
-Your Framework Desktop. Your models. A terminal away.
+**Your Framework Desktop. Your models. A terminal away.**
 
 A local coding workspace for a freshly installed [Omarchy](https://omarchy.org/)
 system on the **Framework Desktop, Ryzen AI Max+ 395, 128 GiB**. Open a compact
 keyboard-driven menu, keep an everyday model warm, and bring in larger models
 when the work calls for them.
 
-```text
-local-ai
-   └─ OMP coding agent
-        └─ authenticated localhost llama.cpp router
-             └─ one pinned model at a time · Mesa RADV / Vulkan
-```
+[Get running](#make-yourself-at-home) · [Meet the models](#a-small-model-team) ·
+[Workstation guide](docs/omarchy.md) · [Full reference](docs/reference.md)
+
+| At your keyboard | On your machine | Under your control |
+|---|---|---|
+| A compact menu and pinned OMP coding agent | One local model at a time, accelerated by RADV / Vulkan | Plain configuration, reviewed downloads, a systemd user service |
 
 The experience follows Omarchy's terminal, theme, and personal-configuration
 conventions. The Strix Halo memory and inference settings remain the same.
+[See how the runtime fits together.](docs/reference.md#llamacpp-router-and-per-model-presets)
 
 ## Make yourself at home
 
-Open an Omarchy terminal with **Super + Return** and update the system:
+Open an Omarchy terminal with <kbd>Super</kbd> + <kbd>Return</kbd> and update the system:
 
 ```bash
 omarchy update
@@ -46,6 +49,10 @@ and **Local AI Logs** to app search. If it requests a reboot, reboot and run `./
 again. Downloads resume. For repeatable deployments, use a
 [reviewed commit](docs/reference.md#reproducible-downloads-and-installs).
 
+> [!TIP]
+> **Start with Everyday.** The installer sets up the baseline; add Coder and
+> Senior when a task calls for them. Keep this checkout in its permanent home.
+
 After installation, open a new terminal:
 
 ```bash
@@ -60,7 +67,15 @@ launcher. `status` reads state; `smoke` intentionally loads a model and generate
 a response. [The workstation guide](docs/omarchy.md) covers setup, desktop
 integration, updates, backups, and recovery.
 
+![The Local AI menu with grouped Install, Setup, and Inspect actions, shown before installation.](docs/assets/screenshots/local-ai-menu.png)
+
+*The real plain-terminal menu in an isolated pre-install demo, rendered with an
+Everforest-inspired palette. [Capture details and text version](docs/assets/README.md).
+Your live menu follows your selected terminal theme.*
+
 ## A small model team
+
+![Everyday is the default implementation model; Coder and Senior are optional specialists. The default keeps one model resident at a time.](docs/assets/model-team.svg)
 
 | Model | Best place to start | Locked download |
 |---|---|---:|
@@ -99,9 +114,10 @@ load modes, and the single-resident-model limit retain the existing Framework
 Desktop tuning. The optional **115 GiB GTT** setting is for measured needs;
 Senior can use mixed CPU/GPU loading at the stock limit.
 
-These are configuration defaults, not a claim of new hardware benchmark
-results. Run the [on-machine checks](docs/omarchy.md#verify-on-the-workstation)
-after installation and driver updates.
+> [!NOTE]
+> These are configuration defaults. Run the
+> [on-machine checks](docs/omarchy.md#verify-on-the-workstation) after installation
+> and driver updates to verify Vulkan offload and useful desktop headroom.
 
 ## Keep it yours
 
@@ -115,7 +131,12 @@ use the network with your account's permissions; read the
 [security boundaries](docs/reference.md#security-boundaries) before using
 untrusted repositories.
 
-- [Omarchy workstation guide](docs/omarchy.md) — install, daily use, updates, recovery.
-- [Full reference](docs/reference.md) — models, tuning, commands, remote access, security.
-- [Contributor checks](docs/reference.md#contributor-checks) — portable tests and opt-in hardware checks.
-- [Performance implementation record](docs/performance-dx-plan.md) — rationale and acceptance layers.
+| Next stop | What you’ll find |
+|---|---|
+| [Workstation guide](docs/omarchy.md) | The install path, daily workflow, updates, and recovery |
+| [Full reference](docs/reference.md) | Model routing, tuning, commands, remote access, and security |
+| [Contributor checks](docs/reference.md#contributor-checks) | Portable tests and opt-in hardware verification |
+| [Performance implementation record](docs/performance-dx-plan.md) | Design rationale and the layers of evidence |
+
+*Visuals take their cues from [Omarchy’s Everforest theme](https://omarchy.org/manual/themes/).
+This is an independent local-AI setup project.*

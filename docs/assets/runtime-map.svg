@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1016" viewBox="0 0 1120 1016" role="img" aria-labelledby="title desc">
+  <title id="title">The local AI runtime on an Omarchy Framework Desktop</title>
+  <desc id="desc">A trusted project uses the pinned OMP coding agent to send one request at a time to an authenticated localhost llama.cpp router. The default configuration keeps one model tier resident. Everyday is the baseline; Coder and Senior are optional downloads stored on disk. The active model uses Mesa RADV and Vulkan on the Framework Desktop's shared 128 GiB memory, with CPU loading available.</desc>
+  <defs>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #d3c6aa; }
+      .eyebrow { font-size: 18px; letter-spacing: 2px; fill: #a7c080; }
+      .title { font-size: 36px; font-weight: 700; }
+      .body { font-size: 20px; }
+      .small { font-size: 18px; fill: #9da9a0; }
+      .label { font-size: 18px; letter-spacing: 1px; fill: #7fbbb3; }
+      .heading { font-size: 24px; font-weight: 600; }
+      .panel { fill: #2e383c; stroke: #475258; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #a7c080; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#a7c080" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1120" height="1016" fill="#272e33"/>
+  <path d="M40 32H1080" stroke="#475258"/>
+  <text x="40" y="64" class="eyebrow">LOCAL AI / 01 / RUNTIME</text>
+  <text x="40" y="119" class="title">A short path from prompt to silicon.</text>
+  <text x="40" y="155" class="small">Default routing · one resident model · one request in flight</text>
+
+  <rect x="40" y="198" width="284" height="150" class="panel"/>
+  <text x="62" y="230" class="label">01 / YOUR PROJECT</text>
+  <text x="62" y="272" class="heading">A trusted repo</text>
+  <text x="62" y="309" class="small">$ local-ai-agent</text>
+  <path d="M324 273H378" class="arrow"/>
+
+  <rect x="384" y="198" width="284" height="150" class="panel"/>
+  <text x="406" y="230" class="label">02 / CODING AGENT</text>
+  <text x="406" y="272" class="heading">OMP · pinned</text>
+  <text x="406" y="309" class="small">Private installation</text>
+  <path d="M668 273H722" class="arrow"/>
+
+  <rect x="728" y="198" width="352" height="150" class="panel"/>
+  <text x="750" y="230" class="label">03 / LOCAL ROUTER</text>
+  <text x="750" y="272" class="heading">llama.cpp</text>
+  <text x="750" y="309" class="small">127.0.0.1:8080 + API key</text>
+  <path d="M904 348V416" class="arrow"/>
+  <text x="622" y="389" class="small">systemd user service</text>
+
+  <rect x="40" y="422" width="378" height="324" class="panel"/>
+  <text x="64" y="456" class="label">ON DISK / MODEL LIBRARY</text>
+  <text x="64" y="492" class="small">~/llm/models</text>
+  <path d="M64 511H394" stroke="#475258"/>
+  <rect x="64" y="533" width="7" height="24" fill="#a7c080"/>
+  <text x="86" y="553" class="body">Everyday</text>
+  <text x="274" y="553" class="small">baseline</text>
+  <rect x="64" y="581" width="7" height="24" fill="#7fbbb3"/>
+  <text x="86" y="601" class="body">Coder</text>
+  <text x="274" y="601" class="small">optional</text>
+  <rect x="64" y="629" width="7" height="24" fill="#dbbc7f"/>
+  <text x="86" y="649" class="body">Senior</text>
+  <text x="274" y="649" class="small">optional</text>
+  <text x="64" y="712" class="small">Pinned + verified artifacts</text>
+  <path d="M418 584H474" class="arrow"/>
+
+  <rect x="480" y="422" width="600" height="324" class="panel"/>
+  <text x="506" y="456" class="label">IN MEMORY / ONE ACTIVE TIER</text>
+  <rect x="506" y="486" width="548" height="122" fill="#232a2e" stroke="#a7c080" stroke-width="1.5"/>
+  <rect x="506" y="486" width="5" height="122" fill="#a7c080"/>
+  <text x="532" y="524" class="small">EXAMPLE RESIDENT MODEL</text>
+  <text x="532" y="569" font-size="30" fill="#a7c080">Everyday · Qwen 3.8 27B</text>
+  <text x="506" y="653" class="body">MODELS_MAX=1 · sticky routing</text>
+  <text x="506" y="688" class="small">Selecting another tier swaps residency.</text>
+  <text x="506" y="719" class="small">Disk capacity is separate from memory use.</text>
+  <path d="M780 746V794" class="arrow"/>
+
+  <rect x="40" y="800" width="1040" height="161" fill="#232a2e" stroke="#475258" stroke-width="1.5"/>
+  <text x="66" y="833" class="label">FRAMEWORK DESKTOP / SHARED MEMORY</text>
+  <text x="66" y="875" font-size="27" font-weight="600">Ryzen AI Max+ 395 · 128 GiB</text>
+  <text x="66" y="916" class="body">Mesa RADV / Vulkan offload · CPU loading available</text>
+  <text x="66" y="944" class="small">Shared with your desktop. Start with stock GTT; measure before tuning.</text>
+  <path d="M40 985H1080" stroke="#475258"/>
+</svg>

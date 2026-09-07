@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="460" viewBox="0 0 1120 460" role="img" aria-labelledby="title desc">
+  <title id="title">Local AI — your machine, your models</title>
+  <desc id="desc">An Everforest-colored terminal illustration for a local AI workstation on Omarchy Linux and Framework Desktop, with a pixel processor, circuit paths, and command cursor. Designed for the AMD Ryzen AI Max+ 395 with 128 GiB of memory.</desc>
+  <defs>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#475258" stroke-opacity=".2"/>
+    </pattern>
+  </defs>
+  <rect width="1120" height="460" fill="#232a2e"/>
+  <rect width="1120" height="460" fill="url(#grid)"/>
+  <path d="M0 0H1120V460H0Z" fill="none" stroke="#475258" stroke-width="2"/>
+  <path d="M40 48V318" stroke="#a7c080" stroke-width="4"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace">
+    <text x="64" y="66" fill="#a7c080" font-size="17" letter-spacing="2">LOCAL INFERENCE / OMARCHY EDITION</text>
+    <text x="59" y="177" fill="#d3c6aa" font-size="103" font-weight="700" letter-spacing="-5">LOCAL AI</text>
+    <text x="64" y="239" fill="#d3c6aa" font-size="29">Your machine.</text>
+    <text x="64" y="278" fill="#a7c080" font-size="29">Your models.</text>
+    <text x="64" y="319" fill="#9da9a0" font-size="18">A quiet home for powerful tools.</text>
+    <text x="64" y="394" fill="#d3c6aa" font-size="18">Framework Desktop / Omarchy Linux</text>
+    <text x="64" y="423" fill="#9da9a0" font-size="17">Ryzen AI Max+ 395 · 128 GiB</text>
+  </g>
+  <!-- A processor drawn as a terminal: circuit paths lead into a command cursor. -->
+  <g fill="none" stroke="#475258" stroke-width="2">
+    <path d="M708 110H750V154H784M684 208H784M708 306H750V260H784"/>
+    <path d="M952 154H994V110H1036M952 208H1060M952 260H994V306H1036"/>
+  </g>
+  <g fill="none" stroke-width="2">
+    <path d="M708 110H750V154H784" stroke="#a7c080"/>
+    <path d="M952 208H1060" stroke="#7fbbb3"/>
+    <path d="M952 260H994V306H1036" stroke="#dbbc7f"/>
+  </g>
+  <g fill="#232a2e" stroke-width="2">
+    <rect x="698" y="100" width="20" height="20" stroke="#a7c080"/>
+    <rect x="674" y="198" width="20" height="20" stroke="#475258"/>
+    <rect x="698" y="296" width="20" height="20" stroke="#475258"/>
+    <rect x="1026" y="100" width="20" height="20" stroke="#475258"/>
+    <rect x="1050" y="198" width="20" height="20" stroke="#7fbbb3"/>
+    <rect x="1026" y="296" width="20" height="20" stroke="#dbbc7f"/>
+  </g>
+  <g stroke="#9da9a0" stroke-width="6">
+    <path d="M810 96V124M838 96V124M866 96V124M894 96V124M922 96V124"/>
+    <path d="M810 292V320M838 292V320M866 292V320M894 292V320M922 292V320"/>
+  </g>
+  <rect x="784" y="124" width="168" height="168" fill="#2e383c" stroke="#a7c080" stroke-width="2"/>
+  <rect x="796" y="136" width="144" height="144" fill="#272e33" stroke="#475258"/>
+  <path d="M824 175H840V191H856V207H840V223H824V207H840V191H824Z" fill="#a7c080"/>
+  <rect x="869" y="223" width="42" height="12" fill="#dbbc7f"/>
+  <rect x="800" y="140" width="5" height="5" fill="#a7c080"/>
+  <rect x="931" y="271" width="5" height="5" fill="#a7c080"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="17">
+    <text x="786" y="358" fill="#9da9a0">VULKAN / LOCALHOST</text>
+    <rect x="756" y="385" width="293" height="42" fill="#2e383c" stroke="#475258"/>
+    <rect x="772" y="401" width="10" height="10" fill="#a7c080"/>
+    <text x="798" y="412" fill="#d3c6aa">ONE MODEL RESIDENT</text>
+  </g>
+</svg>

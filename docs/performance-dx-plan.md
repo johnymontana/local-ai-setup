@@ -1,5 +1,9 @@
 # Performance and developer-experience implementation plan
 
+[Start here](../README.md) · [Omarchy workstation guide](omarchy.md) · [Reference](reference.md)
+
+**The proving ground** · From a configuration rule to a verified operator workflow.
+
 This is the implementation record for the earlier performance and safety
 review; it is retained as contributor context. The supported workstation is
 now Omarchy Linux on the same Framework Desktop. Start with the
@@ -65,12 +69,18 @@ covered.
 
 ## Test layers
 
+![Verification layers: default pull-request checks cover syntax, ShellCheck, unit, integration, and offline end-to-end behavior with fixtures. Real hardware checks require an explicit opt-in on the Omarchy Framework workstation.](assets/verification-layers.svg)
+
+*The portable suite checks the full operator workflow with controlled fixtures.
+Real model generation and performance recording belong to the opt-in workstation
+layer; a passing offline run does not establish GPU performance.*
+
 | Layer | Runs by default | Responsibility |
 |---|---|---|
 | Unit | Yes | Configuration boundaries, profile matrices, helpers, receipts, HTTP-state truth tables, argument parsing |
 | Integration | Yes | Generated presets/service/OMP files, transaction rollback, downloader mocks, status schema, manager delegation |
 | Offline end to end | Yes | Desired config → plan → apply → status → smoke/perf using hermetic command and HTTP mocks |
-| Hardware end to end | Opt-in | Authenticated real-service status, smoke generation for every installed tier, optional production perf recording, and authenticated post-run restoration |
+| Hardware end to end | Opt-in | Authenticated real-service status, smoke generation for every installed tier, optional production perf recording, and a post-run API authentication check |
 
 The portable entry point is `bash tests/run.sh offline`. Hardware cases require
 `RUN_LOCAL_AI_E2E=1 bash tests/run.sh all` on the target workstation and must

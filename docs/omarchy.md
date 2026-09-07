@@ -2,11 +2,24 @@
 
 [Start here](../README.md) · [Full reference](reference.md)
 
+**The workstation field guide** · Install once. Work from your terminal. Keep
+the desktop yours.
+
 This guide starts after a fresh Omarchy installation on the Framework Desktop
 with a Ryzen AI Max+ 395 and 128 GiB. Use your normal desktop login throughout.
 Keep your selected Omarchy theme, terminal, editor, shell, and update channel.
 
+[Install](#first-install) · [Daily use](#open-the-menu-choose-a-task) ·
+[Your files](#personal-files-and-desktop-integration) ·
+[Updates](#updates-that-belong-to-omarchy) · [Recovery](#backups-and-recovery) ·
+[Verify](#verify-on-the-workstation)
+
 ## First install
+
+![Installation flow from a fresh Omarchy desktop through the native OS update, workstation checks, verified Everyday download, router activation, and first local coding session.](assets/install-flow.svg)
+
+*Start with the OS update. The installer pauses for a required reboot; rerun it
+from the same checkout afterward.*
 
 1. Open your terminal with **Super + Return**. Run `omarchy update` and reboot
    if requested. Clone the repository into a permanent directory, review it,
@@ -17,9 +30,9 @@ Keep your selected Omarchy theme, terminal, editor, shell, and update channel.
    before installing required packages. If a kernel, driver, or TTM change
    needs a reboot, it stops before downloading or loading a model. Reboot,
    return to the checkout, and run `./install.sh` again.
-3. It downloads and verifies the locked Everyday artifacts, installs the pinned
-   agent, and activates the authenticated router. It then adds the local
-   command and desktop launchers. The first model load can take time.
+3. It downloads and verifies the locked Everyday artifacts, activates the
+   authenticated router, installs the pinned agent, and adds the local command
+   and desktop launchers. The first model load can take time.
 4. Open a new terminal, run `local-ai status`, then `local-ai smoke everyday`.
    Enter a trusted project and run `local-ai-agent`.
 
@@ -36,6 +49,11 @@ Use an ordinary directory on a filesystem accessible to your user service.
 Avoid storing weights inside a Git checkout. The service uses the saved
 absolute path and needs the disk mounted before it starts.
 
+> [!TIP]
+> Keep the checkout somewhere permanent. The installed `local-ai` command and
+> desktop entries return to that reviewed source; they are not a separate copy
+> of the application.
+
 ## Open the menu, choose a task
 
 `local-ai` opens the keyboard-driven menu. The menu uses `gum` when available
@@ -45,6 +63,12 @@ terminal colors,
 with Omarchy's current palette supplying accents when available. This keeps
 the experience at home with the selected
 [Omarchy theme](https://omarchy.org/manual/themes/).
+
+![Local AI terminal menu showing the available workstation and model-management actions.](assets/screenshots/local-ai-menu.png)
+
+*The plain menu before installation, captured from an isolated demo and rendered
+in Everforest colors. Your selected terminal theme supplies the live appearance.
+[Capture details and text version](assets/README.md#terminal-screenshots).*
 
 Search for **Local AI** in the app launcher to open the same menu, or **Local
 AI Logs** to follow router logs. Omarchy's configured terminal launches these
@@ -73,12 +97,21 @@ Keep sticky routing until a particular task needs a larger model. Download
 an optional tier, inspect `plan`, run `apply`, and use `smoke` before relying on
 it. See [the model team](reference.md#the-model-team).
 
+> [!TIP]
+> Use `status` for a quiet check and `logs` to watch the router. Use `smoke`
+> when you deliberately want to load a model and verify a real response.
+
 ## Personal files and desktop integration
 
 Omarchy reserves `/usr/share/omarchy` for its package-owned defaults and places
 personal overrides in `~/.config`. This project follows that boundary; its
 configuration and launchers are user-owned. See
 [Omarchy's dotfile guide](https://omarchy.org/manual/dotfiles/).
+
+![Configuration map separating Omarchy-owned system defaults from the user's Local AI settings, models, agent packages, service, and desktop launchers.](assets/config-map.svg)
+
+*A retained checkout provides the tools; your home directory holds the working
+configuration, model data, and desktop integration.*
 
 | Location | Purpose |
 |---|---|
@@ -131,6 +164,8 @@ when you want it to stay off; run `./local-ai apply` to activate it again.
 
 ## Updates that belong to Omarchy
 
+**Update the desktop → reboot if requested → check local AI → resume work.**
+
 Use `omarchy update` or Omarchy's update menu for operating-system updates.
 This preserves its snapshot and migration workflow. Current releases block
 direct `pacman -Syu` and `yay -Syu` upgrades; keep the configured channel and
@@ -174,6 +209,11 @@ schema. This does not upgrade Omarchy's own agent packages.
 
 ## Backups and recovery
 
+> [!IMPORTANT]
+> An OS snapshot and a home-directory backup cover different files. Keep a
+> separate backup of your projects, private settings, credentials, and agent
+> configuration.
+
 Omarchy snapshots restore the root filesystem, while `/home` and `~/.config`
 remain as they are. They do not back up models, API credentials, projects, or
 agent configuration in your home directory. Snapshot boot and restoration
@@ -209,6 +249,8 @@ authentication, service, and memory failures. Optional GTT rollback is covered
 [separately](reference.md#optional-gtt-expansion).
 
 ## Verify on the workstation
+
+**The final check happens on your Framework Desktop.**
 
 Portable tests use mocks. They do not establish Vulkan offload, real model
 quality, desktop launcher behavior, or memory headroom on your machine.

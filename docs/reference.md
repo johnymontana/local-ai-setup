@@ -2,12 +2,29 @@
 
 [Start here](../README.md) · [Omarchy workstation guide](omarchy.md)
 
+**The workbench** · Models, tuning, commands, and recovery in one place.
+
 This reference covers the pinned models, Framework Desktop tuning, commands,
 and recovery procedures. Commands below run from the retained repository with
 `./local-ai`; after `./install.sh`, the installed `local-ai` command also works
 from any directory. The original `setup-qwen38-pi.sh` engine remains supported.
 
+| Find your way | Go to |
+|---|---|
+| Choose a model or a role | [Model team](#the-model-team) · [OMP routing](#omp-role-mapping) |
+| Understand the machine and runtime | [Hardware defaults](#requirements-and-hardware-defaults) · [Router and presets](#llamacpp-router-and-per-model-presets) |
+| Install a reproducible stack | [Locked downloads](#reproducible-downloads-and-installs) · [OMP](#omp-primary-agent) · [pi](#pi-manual-fallback) |
+| Find an action | [Command index](#commands) · [Upgrade an existing install](#upgrading-a-previous-single-model-install) |
+| Diagnose or tune | [Verification and troubleshooting](#verification-and-troubleshooting) · [Optional GTT](#optional-gtt-expansion) |
+| Work from another device | [LAN access](#lan-only-remote-access) · [Persistent sessions](#device-setup-and-persistent-sessions) |
+| Inspect or contribute | [Security boundaries](#security-boundaries) · [Contributor checks](#contributor-checks) · [Sources](#sources) |
+
 ## The model team
+
+![Three local model tiers: Everyday for the implementation loop, Coder for repository and debugging work, and Senior for planning and review, with one model resident at a time.](assets/model-team.svg)
+
+*Everyday is the installed baseline. Add specialists when a task benefits from
+them; the default sticky routing profile keeps one model warm.*
 
 The friendly tier names used by setup commands and launchers are `everyday`,
 `coder`, and `senior`. The API/router IDs are `qwen3.8-27b`, `coder`, and
@@ -74,6 +91,11 @@ run `apply`. OMP promotes a role only when the tier's complete locked artifact
 set is present.
 
 ## Requirements and hardware defaults
+
+> [!NOTE]
+> Target hardware: Framework Desktop, Ryzen AI Max+ 395, 128 GiB,
+> Vulkan/RADV, and one resident model. Start with stock GTT and measure
+> with your normal desktop applications running before changing memory limits.
 
 - Framework Desktop, Ryzen AI Max+ 395, 128 GiB configuration.
 - A fresh Omarchy Linux installation on its supported update channel, with
@@ -202,6 +224,11 @@ git status --short          # expect no unexpected local changes
 
 ## llama.cpp router and per-model presets
 
+![Runtime diagram connecting project agent launchers to the authenticated loopback llama.cpp router, generated per-model presets, and one resident model using the Framework Desktop's Vulkan GPU backend.](assets/runtime-map.svg)
+
+*One local API serves the installed tiers. Each tier keeps its own context,
+load mode, and sampling settings; the router permits one resident model.*
+
 `apply` generates and transactionally activates three local router files (the
 lower-level `service` command remains available for focused repair):
 
@@ -281,6 +308,17 @@ service:
 ./local-ai plan
 ./local-ai apply
 ```
+
+![The Local AI plan command showing desired settings and unmet model and runtime installation gates in a pre-install demo.](assets/screenshots/local-ai-plan.png)
+
+*A pre-install `plan`, captured from an isolated demo. Missing tiers and
+dependencies appear as gates before activation.
+[Capture details and text version](assets/README.md#terminal-screenshots).*
+
+> [!TIP]
+> Make changes with `save-config`, inspect them with `plan`, then activate with
+> `apply`. The plan is read-only; activation verifies the locked artifacts and
+> updates the router and agent routing together.
 
 Configuration precedence is explicit environment variable, then
 `~/.config/local-ai/setup.env`, then the built-in default. The saved file is
@@ -416,6 +454,10 @@ Switch back and regenerate the selected launcher with:
 
 ## Commands
 
+**Review and activate:** `status` → `plan` → `apply` → `smoke everyday`.
+Open `./local-ai` when you prefer a menu; use the commands below for direct
+terminal control.
+
 | Command | Effect |
 |---|---|
 | `./install.sh` | Install the everyday baseline, then add the local command and desktop entries |
@@ -514,7 +556,18 @@ only after its private installed version matches the supported schema.
 
 ## Verification and troubleshooting
 
-Run:
+Pick the check that matches the question:
+
+| Question | Check |
+|---|---|
+| What is installed, partial, or active? | `model-catalog`, `status` |
+| Do the model files match the lock? | `model-verify` |
+| Can this tier generate through the authenticated API? | `smoke <tier>` |
+| How fast are the raw model kernels? | `bench <tier>` with the router stopped |
+| How does the deployed preset load and generate? | `perf <tier>` during a deliberate measurement window |
+| What is the router doing now? | `logs` or the user journal |
+
+Available diagnostic commands:
 
 ```bash
 ./local-ai model-catalog
@@ -575,6 +628,11 @@ Common failures:
   use with `vulkaninfo --summary`, then reboot after a first driver install.
 
 ## Optional GTT expansion
+
+> [!IMPORTANT]
+> This is an optional, measured tuning step. The Everyday baseline does not
+> require it, and a larger GPU-addressable limit still needs room for the OS,
+> desktop, KV cache, and runtime allocations.
 
 Do not run this during the baseline install. If the senior model or Q8 plus a
 large context cannot fully offload after measurement:
