@@ -15,7 +15,9 @@ cleanup() {
 trap cleanup EXIT
 
 mock_bin="$TEST_TMP/bin"
-mkdir -p "$mock_bin"
+runtime_tmp="$TEST_TMP/runtime"
+mkdir -p "$mock_bin" "$runtime_tmp"
+chmod 700 "$runtime_tmp"
 cat > "$mock_bin/systemctl" <<'EOF'
 #!/usr/bin/env bash
 if [[ "$*" == '--user is-active llama-server.service' ]]; then
@@ -35,7 +37,7 @@ EOF
 chmod 755 "$mock_bin/systemctl" "$mock_bin/curl"
 
 engine() {
-  env HOME="$TEST_TMP/home" PATH="$mock_bin:$PATH" \
+  env HOME="$TEST_TMP/home" PATH="$mock_bin:$PATH" XDG_RUNTIME_DIR="$runtime_tmp" \
     MODEL_LOCK="$ROOT/models.lock" LOCAL_AI_CONFIG_DIR="$TEST_TMP/config" \
     MODELS_DIR="$TEST_TMP/models" LOCAL_BIN_DIR="$TEST_TMP/local-bin" \
     OMP_AGENT_DIR="$TEST_TMP/omp" UNIT_DIR="$TEST_TMP/units" \
@@ -112,6 +114,8 @@ expect_failure "help rejects extra arguments" engine help extra
 expect_failure "all rejects extra arguments" engine all extra
 expect_failure "check rejects extra arguments" engine check extra
 expect_failure "install rejects extra arguments" engine install extra
+expect_failure "desktop rejects extra arguments" engine desktop extra
+expect_failure "desktop-remove rejects extra arguments" engine desktop-remove extra
 expect_failure "model rejects excess arguments" engine model everyday --yes extra
 expect_failure "model-catalog rejects extra arguments" engine model-catalog extra
 expect_failure "model-verify rejects extra arguments" engine model-verify everyday extra

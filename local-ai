@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# One front door for the Omarchy local coding stack.
+set -euo pipefail
+LOCAL_AI_REPO="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+case "${1:-menu}" in
+  menu)
+    (( $# <= 1 )) || { echo 'Usage: local-ai menu' >&2; exit 2; }
+    exec bash "$LOCAL_AI_REPO/manage.sh"
+    ;;
+  logs)
+    (( $# == 1 )) || { echo 'Usage: local-ai logs' >&2; exit 2; }
+    exec journalctl --user -u llama-server.service -f
+    ;;
+  --desktop)
+    [[ $# == 2 && ( "$2" == menu || "$2" == logs ) ]] || {
+      echo 'Usage: local-ai --desktop menu|logs' >&2; exit 2;
+    }
+    if command -v omarchy-launch-tui >/dev/null 2>&1; then
+      exec omarchy-launch-tui bash "$LOCAL_AI_REPO/local-ai" "$2"
+    fi
+    command -v xdg-terminal-exec >/dev/null 2>&1 || {
+      echo 'No Omarchy terminal launcher found; run local-ai in a terminal.' >&2; exit 1;
+    }
+    exec xdg-terminal-exec -- bash "$LOCAL_AI_REPO/local-ai" "$2"
+    ;;
+  *) exec bash "$LOCAL_AI_REPO/setup-qwen38-pi.sh" "$@" ;;
+esac

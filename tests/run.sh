@@ -26,23 +26,28 @@ run_syntax() {
     scripts+=("$script")
   done < <(find "$REPO_ROOT" \
     -path "$REPO_ROOT/.git" -prune -o \
-    -type f -name '*.sh' -print0 | sort -z)
+    -type f \( -name '*.sh' -o -name 'local-ai' \) -print0 | sort -z)
 
   if ((${#scripts[@]} == 0)); then
     printf 'No shell scripts found.\n' >&2
     return 1
   fi
 
-  bash -n "${scripts[@]}"
+  for script in "${scripts[@]}"; do
+    bash -n "$script"
+  done
   printf 'Shell syntax: %d files passed.\n' "${#scripts[@]}"
 }
 
-run_offline() {
+run_offline() (
+  # Keep the fixture environment out of the opt-in hardware suite in `all`.
+  # shellcheck source=lib/environment.sh
+  source "$TESTS_DIR/lib/environment.sh"
   run_syntax
   run_group unit
   run_group integration
   run_group e2e
-}
+)
 
 run_group() {
   local group="$1" test_file found=0

@@ -71,11 +71,15 @@ identity_after="$(local_ai_file_identity "$artifact")"
 test_pass "verification identity changes with artifact metadata"
 
 printf 'AAAA' > "$artifact"
+# Use two explicit sub-second mtimes. Fast tmpfs writes can share a kernel
+# clock tick, even when stat exposes nanoseconds; that is not a parser failure.
+python3 -c 'import os, sys; os.utime(sys.argv[1], ns=(1700000000100000000, 1700000000100000000))' "$artifact"
 identity_before="$(local_ai_file_identity "$artifact")"
 printf 'BBBB' > "$artifact"
+python3 -c 'import os, sys; os.utime(sys.argv[1], ns=(1700000000200000000, 1700000000200000000))' "$artifact"
 identity_after="$(local_ai_file_identity "$artifact")"
 [[ "$identity_before" != "$identity_after" ]] || \
-  test_fail "file identity missed an immediate same-size overwrite"
+  test_fail "file identity missed a same-size overwrite with a sub-second mtime change"
 test_pass "verification identity includes sub-second change timestamps"
 
 mock_bin="$TEST_TMP/bin"

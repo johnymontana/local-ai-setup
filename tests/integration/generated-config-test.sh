@@ -8,6 +8,8 @@ MANAGER="$ROOT/manage.sh"
 REAL_LOCK="$ROOT/models.lock"
 TEST_TMP="$(mktemp -d "${TMPDIR:-/tmp}/local-ai-setup-test.XXXXXX")"
 LOCK="$TEST_TMP/models.lock"
+# shellcheck source=../lib/environment.sh
+source "$ROOT/tests/lib/environment.sh"
 
 cleanup() {
   [[ "$TEST_TMP" == */local-ai-setup-test.* ]] || return 1
@@ -244,7 +246,7 @@ unsafe_runtime="$TEST_TMP/shared-runtime"
 private_runtime_config="$TEST_TMP/private-runtime-config"
 mkdir -p "$unsafe_runtime"
 chmod 777 "$unsafe_runtime"
-resolved_runtime="$(TMPDIR="$unsafe_runtime" MODEL_LOCK="$LOCK" \
+resolved_runtime="$(XDG_RUNTIME_DIR='' TMPDIR="$unsafe_runtime" MODEL_LOCK="$LOCK" \
   LOCAL_AI_CONFIG_DIR="$private_runtime_config" MODELS_DIR="$TEST_TMP/runtime-models" \
   LOCAL_AI_SETUP_LIB_ONLY=1 bash -c 'source "$1"; operation_runtime_root' _ "$ENGINE")"
 [[ "$resolved_runtime" == "$private_runtime_config/runtime" ]] || \

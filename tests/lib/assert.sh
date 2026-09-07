@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# shellcheck source=environment.sh
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/environment.sh"
+
 test_fail() {
   printf 'FAIL: %s\n' "$*" >&2
   exit 1

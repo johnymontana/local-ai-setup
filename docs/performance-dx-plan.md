@@ -1,6 +1,11 @@
 # Performance and developer-experience implementation plan
 
-This plan turns the adversarial review into explicit behavior and acceptance
+This is the implementation record for the earlier performance and safety
+review; it is retained as contributor context. The supported workstation is
+now Omarchy Linux on the same Framework Desktop. Start with the
+[Omarchy guide](omarchy.md) for current installation and operations.
+
+This plan turns that review into explicit behavior and acceptance
 criteria. It is intentionally test-oriented: a change is complete only when
 its unit policy, generated integration surface, and operator workflow are all
 covered.
@@ -18,7 +23,7 @@ covered.
 | 7 | Eager everyday loading plus HTTP 503 can report a false-ready service | Add `STARTUP_TIER=everyday|coder|senior|none`; distinguish router-up from model-ready; wait for the selected model or roll back | Readiness tests cover no-startup, loaded, loading, timeout, crash, and transactional rollback |
 | 8 | Unbounded context and MTP values can cause avoidable OOMs | Cap all contexts at 262,144 and MTP draft depth at 1–8 (default four); validate before persistence or mutation | Unit boundary tests and non-mutation integration tests cover every limit |
 | 9 | Serial split downloads waste available bandwidth | Add bounded `DOWNLOAD_JOBS=1..4` (default two), aggregate disk preflight, resumable verified `.part` handling, and failure propagation | Mock download tests cover the concurrency bound, resume, complete promotion, corrupt/oversized/symlink rejection, and partial-state reporting |
-| 10 | No-argument execution and permissive arity make expensive actions easy to trigger accidentally | Make no arguments show help; require explicit `all`; validate every command's options/arity; separate read-only `plan`/`status` from mutating `apply`/`smoke` | Command-contract tests exercise help, missing/extra arguments, exit codes, and filesystem/service non-mutation |
+| 10 | No-argument execution and permissive arity make expensive actions easy to trigger accidentally | Make the setup engine show help without arguments; require explicit `all`; validate every command's options/arity; separate read-only `plan`/`status` from mutating `apply`/`smoke` | Command-contract tests exercise help, missing/extra arguments, exit codes, and filesystem/service non-mutation |
 
 ## Secondary improvements
 
@@ -55,7 +60,8 @@ covered.
   artifact-set identity in comparisons.
 - Run pinned, least-privilege CI with syntax, ShellCheck, unit, integration,
   and offline end-to-end tests. Keep real Strix Halo/model tests opt-in because
-  they require Arch, systemd user services, Vulkan, and hundreds of GiB.
+  they require the Omarchy workstation, systemd user services, Vulkan, and
+  substantial model storage.
 
 ## Test layers
 

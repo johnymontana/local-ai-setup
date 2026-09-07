@@ -4,6 +4,8 @@ set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 ENGINE="$ROOT/setup-qwen38-pi.sh"
 TEST_TMP="$(mktemp -d "${TMPDIR:-/tmp}/local-ai-system-transaction-test.XXXXXX")"
+# shellcheck source=../lib/environment.sh
+source "$ROOT/tests/lib/environment.sh"
 
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 pass() { printf 'ok - %s\n' "$*"; }
@@ -14,6 +16,30 @@ cleanup() {
   rm -rf -- "$TEST_TMP"
 }
 trap cleanup EXIT
+
+platform_bin="$TEST_TMP/platform-bin"
+mkdir -p "$platform_bin"
+printf 'ID=arch\nPRETTY_NAME="Arch Linux"\n' > "$TEST_TMP/os-release"
+printf 'MemTotal:       131766528 kB\n' > "$TEST_TMP/meminfo"
+cat > "$platform_bin/omarchy" <<'EOF'
+#!/usr/bin/env bash
+# Platform detection must never launch the system updater.
+exit 88
+EOF
+cat > "$platform_bin/uname" <<'EOF'
+#!/usr/bin/env bash
+case "${1:-}" in
+  -s) printf 'Linux\n' ;;
+  -m) printf 'x86_64\n' ;;
+  -r) printf '6.18.4-omarchy-fixture\n' ;;
+  *) exec /usr/bin/uname "$@" ;;
+esac
+EOF
+cat > "$platform_bin/getconf" <<'EOF'
+#!/usr/bin/env bash
+if [[ "${1:-}" == PAGESIZE ]]; then printf '4096\n'; else exec /usr/bin/getconf "$@"; fi
+EOF
+chmod 755 "$platform_bin/omarchy" "$platform_bin/uname" "$platform_bin/getconf"
 
 ssh_bin="$TEST_TMP/ssh-bin"
 ssh_tmp="$TEST_TMP/ssh-tmp"
@@ -140,7 +166,8 @@ chmod 755 "$ssh_bin/sudo" "$ssh_bin/systemctl" "$ssh_bin/sshd" "$ssh_bin/ssh-key
   "$ssh_bin/pacman" "$ssh_bin/getent" "$ssh_bin/rm"
 
 ssh_env=(
-  HOME="$ssh_home" PATH="$ssh_bin:$PATH" TMPDIR="$ssh_tmp"
+  HOME="$ssh_home" PATH="$platform_bin:$ssh_bin:$PATH" TMPDIR="$ssh_tmp"
+  LOCAL_AI_OS_RELEASE="$TEST_TMP/os-release"
   MODEL_LOCK="$ROOT/models.lock" LOCAL_AI_CONFIG_DIR="$TEST_TMP/ssh-config"
   SSHD_DROPIN="$ssh_dropin" SSH_SYSTEMCTL_LOG="$ssh_log"
   SSH_KEYGEN_LOG="$ssh_keygen_log"
@@ -296,29 +323,28 @@ cat > "$kernel_bin/pacman" <<'EOF'
 #!/usr/bin/env bash
 exit 0
 EOF
-cat > "$kernel_bin/amd-ttm" <<'EOF'
+cat > "$kernel_bin/limine-mkinitcpio" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
-printf 'amd-ttm %s\n' "$*" >> "${KERNEL_LOG:?}"
-printf 'options ttm pages_limit=30146560\n' > "${KERNEL_ROOT:?}/etc/modprobe.d/ttm.conf"
-if [[ "${KERNEL_SIGNAL_IN_AMD_TTM:-0}" == 1 && ! -e "${KERNEL_SIGNAL_MARKER:?}" ]]; then
+printf 'limine-mkinitcpio\n' >> "${KERNEL_LOG:?}"
+if [[ "${KERNEL_SIGNAL_IN_REBUILD:-0}" == 1 && ! -e "${KERNEL_SIGNAL_MARKER:?}" ]]; then
   : > "$KERNEL_SIGNAL_MARKER"
   kill -TERM "$PPID"
   /bin/sleep 0.05
   exit 143
 fi
+if [[ "${KERNEL_FAIL_FIRST_REBUILD:-0}" == 1 && ! -e "${KERNEL_SIGNAL_MARKER:?}" ]]; then
+  : > "$KERNEL_SIGNAL_MARKER"
+  printf 'fixture UKI rebuild failure\n' >&2
+  exit 77
+fi
 exit 0
 EOF
-cat > "$kernel_bin/mkinitcpio" <<'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-printf 'mkinitcpio %s\n' "$*" >> "${KERNEL_LOG:?}"
-exit 0
-EOF
-chmod 755 "$kernel_bin/sudo" "$kernel_bin/pacman" "$kernel_bin/amd-ttm" "$kernel_bin/mkinitcpio"
+chmod 755 "$kernel_bin/sudo" "$kernel_bin/pacman" "$kernel_bin/limine-mkinitcpio"
 
 kernel_env=(
-  HOME="$TEST_TMP/kernel-home" PATH="$kernel_bin:$PATH"
+  HOME="$TEST_TMP/kernel-home" PATH="$platform_bin:$kernel_bin:$PATH"
+  LOCAL_AI_OS_RELEASE="$TEST_TMP/os-release" LOCAL_AI_MEMINFO="$TEST_TMP/meminfo"
   MODEL_LOCK="$ROOT/models.lock" LOCAL_AI_CONFIG_DIR="$TEST_TMP/kernel-config"
   KERNEL_ROOT="$kernel_root" KERNEL_LOG="$kernel_log"
   KERNEL_SIGNAL_MARKER="$kernel_signal_marker" LOCAL_AI_SETUP_LIB_ONLY=1
@@ -339,20 +365,20 @@ cp "$kernel_legacy_prior" "$kernel_legacy"
 rm -f "$kernel_signal_marker"
 : > "$kernel_log"
 set +e
-env "${kernel_env[@]}" KERNEL_SIGNAL_IN_AMD_TTM=1 \
+env "${kernel_env[@]}" KERNEL_SIGNAL_IN_REBUILD=1 \
   bash -c 'source "$1"; cmd_kernel_tweaks' _ "$ENGINE" <<< 'y' \
   >"$TEST_TMP/kernel-signal.out" 2>&1
 kernel_rc=$?
 set -e
-[[ "$kernel_rc" == 130 ]] || fail "signaled kernel tweak returned $kernel_rc instead of 130"
+[[ "$kernel_rc" == 130 ]] || { cat "$TEST_TMP/kernel-signal.out" >&2; fail "signaled kernel tweak returned $kernel_rc instead of 130"; }
 cmp -s "$kernel_target_prior" "$kernel_target" || fail "kernel TERM rollback did not restore ttm.conf"
 cmp -s "$kernel_legacy_prior" "$kernel_legacy" || fail "kernel TERM rollback did not restore the legacy policy"
 [[ "$(file_mode "$kernel_target")" == "$(file_mode "$kernel_target_prior")" ]] || \
   fail "kernel TERM rollback did not restore the ttm.conf mode"
 [[ "$(file_mode "$kernel_legacy")" == "$(file_mode "$kernel_legacy_prior")" ]] || \
   fail "kernel TERM rollback did not restore the legacy policy mode"
-grep -q '^mkinitcpio -P$' "$kernel_log" || fail "kernel TERM rollback did not rebuild initramfs"
-pass "kernel TERM rollback restores both policies and initramfs"
+[[ "$(grep -c '^limine-mkinitcpio$' "$kernel_log")" == 2 ]] || fail "kernel TERM rollback did not rebuild Omarchy UKIs"
+pass "kernel TERM rollback restores both policies and Omarchy UKIs"
 
 rm -f "$kernel_target"
 cp "$kernel_legacy_prior" "$kernel_legacy"
@@ -366,7 +392,7 @@ set -e
 [[ "$kernel_rc" == 72 ]] || fail "unexpected kernel transaction exit returned $kernel_rc instead of 72"
 [[ ! -e "$kernel_target" ]] || fail "kernel EXIT rollback retained a target that was originally absent"
 cmp -s "$kernel_legacy_prior" "$kernel_legacy" || fail "kernel EXIT rollback did not restore the legacy policy"
-grep -q '^mkinitcpio -P$' "$kernel_log" || fail "kernel EXIT rollback did not rebuild initramfs"
+grep -q '^limine-mkinitcpio$' "$kernel_log" || fail "kernel EXIT rollback did not rebuild Omarchy UKIs"
 pass "kernel EXIT rollback restores an absent target and legacy policy"
 
 rm -f "$kernel_target" "$kernel_legacy"
@@ -382,7 +408,32 @@ set -e
 [[ "$kernel_rc" != 0 ]] || fail "kernel tweak accepted a symlinked ttm.conf"
 [[ -L "$kernel_target" ]] || fail "kernel tweak replaced a symlinked ttm.conf"
 grep -qx 'central-policy' "$kernel_central" || fail "kernel tweak modified the symlink target"
-if grep -q '^amd-ttm ' "$kernel_log"; then fail "kernel tweak invoked amd-ttm after rejecting a symlink"; fi
+if [[ -s "$kernel_log" ]]; then fail "kernel tweak rebuilt boot images after rejecting a symlink"; fi
 pass "kernel transaction preserves symlinked policy ownership"
+
+rm -f "$kernel_target" "$kernel_central" "$kernel_signal_marker"
+cp "$kernel_target_prior" "$kernel_target"
+cp "$kernel_legacy_prior" "$kernel_legacy"
+: > "$kernel_log"
+if env "${kernel_env[@]}" KERNEL_FAIL_FIRST_REBUILD=1 \
+  bash -c 'source "$1"; cmd_kernel_tweaks' _ "$ENGINE" <<< 'y' \
+  >"$TEST_TMP/kernel-rebuild-failure.out" 2>&1; then
+  fail "kernel tweak accepted a failed Limine rebuild"
+fi
+cmp -s "$kernel_target_prior" "$kernel_target" || fail "failed Limine rebuild did not restore ttm.conf"
+cmp -s "$kernel_legacy_prior" "$kernel_legacy" || fail "failed Limine rebuild did not restore legacy policy"
+[[ "$(grep -c '^limine-mkinitcpio$' "$kernel_log")" == 2 ]] || fail "failed rebuild was not followed by a rollback rebuild"
+grep -q 'fixture UKI rebuild failure' "$TEST_TMP/kernel-rebuild-failure.out" || fail "Limine failure output was hidden"
+pass "Limine failure restores both policies, rebuilds prior UKIs, and preserves failure output"
+
+rm -f "$kernel_target" "$kernel_legacy" "$kernel_signal_marker"
+: > "$kernel_log"
+env "${kernel_env[@]}" bash -c 'source "$1"; cmd_kernel_tweaks' _ "$ENGINE" <<< 'y' \
+  >"$TEST_TMP/kernel-success.out" 2>&1 || { cat "$TEST_TMP/kernel-success.out" >&2; fail "Omarchy kernel tweak failed"; }
+grep -qx 'options ttm pages_limit=30146560' "$kernel_target" || fail "Omarchy tweak changed the 115 GiB memory optimization"
+[[ "$(grep -c '^limine-mkinitcpio$' "$kernel_log")" == 1 ]] || fail "successful tweak did not rebuild Limine exactly once"
+[[ "$(file_mode "$kernel_target")" == 644 ]] || fail "generated TTM policy is not readable by initramfs tools"
+grep -q 'System > Reboot' "$TEST_TMP/kernel-success.out" || fail "kernel tweak did not provide Omarchy reboot guidance"
+pass "Omarchy tweak preserves 115 GiB tuning and rebuilds Limine before manual reboot"
 
 printf 'System transaction tests passed.\n'
