@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/architecture/runtime-stack.md": {
+      "pageVersion": "sha256:b606c87a16e89088be8d67a99a1cb4e59a90892c51c629900e96c41fa893d7be",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/concepts/configuration-artifacts-and-safety.md": {
+      "pageVersion": "sha256:a1aa7b3e3c6c30f9595309a07dbc5d7aeb9fc5ef581f23acc23960fe95d72083",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/integrations/coding-agents-and-role-routing.md": {
+      "pageVersion": "sha256:cd33751d5810f8bf13ba119ac576a87ecf9dea9cd71e8787796062aba41dc6b1",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/operations/router-health-and-performance.md": {
+      "pageVersion": "sha256:2e14004e0e71c4fa04fcbef1239763bd1de1ed4a690f899962d919a91cb40bbf",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/operations/system-and-lan-security.md": {
+      "pageVersion": "sha256:0fba693e85bc72ea951e3dd38a5ecaae0eab57c4ae9e259096aa9b310e14ca9a",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/quickstart.md": {
+      "pageVersion": "sha256:455127a5b70f766a61aab97b16f8610e6f172df8a6d6af9257d6b6c910e6e2d1",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/testing/verification-strategy.md": {
+      "pageVersion": "sha256:36b4c573cb7834f7ad13667aa1e7b6553e047f8375e5c73607ae42658325dc85",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    },
+    "/openwiki/workflows/model-and-desired-state-lifecycle.md": {
+      "pageVersion": "sha256:f6309b05d5f8fa173cbc99270db5a493d750bef55cd3214088f70b2f12cab3e7",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "5347ffd7-ceb9-4c54-a424-580100cf8f58",
+      "gitHead": "8d1ce175b2d6faa850c77f6c7cb14053e5254152",
+      "sourceFingerprint": "sha256:e94c89af0606e68069d0158ed08f42f0777c408daf6cb523a1c7efd88d4c0d8c"
+    }
+  }
+}

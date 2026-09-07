@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:455127a5b70f766a61aab97b16f8610e6f172df8a6d6af9257d6b6c910e6e2d1",
+  "claims": [
+    {
+      "id": "claim_04ad9a32a8ab421f87c1bfc20da987a5",
+      "statement": "`manage.sh` is an interactive control panel that delegates actions to `setup-qwen38-pi.sh`, while the setup script exposes the scriptable lifecycle command surface.",
+      "evidence": [
+        {
+          "resource": "repo://manage.sh#L1-L21",
+          "version": "repo-lines-v1:sha256:02c4125cac9d9aaec9a707afa5907d21b747baefb154c7928ff3c25828c4061b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5Yjg1ZTIyMDEwZTYxNjJmYjBmNGQ0MDc5ODVhMmRmM2RlNDVkM2M5NDJkMTZjODYwYzZiY2ExNDNhM2UxNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0Mzg0NDNiYjNmMzJhZjVjNTNlNTFlODBjMjE2YjY1NTc0MTgxMjk2NDJjZTRiZDFkMjc1OTYwMGIzMGQ0MzEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4564-L4580",
+          "version": "repo-lines-v1:sha256:760647e453a247b96915c326c0faf6f0a185ee5e683bba67051ec2fb0c383f54:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4OTQ1NTc4NzAxYjZlNGM2ZmUwZTVhNDdlYTgxZTAyMWUwZWQyMDZlOTQyMTU2YzljZGIyZTU0ODY0YWUwYzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZhODQ5MmMxNDQ5ZTQ0ZmNiOTdjNzRhMjZkZGZiN2RkYjQxM2QzMzA3Mzg5ZWIxODdjODMxNTlmMGZlMGMzYzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkMzhlYWIwNWNjNTE4YTVlMmQ0OWU5YTA2YWViZmE2ZmU0ZDUwNGQ4ZjI4ZGIxMDgyYTMyOTk1MWZjODIyMjgifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4805-L4839",
+          "version": "repo-lines-v1:sha256:bb0ef094b05bebd8fdd1c8ac0b9befb37413c8da72ec770af70cb6eb1b663f8a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYTJmMTNmYjk2Zjk5ODk5MTg4MjRiYzhiMzllZGE2Y2EyNjhiODJiNDZlOWM5NzM4MTQ5ZTA5MDgzM2E3ZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0YTJiZWNmZjhhZmIzNGRiMjYwZGFiYzk2OTE1ZmZlY2ZkZTg0ODkyOTU0MWM2MTkzZGU2ZDE2NGMyMWU4ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZmNjUxOTU5NWUzYjdmYTgyYzk2YmI0MTEwM2RjMGYyMzhmYzI2YjBkNDAyYmZlNzI5NTE0NzYwMDQ1ZjU4NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_de8c0fa7cbe14ceea049eeb268c7761c",
+      "statement": "`plan` is non-mutating and reports unresolved gates such as absent complete tiers, unavailable startup tiers, custom generated state, incompatible runtime tools, and pending reboot; `apply` reruns that preflight before making changes.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2526-L2614",
+          "version": "repo-lines-v1:sha256:d0c990c01d7a0bbbc304ac5b1a6d56b65de68ef7fac770f8961b5df3f1ab027a:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4OTQ1NzM0ZmMzYmZlMWZlYmVmNWRlNTZhNjg3ZDhjNTczNmY3NDlhNzJkNGJiNGVhNzM0NGQ4NGJkMzk3NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0OGI2N2M5OTMwMDAxM2Q2YjI4MzY0NTk0ODQyMmFjZTVmZTNhOTliZjI2MTk4ZGRkNmU2MzhjZDQ2YmRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMzJkNGFhNTlmNmE4OTllZTdkNGE1MzQ0Njg1ZGMxMmM4NzVmMTNmYzc5ZjNkMjMyNTAyZTY4ZGM2YTI3MWYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2687-L2710",
+          "version": "repo-lines-v1:sha256:1b91cb5e932172920807a6bf54317fb440ff0c38ffb4b49e73d9e5635de49ee4:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFmOTI4Zjc0MzA1NTVjNjRlZTVhMmMxOWZkMjhhMzY3MGMyZDQzOWUyNjkwMmNhMmM1MDg1MDIxMTA1NGM3OGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhkNDQxMGRkNDRiZTA0MzdlMTJjOThlOGY3MjhjOWU3NDYxZWY1NDRhODc4NTNlMTJkOTJlZTRkYjlkOWVkNWIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b00ed493224d492fb9da56a8516f0814",
+      "statement": "`status [--json]` is an observational control-plane check: it probes the model catalog with `autoload=0`, classifies authentication by comparing keyless and keyed protected-chat responses, and reports service, model, configuration, and reboot state.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3067-L3129",
+          "version": "repo-lines-v1:sha256:9f812753723d6365bfd551dbb665946e39c7f224b27ee319386cce96dbdeb181:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmQ2ZGUxZTE0ZTYyZjI3YzI3OGIxOWMzOTZjMmRkOGNiNmEwYzIyYTA3MjdhYTc2YTc4N2FkZWI2OGIzNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMDkwODVhYTEwYTNlMzEyNzg2YzYzM2Y4ZWU5ZThjNjU2ZDdjODUwNTYyNzI1NjQyOWY0YzJjZWNmNzAyYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MTU5YTk0NzBkODE2NzFiMmRkZWU4ZDQyNjdlMDYzYzg5N2VlZDU3NjJkZGRmYWIzN2E3M2Q1Y2U1ZTE0ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MTk3MGU3ZDczYWRiNzg3MzBmYmYwNjM2YmMzZDk4N2VhMDRjYzQ3MzEyMzljMWJmNmU5MjJlNjVhZjQ4ZTEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3132-L3229",
+          "version": "repo-lines-v1:sha256:c1964a7b92429cf46c74fbad82bae05b8ac445d491894920a47070f2ac78a683:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmVkMDRhZWU5NWI3ZjY4NWNlMzJhMGMwNGYyODIxZWNkYzc0ZWU1YTFiYzcyNDgwYTk3OGE4ZDhlYzljODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZhM2Q4ZmZjMzE0ODhmZWFjMTcyMzE2YWRiN2ZhYWYwNGEyMGQ0NTY5OTQzZjZkNWFiYjg1ZjE2Y2FhN2FhNGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc3NTJjM2UwNDZjNDA1YjIzYjkzNjAwNDBhYzQyY2NhYzFiZjYwYTg1MzQ2NjI2NTE5NzkyODk2OTFkOGRmNDAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6507ff0f340f439d9e99c21d3cbb1de9",
+      "statement": "A normal `apply` is a coordinated transaction: it snapshots desired configuration, OMP routing, managed launchers, and service files; persists configuration and regenerates routing/launchers before service activation; and restores prior files/service state on failure or interruption.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2642-L2684",
+          "version": "repo-lines-v1:sha256:9d8cd2a507e3a536acc22a8f310c6aaea9569eb7b90850b633417b6fcd8135ee:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwOTQ0NGNjODAwMDlmZDA0Y2RmMTVlZDViOTg4MjM5N2M2M2QwMmEyMjgzNTFlNzBkNjRhNTYyZGIzZTg2M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzMGQ3YTU0MzdhNzVjYTFkZDI2ZTZlYWVmOGU2MjY1NDYxZDEyYzI3NGQ5YjBjMDY2ZDYwYTg1ZDVkOGM3YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ1OTRhZmM0ZDJiYjA2YjUwN2ExNjViM2VjOGUwOTgxOTQ0Y2QyYjZjZmJkZWI0NWNlZTRmMjJkNmFlM2E5NDUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2687-L2730",
+          "version": "repo-lines-v1:sha256:2f989a0ee62d812b53cf4a1777f85b67c9344bc8f59b94e32e214c3287af5a94:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1NWYxMGVlMDBjYjc3YWJhMTg5YmE4ODFiYTAzNTJmNWQ2NjU0OWI3OWVjMWNhNDA2N2E3MmIyZTk1YmM4MzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE2YmQwNWE3ZTRjMzZmYjU3NjZlNzQ4ZmI0MzdjMjY1MWQ1OGJkY2VmNmM4OGY1YWRlOTM0OWM1ZGNhYWFkODUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_57106511e8d14a9fb65a7c291b066a97",
+      "statement": "Operational commands have distinct live effects: `smoke` requires a complete tier and checks authentication before chat generation, while `bench --manage-service` stops the managed router for raw benchmarking and restores its prior service state.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2992-L3020",
+          "version": "repo-lines-v1:sha256:e36f45683d40dca78541dad0ec5e48a7fa7ff8348ad6aea0d964a2a3e2ab666a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhNDYzZDE1NjQ1MzRlMzBhNWJjYjg0ZDE0ZjQ0YWE4ZWU5Mzc4OGFmMTg3MGY4OGJkNjVlNWU2MjJlZjVjODIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2MjhiNGExMjNiZGJhMzZkN2ZiMzkyYjE2ZGIzZWY1MDQwN2FiNjE0MTI3MDk5Mjk0ZmY2NzI0YjQwOWJlYjQifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3232-L3270",
+          "version": "repo-lines-v1:sha256:2a4426eb469f906147d88adc21e7edafe2d44f59833efdf540e1210ba56af8d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2YmVkNjFjZTEzYzIwYzk0N2ZmMjE0ZGM0YjA2YjEzNmMzMDU4ZDc0NWZmYzg5N2RiYjY0ZGE2ODFhNWY4NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2NDNmNTYyMzFjMDcwZjRjYTliMWJjM2QyNGViYTVjNDcwY2FmN2FkZDZhNGVjYThjYjIzNDBkMjFmYjcyYmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzNzBlMTcyMWFlMDRkODEzMjM1YmRhODc2NGI4ZDhlZTNkNDExMjk5OWRmZjkyMjE0ZjQ0MGM2MDA5ZDAyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1MGNjOWMwNDczNWQ5NGQ0NWExMzI0NGY0OGZmMzg1Mjc0M2QxYzVhMzliODE1ZTBjYWI5YzAwYjFlNWE1M2MifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_af5d395eff944a18b86d3b5295a11118",
+      "statement": "Mutating lifecycle commands are dispatched through one per-user operation lock that protects shared configuration, generated state, model artifacts, and system-access operations; a competing live lock causes the command to fail rather than race.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4646-L4688",
+          "version": "repo-lines-v1:sha256:ab2fce94914897f0baed57c5e7a7ffda33624808dd1b229b5ef73c74f2d046b6:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmZjk5NDE5OWZkNzRhZTJmNzYxZDdiNzY5ZTI4ODE4OGZmODQ4NDVkMTYyMzliYTMxMmI3MTI5YjJmNWQ4MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMjc3OTY1YWY1MDY4MDE4YjI0NmMxNGJjMzdhMjFjMmE2NDNmOGQ0MGE1YTJmMjk3M2VlODEzMzVjZDU5NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyOGRhZjllZDc4ZGFlYTIwYWQxN2Q5ZDhmNzI2MjE4ZDM2Mjg4NjY4MzA3MzFlN2RhYThmMmU2MmVlMjUxN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZmVjOGQwZTFhZTE4YWVhZjRkNDY3Yzg5ZWM0NDQ1Yjc1YTIyODcyOGU1OWU0NGYyOTVhOTFhMTk1MGJhOTcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4762-L4802",
+          "version": "repo-lines-v1:sha256:71d69e1d9add893bf37bdf0fe04d3423bdbc7ff261b1dbddb8c18f46bb89353f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZmNkYmQwMjVkYjYwNjI2OTk4MjRmZDgwMzk5OTA0OWZlZTRjOWQzMDljNDlkMThhNzJlZTUxNTczZmNlODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwYTYwOTZkYWY2MjViMTQ4MzUzMzllMDIyZDFlZDcwOTIwODg2YzhiNmNjMTMyMGNjYjMxMDY5NzVjMTU4ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjJiYWRhYWY4MDVlOGNhZGRhYjQ2YTJhMjI4YWJiZjdhZWEzNDk5NDkzMDA0YjRkNmZjZTliMGVlZmQ0OTgifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4810-L4837",
+          "version": "repo-lines-v1:sha256:c8899645e006874e45d6138ab7e498ebd709562f52904faa64ac3efb3d67acdc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk5N2ViOTJmNDNiMGQ3NTBiNzNkMGIyYTViMDkwN2U4MTMwZDYwMGVkMGU1N2Q4NTE2MjJlN2M2ZWM0NDNjOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNzE3MjZhNzI2MzE0Y2ExY2E3MWMzMDFiNzQwNDRlMTM3MWJmZjM4YjAwYTYyYmZjZTdlZTg1MDIwNzNkMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmZTc2NGZhN2NlNDkzMjFiMGZlYjRjZjE3NTQ4NDFjOTRjZmVhM2RjM2IzOTRmMGY4ZTMyMjU2NDE1MzllZWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk2ZjA1ZWQ0NTRkNWM0ZGM2MmJmYzNjYTAwYzliNzlmZWE2MzY3NjcwMmU4NzFlNmY2MWQ1YzEyZTY1OWFiYzcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_47940b668a1c4981aa1ce9dce105822f",
+      "statement": "`tests/run.sh` offers a syntax target and an offline default that runs syntax plus unit, integration, and end-to-end groups; its hardware group runs only under `RUN_LOCAL_AI_E2E=1`, and the offline contract excludes network, sudo, systemd, and model-file requirements.",
+      "evidence": [
+        {
+          "resource": "repo://tests/run.sh#L21-L45",
+          "version": "repo-lines-v1:sha256:f07e7861a11e262f1f52cc0513cedbfa610c6c6aa5d30f49e463ced8cc948410:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkZWM3MGQwMGEyNGI2YzFjZTk1MWE2NGI5N2EwY2U5M2FjM2MyMGQwOTk2NTEzMTZjYzNiZDhkZjg1ZTJjNjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYjlhOTkxNDk3ODc0MzE3MTQzNDBmZmU0MDQ4MTYyMzk4ZWVhOWRmZjVkNjU5MjYxYmY4MmNkODNmMjFjZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjZmE0NmU2NDUwNzlmNDUxNDExYzdiYjE1ZTgxZjAzYjhhM2Y4YTVkM2JiZWMyMmM2Yjc1MTBlZjhiNjY1ODEifQ"
+        },
+        {
+          "resource": "repo://tests/run.sh#L64-L105",
+          "version": "repo-lines-v1:sha256:1302f2d97381a7b25f8bde30b49e2e690a451fb306db2b97c39f6b8db928357f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5YmI0ZjlmMzFjY2ZjYWIyN2VhOTQ2ZDUwZTYzYzIxYjUyM2UxN2FlZTc3NzVjOTY0MmE1Mzg4NGU0YmUwNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiYjY1M2YwMjEyNWExOWJhNmJjMTQ1MTYzNWJkYTljYmE3MTU5OTNjZTE1NDQzNWMxMTdkNzIzYWMxZDVhZjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmU2NTQ5OGQwNzgwYTllYjRhYjg4ODE1YzgwMmM4YWU5NjBjNzVhMTQwYjk3MDdmODc3YzU2OGFmNzQ4OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVmMWJlNzdlYWZlYzZlMmRiZWY2N2M3NjE0ZDc4ZDEwZjIzNDFjMDkyNmJmYmQxZmJlZDIxOWJhODQ0MzgyMmYifQ"
+        },
+        {
+          "resource": "repo://tests/run.sh#L7-L18",
+          "version": "repo-lines-v1:sha256:53e443082ceef3cce643578a8ed868a660acc5b4420bbb4fb01cf12f82e3f769:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZGJkNWExYTVkZDNiNGJkZTdmNDQzYTI0NjRkOGVlYzZiOGY4ZjI2NWJlNDAxMmY3ZTM0YTg1YzJlYzk0ZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3MWIxYWNhNGY1YTJiYTBmNWYwNzVkZTZjNGNiMGM0MDdiMDQ2MzFiZGNhOWZiNjhhY2FlM2NjMmJmODI4ZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MjQxZjY1ZDNjZjQ0ZmYwOTUwY2VmY2VlNjgwYmFhODM5MmViZGZiODJkYzU3M2MyYjcxYjVjMTNjMDI4NjAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_72846a813bd145109300698ff5e9dbbb",
+      "statement": "The command-contract integration test verifies that `plan` and `status` do not mutate managed state in an absent-runtime fixture, and the workflow test builds a byte-sized derived manifest while retaining the production tier, variant, ID, shard, and artifact-kind relationships.",
+      "evidence": [
+        {
+          "resource": "repo://tests/e2e/workflow-test.sh#L35-L53",
+          "version": "repo-lines-v1:sha256:7b55ac3d6697140a81ceec1b501e6b4b1246895085d39863f10fb9a47aa819ea:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ODQ4ZmY2NzgzZGE2ODdmNTEzZmQ0MDA0NjU0ZTEyZTZhNTkxMDE0MzI0ZTZlYTU5NzBmMjNmYWM3ZmViNDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZGQzYjVlZmE3YjBjYTEyNGJjZjgxZmZjNmIzYTQwODk5OTRjM2IzYTJiYmVhZDFjNDY3ZmI1ZjMyOTU1ZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5Mjk1ODVjYjU1NWFlNTg5ZDMwOWRjNzk0MmE5NDUwYTkwYWNmZDMyNzY0YzI4Mzg5MmNlOGQyY2FjNDIwMzUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxYjljZTQ0ZjZlN2M4MTZhZTllMTFmZTZmNDk4ZjFlMmY3NzQ3ZTE5OWIxZDI4NDUyNDBlMzcxYmU4OGMwNDcifQ"
+        },
+        {
+          "resource": "repo://tests/integration/command-contract-test.sh#L109-L148",
+          "version": "repo-lines-v1:sha256:8520a85aea07fe17ae3431d3f457ce807c046513741aa7334d471ac8e592ff3e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUwNDJlNjU5N2E4NDg4ZjYwZWNhNTZlYzI5M2I3ZDdhZTg1NWI1Y2FhYzE5YjA1OGI2MTQzOTU0ZTQ4YTdiNTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNmFhN2JjZmViOTc2MjVjMzBlZGNjMzA3Y2IwNTA5OGRjZjQ3MjRlNTJlOTVlNzJjYmFkMTlhZWIzYzUxZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiODUwMjVhMTBkYmVmODhmOWY2ZjBjYjg3OTBjZDg3Yzk5YTAyOWIxODI0NjNlNmY3MDg3MjRhMDAxZjIzYWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkNmU0ZjRiOTc1YzQyNjYyNGI3YTQ4OTI4ZTdmMWFmMTY0MDkxZjUxNjkyY2U2MWY3MWE4NWY1Zjg2NzNlNGYifQ"
+        },
+        {
+          "resource": "repo://tests/integration/command-contract-test.sh#L70-L87",
+          "version": "repo-lines-v1:sha256:18b5eb528792014d768158f99ad995d429624437215e6c0c275dc59a24309187:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ0ODIzYWJjMTIxZmJmZDFhYWFiYjBhOTZiZTRjYzJiYmViOWNhZmE0YTA1NWE5MjNjNmVkNzBlODYzMGYzMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjN2RlMmZhNDRmOTJhOWViZDM5ZjZlYWYyMzIxYTQ2YTJmZWM3MmI1NzJkOTc5NDNhN2VmNGZiNmYyNzAyMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEwMWM0NmJjNDhlZDNhZjJlNThmZTc1OWQxMjUxNzY2ZWViMGVhMmJhNjBlZTNmMDc5N2MzYmQ1OThiNDVlOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJlODc1OTMwZjU2N2U5NDI3OGYwMDUzM2FlODJjMDFmMDgxMThjNjlkZjQ1ZmYxNzI0MDFkZWM5ODJhODZlYzEifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T19:27:17.811Z"
+  }
+}

@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:b606c87a16e89088be8d67a99a1cb4e59a90892c51c629900e96c41fa893d7be",
+  "claims": [
+    {
+      "id": "claim_85b9504b5ab444edbca78f9480136d6f",
+      "statement": "`manage.sh` is an interactive control panel that delegates actions to `setup-qwen38-pi.sh`, while the engine provides explicit scriptable commands; `status` is observational and queries the model catalog with autoload disabled rather than generating or loading a model.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L462-L496",
+          "version": "repo-lines-v1:sha256:2290b10e89c2dbf1a0b9aeae5ca68946e5f9353f0a38d86a0fd86756b38db163:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI0YzVlZjcwZjA5N2UyZGZlZDk4Mzk3NjliMWUwMDllZGJmNjUxNjM1YmI3YTg3YTkxMmFjNGNiMWQ2YjZhMzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5ZjE3N2I3ZDQ0ZmViZDMxMjdhM2EyNjI0NTIwMjIzYTFlNTQ2MDIwNTg5MjU0ODNkNTFkOGI4MDI5MDUwYzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE0NTM5NzU2OTcwYjhkOTY2ZGYxOGNjYzViYjlkOGE2ZTBmYTk3M2I2Y2M4YjUxOWI4ODAzNGE0YjEzYjkzNWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIzMThmYjRmODRlYWY5NmE2NjIwMjNmY2RhNzQ2MjM1ZDdiNDIyYjU0ZDE4MmI3NDY4ZWNmYzM5YTU2YzIyNmIifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L1-L21",
+          "version": "repo-lines-v1:sha256:02c4125cac9d9aaec9a707afa5907d21b747baefb154c7928ff3c25828c4061b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkOTVmYzA0YTgwYzk1MmY0OWNlNDE4ODYyN2M1M2IwZmJlOGM0NDA0MWI5NTJkNTkyYWNkMWRlOTk4NjE0NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5Yjg1ZTIyMDEwZTYxNjJmYjBmNGQ0MDc5ODVhMmRmM2RlNDVkM2M5NDJkMTZjODYwYzZiY2ExNDNhM2UxNzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY0Mzg0NDNiYjNmMzJhZjVjNTNlNTFlODBjMjE2YjY1NTc0MTgxMjk2NDJjZTRiZDFkMjc1OTYwMGIzMGQ0MzEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L17-L45",
+          "version": "repo-lines-v1:sha256:a971d39097e0cfeccf59fab6b62d82145a649e405a3ad2a2d1801ee05c9db179:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyM2NlNjM5YmQyNjcxMDU5YzljYmU1NDIxMTJhNjJlNmUxZjNhN2RiN2E1Y2EwMmE5MzgyNzMxMjY4NDY5ZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmNmIxODQ0NjA0YzFlZmNjNTczOGM5NzRkNzZiNzE2ZDMyMGQ5ZjI4YzFhZWIxYzQ4OTQ1ODI0MjA2ZGM5NDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4NTUxYTU2NmFjZjY1MjU3YWQ4NjJkZWU5NThhNTBhNTk4ODJlNzJjMTM5ODhhMGQ0ODdmMTM2NjE3YWRlMGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE4ZGY5OTdmNTAyZDMxYzM2M2ZiYWY3Mjk0OGQxMWQxZTVmN2M3NmY0ZmExNDA1OGEwNjJhZjcxYTc4NmE5OGIifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3067-L3077",
+          "version": "repo-lines-v1:sha256:75c446f55ba424a41241d723b8a9130f46eab69922b3af2ad21cdc98e889644a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmQ2ZGUxZTE0ZTYyZjI3YzI3OGIxOWMzOTZjMmRkOGNiNmEwYzIyYTA3MjdhYTc2YTc4N2FkZWI2OGIzNjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk4MTU5YTk0NzBkODE2NzFiMmRkZWU4ZDQyNjdlMDYzYzg5N2VlZDU3NjJkZGRmYWIzN2E3M2Q1Y2U1ZTE0ZTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3OTU2YTFkZDc5YTU2OGU2MTFhZjM1MzMyNTk0ZDM2OWYyOTJjNWI5ZGMwZmZhNGQxZWNhOTY2OWNlNzM0OGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_15ab697653b24d678723c5c607d0bb51",
+      "statement": "Both shell entry points source `lib/local-ai-common.sh`, whose helpers validate regular non-symlink API-key files and pass the bearer header to curl through stdin configuration so the token is not placed in curl argv.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-common.sh#L70-L91",
+          "version": "repo-lines-v1:sha256:8a17ea311435d7143031e39d5f163291edb4e407ab00262d1d6e00aeed74d089:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE2OTc1NDlhMWNmMTgwYjExZjBhODc2ODIxMDg5MmIwMjQ2OTYzMmE0NzQxOTc5MmMwMzYzZWE3ZTM1MGU5OTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImViMjFmNzM0MmRmMTk4YzE4M2MzZTU1NGU0MmYyYzc5MGMwNGI3Yzc3M2Y5YzU1MjAzNDdkNTZhMTZlZTY1ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L8-L16",
+          "version": "repo-lines-v1:sha256:cf353ca40fc81736edf58076548359b19fd8a28f79a99eedb1232b9da9701ec6:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjBlYzc3NDdmZTIxY2RmOGY4YmE3MjFiMGYxOTA1MzlmNTA5OGQ5ZmEzNjZmNzEyOGIxYjc5Y2QyZWQzNjlhNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE0YTM3MTI4OTgyYzI2ZmEwNzA0ZTllYjFjNjBiYmZmZjRiMDFkYzY0MmMxODA1YTU1M2NkYzkwMWE2ZjZiOCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTE5ODRmMjg1ODg3OGMzNDAyMmNjNTQ0NDQ2NWM0ZjU2NzNhMTRkZWE0YTU3YTU2ZGJlN2Y5MDYzYTY4NDBjOCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjkxOGZiYjNjZmIwZmViY2ZhZGQ3MjM4MjBhYjI1ZGQxMDM3YThiYTMzMTQ1ZmQxNmM5NGYxNTAxZmRjZDc3NCJ9"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L83-L96",
+          "version": "repo-lines-v1:sha256:72434bae2a799e65c8e523509cae28aa4d72096c4141992e37e3c60a7f476f59:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYyMGFjYzE4NmI4ZDVjMjljNWJkYmRlYjFlMzIzNjkzMDhjYzBiN2VlZDIyYjZkNmNjYjM2NDlmZDZhNGMyZmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3NzIwNzEyM2NkNmI0YjQzZjE2NWU5ZjNjYmUzMzU5MGUxOTY4NjQ3MTU0ZGVmMzZiNWMwOTI5YWU2NTllMzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyMWJlMzJiOGE4ZjQyZGZlNzkzMGYzZjJkZjg2MzQwN2NhN2QzNTZkOTRmNmY3ZWVkZTQ4YWZjM2QyNDZkNzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwOTdkNmQyMGVkYmQ2NzU1Mzk5ZGM0YzM4ZTk5OGEzZWJkMmZiOGMxNzhhNjU3ODgxNjA1ZDViZjE0ZjNhZmIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f4511f97c3145c7a712134df4775b9d",
+      "statement": "Effective persisted configuration follows explicit environment variables, then `~/.config/local-ai/setup.env`, then built-in defaults; the engine accepts a fixed key set, validates values, and atomically writes `setup.env` mode 0600 while refusing symlinked or non-regular config paths.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L337-L370",
+          "version": "repo-lines-v1:sha256:d7fa180a9dd1ce4cd8e4565924b1a04975b5303068cde36d04432e846070d2e7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4MGVjYjM4NjAzNzk0YWNmMDdjNWE4ZWI1ZjIxM2M3ZjBiZjhmNDc0NzFhMmI4NTg2NjhiYzgxNzA2MjRjNmMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE3ZTNlZTgyM2MxYzQ5ZjY3NGRjNzI2YzJkOGM5NTgxY2Q2ZTEwMTI4NzIxMjExYzU0ZTA0N2ViNWUxY2RlMWYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVhZjM1OGJhYTZhMTg4ZmY4ZWUyZWYwN2FkNWZiZWFlMTNkNTRhN2ZkYzQ0YTc5OTRmYWY5MTJkNTJiNmUwZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRlNDllM2JmODZjYzA2ZDFkOThhNjMwMmNhNTUyMGIxZDI2ODMwZWZhMmE4ZjMwMWFhOWUxZmQ0M2Y0ZmI5MjUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L226-L246",
+          "version": "repo-lines-v1:sha256:e4a03eeb065237718d105c7371cba676272c1740c2554bf5c4338f6e4316860a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4M2JmZjIxMzFmYjAyYzcwYzdjNmFkODcwOGNkYzk2NjVlZjAxNTIyMGM4MzcyZTEyYzAwMWY1M2NkNmFmOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwMDBiNGFiOTFhODk0YWFlMGYzY2ZjYzlmZGZlNzBkMGE3N2Q4YTJlMWZkYWMyZjQ1ZjM0NGZmZDhjOGQxMWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzM2NkNTRhMjE3NTUyOGJkNmYyNjY1YjE2M2U2N2I0ODkxMDUyODk2ODg3MzcyZWE2MjZjMjU0ZGYzYjJiNzcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L248-L294",
+          "version": "repo-lines-v1:sha256:5d3f70dd5e1acedff29df1af52824cead69703ff1922eacbe1662c24af0f467c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTRmMGQxM2NjZmM1MmQ4ZTZlMjJlN2IzYTQ0YTE2YjYxZmNiZTliOThjZTkxNjQwYWVmNjk4MjBiMzVjMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZjI4Zjg0NjA1NDNjNWI1MjQxM2JjMzc1NTJmMWYzODQ0YzcyMzdiZjU5NTY3ZmE0OWIzMTkwMDEwYmIxNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkMWVmZTMwY2YyNzI3ZWYxZWJhZjAyZDhlZWVkNGIxMGY2MTZlZmRhYmRhMzA2ZjIyMThlN2VlNmEwOGNjMzkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L98-L180",
+          "version": "repo-lines-v1:sha256:8113da5698d8a2e126831d1fafa952ed55f5fcd99a16eb1bdcacb6a4185a1cc1:eyJzZWxlY3RlZExpbmVDb3VudCI6ODMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5Y2ZkYzI1MDgzYjE1MzIyZDA5OTlkMjE3MDE1NWQzZGQyMDZhNDBhODJkNmRjMjFiN2NmNTg1NTJiNmU3YmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxNzA1YTdhYWEwMjUzYmU0NmJiMTIzODE2MDk3NWE4NjkzNTY1MzZhNGRmMmQzN2I3YzBmYWRmZWUyNjg3MDUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRjZGQ2MzVhODhkZjg4NTFmMWFmYzkwNTBhY2IyYjBiMmYxZGM2NDk1YzBhZWU4MjFlMTc5Y2ViYzlhYTI5MDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg5OThkZDM3ZDkyMDhkNmI1MTRhZjRiMGJlODFmZjE2MDRhMjM2NTdmZWFkNGU4NzdkZmIyZWQ3M2FmM2I4MmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ffa42b6fc19a46f8a871e3f55f860128",
+      "statement": "`apply` reruns planning, snapshots desired-state, routing, launcher, preset, and unit files, then persists configuration, updates routing/agent launchers, and invokes the service; failures restore snapshots so routing failures do not change the router and router failures restore prior files.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2649-L2740",
+          "version": "repo-lines-v1:sha256:df61e3dc73a565edfac8b14ce8442acace7f58b2deb19120c1dbf56290f05eb5:eyJzZWxlY3RlZExpbmVDb3VudCI6OTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViNDcxYjAxMzlkNjZkNGZiOWJkZTY3OGRhZmVmOWRiNmQxYTY0ZTFhZTIxNzk3ZDA2MzAyNzRmY2Q4ODRhNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwM2E5YWI5ODI0MTU3M2NkMGIwN2JiZWM3YzVmOTkxZjRlOTI2ZDY5MmJkNDliMTJkZjhjYzY5MGVkOTczOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_df499aa3b6f340479ea279d7cf4ebfd8",
+      "statement": "The model lock is a pipe-delimited artifact contract with tier, variant, router ID, model directory, immutable revision, remote path, exact size, SHA-256, and kind; selected tiers include their `ALL` artifacts, and the concrete manifest defines everyday, coder, and senior artifacts and aliases.",
+      "evidence": [
+        {
+          "resource": "repo://models.lock#L1-L22",
+          "version": "repo-lines-v1:sha256:3cac552f4313663c427e1593b979d0f340dd2584b7f7067a34bf4805cb67aebc:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwMWI3OWE1OGQ4OGFkN2E1YzgxYTY0M2ZiZTAxNWFiOTUxM2YyZDJiOGFmMGQ4MjYyYzhiMGNkMTk1MDU2ODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2MDgwYzhmNTJkMTkzNGZmNmI4MDNhNWY4MDZmNTVlZGQxM2IyOTk1NzM4ODkxODc0ZTc0MGIwZWU1YjcxMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjowLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L313-L340",
+          "version": "repo-lines-v1:sha256:5966af27a2da0356a0b822fedce6695917c67b55951739eaaf9bd3651df4fe85:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzMmY0ZGM4YzgyNDE5MDFkMzA3NTEyMTk4NTFhOTg3ZGQzZTQxYmVhN2JlNzZmOWMxNzkwZjc5MmY4ZTM5ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkZjViMzA1MDc1MWE4MmNmNWU4ZTA0NTY1MGM2OTcyOWU1NGY1MGJjOTlmN2M3ZGMxZmQ0MTQ4MzQxNWYzOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMmRkMzYxMzAwNzc1Zjc3Y2RlNGU0NzViNGM1MzJhNWIzOGMyNTY1NjAxZDViMWE0Y2U2OTQ4YzA0ODYwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYyYzUwMzA4NWU0NDc0MTEzNWRiYzRiY2E1MjBhODM4NDYwOWU2NDA5MWY2OTAwOWRiNjExZjE1NWMxMjVlZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b147a7db0c0b4bdd8c950f8133b8340a",
+      "statement": "Before generating a service, the engine requires at least one complete tier, verifies its locked artifacts, refuses incomplete selected everyday/startup tiers, and emits preset sections only for available tiers.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1191-L1276",
+          "version": "repo-lines-v1:sha256:a1e0fb26cf0bd23a2e92e10607befc5cfb0ea4cb79eaf2ad0fbe6196b147420c:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwOTZjZGRhNGFjNjkyNGRhNDkxNTExZTU3NGExODM4NGQwYzJjOThmZjdiYTJkMTAxOGRkOTc4ZjZkNDAwMzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNlODM3OWE1NmYyOTRlYzVlZTlkODIwMDM2NWFkYWNmZjEyNWY3YTQ0Yzc3OTFhZGVjZGNlMmQyMzM4ZDQwZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5NWY1ODg0YTkwNzdlZmU4ZjA4M2JmZTE4MDk3ZDEwYTlhNjFmZTZkYTJhNDBlNDk5NjFiNDIyNzM1OGVlMDcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1513-L1531",
+          "version": "repo-lines-v1:sha256:cf9166f27fa915fc46d5b3fd17ccecb965232239f40f4240900362bb5dda8af4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYzZDE3NTg1MzFkYjdkOTQ2NDU2NjM3ZWZjYTE1ZTQxYTUzMWRmYmJlODI4YzkzMTFmZGUzNjgzMDU1ZjJjZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmOTY1ZGI5NjhlZWNmNTJjYmQ1ZjA3YWUzNWUwOWE1YjYzNTEyYjg1MzZhNjQ2ZWI3YTA0YjM1YWQ3NzIyYmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjViNjI1ODFiNTQ5NTNiODcyN2EwNjI3ZTVlYWIzZmFhYTM2YmRjODliZDk0MDE4Njc5MmE5MzdmZTgxNTBkZTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_256eb07468304347becde3f5cb65ddf2",
+      "statement": "`MODELS_MAX` is validated as exactly 1 on the target, the generated launcher passes `--models-max` and `--models-autoload`, and exactly one available startup tier is marked to load or `none` yields a cold router.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L293-L302",
+          "version": "repo-lines-v1:sha256:6c51d58b051589439dbb3fa1d79de5358faeb5d094ab6013b91291fa4fbca3a8:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkMTZhMmNhZGMwMzA5YmM0YWM2MmMwYjQ3MWU1ZWRjNTQ1YWU2YzBhMzc2N2IyNjM0MzI3YWNkNjU4ZDNjYmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MzVhZDIzMjM0YWYwMWVkMzMwMDQwNDk0NWJlNjZjMDI4OGM5ZDVhNTE2YTViNDUwY2YzNjNkY2IyNjcyMDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5ZWY0N2JmNDQzZGJlNzU4MjY0NTQ0Nzk4NDJmNDdmZjA5ODJlODk1MjkwMTk0M2Y0ZTJlZDM4YjJkNWFmZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY1ZTlmZmE2OTZhZTRiMDNjYzYwOGNmNDkyMDgwMmQ1MDU0MWYwZTIxMWYxNzViM2VhNDE3NmIzNzZkNGZkZjkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1179-L1189",
+          "version": "repo-lines-v1:sha256:3430d3a5c15bcde896c4aa7cd9aeaf11a28ed85483a1e71c051ed3b3ebfb1184:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxZDYxMzIwOTVkNDIxYTk5YjUyNzcyMmEwZjk0MTNjNTcwMmFlMmRjYmQyNTU5MTNkNmNiZWE0YmNlNzVhN2YiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMmRkMzYxMzAwNzc1Zjc3Y2RlNGU0NzViNGM1MzJhNWIzOGMyNTY1NjAxZDViMWE0Y2U2OTQ4YzA0ODYwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc1NTFhNjBhNTIxOTliYzhlMzc0OTViYjRjYmNjZGE4NDVlOTc5NWQwYWZlZTcyZjFlODU5NzdlMDUzYzUzYTYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1278-L1296",
+          "version": "repo-lines-v1:sha256:78bda2ba62a0c55edcf6777781562b621dc88d11de15f9c73a80d8ef25f1f02a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2YjgxN2E3ODYzOGIwNjE5YzIzNjYxNTIyOWM2NjBhZDNiMDE4OTQ3ZTkzMzNhZGE0YjFmOWMwZjg1YjA0N2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmOTQxMzI3MTJhZjhkZjU3NWVkNWM4MDFhMjU2ZDZkMDMzZWY5NWY5NzQyNzUxNjI2ZDZiMmMwY2E1ZTZiZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhmYTYxODE2NDA1NGJkYjViYzY2OTI2MzQyMDcxOTg1MjNmMzEwZDAzZjdjYWUwYWFlYjhjMWVmZjZjZWEyMDYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L281-L285",
+          "version": "repo-lines-v1:sha256:c93a6d458ec147daa8b8c8076070b746c0b93cf1eef5d540b5ac1bab72802a30:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZGMzZWYzMTNkYjE1YzQzNWY0YWNiMGMzZWZkMjlmNTZmZWNkMjBhODA3OTgxZWI0NmY3OGZhZjY0NDY0MTY4NyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzI3M2FhZTU2NWI5ZGM5M2QwMDE2MzJhNTYxOWFmNDU0MzczOWMwOThiMWVkZTc2YmU5MDljOWZiOTRlNzViMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYjhiMGJjMzY4MTI5MDFiMzJlYjY5ZGExOTI3NzRkYTZjNzE4MGVkMDVmMDRhZjNkZDA4NzJmZjNkYzA3MjcxNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzI5NTNlNzQ3ODNlNGJlMGM0NTEzYmQ0Yzc2ZjVlYTI3YWEwNGY1MmEwNmE5ZjM2ZjVjNWEzMzNmYzFkNmUyMiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_4b429f754c9e438f8d1547b9d946005e",
+      "statement": "The generated launcher binds llama-server to `127.0.0.1`, reads an API-key file and a generated models preset; the generated user unit limits privileges and writes through systemd protections while granting read-only model access and DRM device access.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1278-L1327",
+          "version": "repo-lines-v1:sha256:2de23cd21bae49a1ee62029f13155cdaa856f091f98241248b5b57b2319ed04d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2YjgxN2E3ODYzOGIwNjE5YzIzNjYxNTIyOWM2NjBhZDNiMDE4OTQ3ZTkzMzNhZGE0YjFmOWMwZjg1YjA0N2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjlmOTQxMzI3MTJhZjhkZjU3NWVkNWM4MDFhMjU2ZDZkMDMzZWY5NWY5NzQyNzUxNjI2ZDZiMmMwY2E1ZTZiZWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwMDFhM2E4MjdkM2ViNmM5ODFkMDFmZGI5NWM3ZjhkN2FjNTY4YjgzNmIzYjI2NDU5ZjRhNGQ0MWRmOTJjNTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ada49f36fc874a1faf9f97240a1e46ed",
+      "statement": "Service generation rejects custom, mixed, symlinked, or non-regular managed-trio paths; it stages and validates preset/launcher/unit files, backs up prior state, and rolls back files and systemd enabled/active state if activation or readiness fails.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1330-L1454",
+          "version": "repo-lines-v1:sha256:ba7eece131ea1afd23a785ecc071b138827a1306ad27ad6f598b278f0873b982:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0NzBiMjZmNTg2OTU3ODg0MmI2NDEyMmNkZDBmNTliMzVmNGU3OGRkMDVmN2E4Y2MwY2M3ZDU4YzA4MmM5OTE1IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4Y2I5YTk5MTQ5Nzg3NDMxNzE0MzQwZmZlNDA0ODE2MjM5OGVlYTlkZmY1ZDY1OTI2MWJmODJjZDgzZjIxY2QyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0YzI4ZWMzY2YwNzkxNWZkZmFiNzY4ZTRmZjQ0YTc1NjA5NGM2OTdiOGI2OTlhOTRkYWZlYmViODI1MTA4YTA2In0"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1534-L1689",
+          "version": "repo-lines-v1:sha256:99d4b35a17107a656a4e6b3b490e71aeb3f64eb0fe1fbfbb7d6b5559a9a3eccb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTU2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIxYWFhNTcyYTZmZTgxMjVjZjlkMGY5MzA3YzU1YmQzM2I3NmJhY2Y5MjI0YmRlNjQ3ZGY3MGNjMjQyOTMzMGFmIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyOTJmYjU3YzcwZmJlMWIxNWE2ZjY2YTZlMjBlYjk5ZDJlZWI4Yjg4Y2M5M2Q5YWU1OWY2ZmI5OGQ1YThhMTAxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI4N2FhOGVjZTFmMzZkZWFkNTg1M2NiZGZiNzU3N2RmNjhmMWIxNzRmMDc2Y2JhNWMzZDE0ZDdlNjA2NDhjM2EwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiMWMzZThiNTE2N2UzYmQ3NWRiMTc5OWE1NjY1NzNiZmEzNmRiM2FlOThkOGRjNjRkYmY3MThhOTI0NzhkMmQ4In0"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L603-L713",
+          "version": "repo-lines-v1:sha256:534fde8756d9bf7f94c9b7b57ecd4317cd54c2e986afc8065a1f3b71c003aac5:eyJzZWxlY3RlZExpbmVDb3VudCI6MTExLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI2ODdlZWQ3MDc5YWYyOTNlNWQzZTNlMzkzYjg0NmM3MmNmMGJjYTEwYTNkNzBiZDU1YzUwZWQxM2RhODk4NGFjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1ZWMzOWYxMTRjYzJiODgyODgzNTQzYjgxNmVmOTNkMWEyZGUyZDM0YzMxMjRlYTUwYjFhNjEzYWE0ZjdlMTk1IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI5NWU0MGFlMmMyNmU3ZDZhNmMxMDAxMWFlNjNiOTJmODUzMjgzNWJkODBlNjVkZjc1MzgwOTE1ZDQ2OTc5NTM3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIwMWQwYjA4ZmRiZjAwODE4ZGFmNmRkM2M1MjY5ZGE0NDAxYzRhMzVhODJmN2ZhMDYzZGYxY2RjNDE5NzMwYzY1In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_11292386b62d401e95e2a646a734433d",
+      "statement": "The service creates or validates a regular 0600 local API key, and readiness requires an unauthenticated protected request to be rejected, an authenticated request to be accepted, a matching authenticated router catalog, and—on Linux—proof that the managed MainPID owns the listener; a configured startup model must become loaded or sleeping.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1480-L1495",
+          "version": "repo-lines-v1:sha256:03bfef13fdbb3b5929378fb30a4b4a506eda8c2a026010da724dd768157ee6f7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3Y2E2MGVmNDJiZjcwYjBiNGE4ZTZhMTVhMzYxNWQwMjdmYzU3YmQxNTVkMmJmY2M1ZGU1OGNjYWQ3MWMyMDIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjOTI5ZDMxNDE0ZDdkYTFiMzZjYmI2NTU1NWU4YzY2MGFiYWY4MzE5MmU4NThkNTU3YjA5ZTA3N2UyOTc3MTQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmZmE0NzY2MzViYzcyY2FkNTEyMmM2N2QwYzlhNzcwYTM4Mjc0NGU2MWY5YTljNWJmZThlM2Q3YTdiZWM1NzcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1545-L1574",
+          "version": "repo-lines-v1:sha256:12acc24792af6e83707d48385798fd63a270336ff03c9a27561b8cdf6ff84a61:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI3NjdiYTNkZTM2N2Q3OGZiYWE5NTc5MGRmY2UxY2NjZmY1MmM4NDBiYTQxYWY0MjkzYTFkZDE5NGM5NTRjNjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxYWJjOTYwMDg2NmU0MTFlZGJjNzNkOGRhNDgyNTAxYWZiNzRjYTU2YjMxZjU1Y2VhOTBlOTBhMGYxOTlmM2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE3YmU0ZjVmM2U5ZjY3ZmE2YTdmZTcxZjM4MzkwMDZkYWIwYTRhYzE2NWRiMzQyNmQ5NmUwN2IyYjFhMDFlMzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQxZmQ0MzM4MjJkZWRjOTc0MDY1NzY1MWZiYThkNzYwZTI4OTIyYjg2Y2RiNjdiY2ZkNWNhOTIwZWYxNGVlNWYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1622-L1680",
+          "version": "repo-lines-v1:sha256:1e0b4f778da410002fa57ccb56c800276851390018defd2cf6fbc940af35456e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkYWM0MGQxY2Q3MjAyNGQyMGZjZDkzZDY0MTZiNDg0NDVjOGQxNjA1MmIwMTljZTgxODk1YmRmYWRmYTU2MjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiNWExNzc0ZTZiNTYwMDUyODI5NDkwMGNiYjEyNjU2YzllNWQwZjNjZDVjNmJiMmQ5NTJiODliNWEzMmI1NzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE0ODFhNWM1Mzg0MzZmZDA0NDFmMjA0YTI5ZTY3NzUzYTBmZDdmN2M0OTg2YWY0MWQ4ZjdiMzZmODNlODkwYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY4MzdlYTQyNjU3OWYwZWFlYTBhMTJhNmY0Y2E2OWI2ZGVmZTgzMzVlMmMxYjE5Njc4MDljNzBkMDQ2NWE2NzEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3079-L3129",
+          "version": "repo-lines-v1:sha256:a0e825186c0e44843c9e91326668000843da7d411ecbc46aec91fa7a51b9207d:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczZjNjZjJhMTc0ODE2Y2E1ODIxNzFhZjE2N2I5OGQ4Nzk5OGJlODdiMmJiNmI4YTZmOTlkNTFlNTQ5NDM5OGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMDkwODVhYTEwYTNlMzEyNzg2YzYzM2Y4ZWU5ZThjNjU2ZDdjODUwNTYyNzI1NjQyOWY0YzJjZWNmNzAyYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA0NWQ5YWEzM2UyZjRmNjdiZGYwOTZhNWY1NGE1ODhiNmFlNDBmMjAzYjBjZDEyMWYxMDE4MjllMzUxMzJjZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY2MTk3MGU3ZDczYWRiNzg3MzBmYmYwNjM2YmMzZDk4N2VhMDRjYzQ3MzEyMzljMWJmNmU5MjJlNjVhZjQ4ZTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_263110753ec842a7b20040cfb73c5216",
+      "statement": "Generated OMP configuration declares an authenticated loopback OpenAI-compatible provider for complete model tiers, disables OMP's implicit keyless llama.cpp provider, and limits both task concurrency and llama.cpp in-flight requests to one.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2067-L2136",
+          "version": "repo-lines-v1:sha256:f20534f5f26bdd9a9d0276568bc50a3cb2ebf46436164cb0dc07e08e190250c3:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFjYjA2YTY3ZDMzZTFiNzZkMDdhNjk5YThhYWNjYjUxYzgzNWFlNDljZjE2NDMzMDEwOGZmODczMTEwZjNkNmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2MDA2ZTM5NDIyOWQxN2FjY2UxYmEyYmUyNzVlNjhmMGQwYWJlNTQ1NzdkZjZlM2U4MjFmMjgyZWVhMGQ1NWQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0NDM2MTBlNDE0MDM2N2ZhODUxYmFjMmM4OGE2OTliMDQ3ODgzNjE5MTAwNzc3M2QwNDg0NjU0NGQ3MzVmZDEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2165-L2198",
+          "version": "repo-lines-v1:sha256:cd0458df3586149bee84305ae49070f6746e20e6766393b31328a3a001d77d5a:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlNWQyM2I4YWRjYWQyZDg1MDFlNDEyY2I3ZjRjNzQ1OWY3OTI3Mzg2Y2I0YTY4OTc1ZjhjNjYwMTgwODA4ZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhNWJiMGQ0M2MyNDM5YTYxYjA3MjdhYjZkZWUzY2JmM2Q0YzMzYmZiOWFhMDkzNGExNDI2MWMxMDg2ZDUzNmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAyYzI5ODBjNzYxMWEzZjRmOWE5OTVmMGJlZmYwMTdlYWYxYjhhYjhiYTRkZTc1ZWVmOTgwMjRkM2Q0ZTQxNjUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_e4e37f28643245e982f6043b2b3117cc",
+      "statement": "OMP routing chooses the first complete tier in everyday/coder/senior order as base, promotes complete coder and senior tiers for specialist and architect roles, applies sticky/balanced/quality profile choices, and avoids exposing tier-forcing wrappers for incomplete models.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1898-L1948",
+          "version": "repo-lines-v1:sha256:6fcc9f27acc4a0368c1b5b02d1f73d3a50a800abc57de00ce757275f51166798:eyJzZWxlY3RlZExpbmVDb3VudCI6NTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjczMzVlZTU4ODc5NjI2NjljOTY1NDMyOGVhZjU0MTcyZjgwMTJlNzY5NjcxYjFmODA4MzZjODAxNTE4NTEwZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM5YTM4OTU5YzZjYzM5OTUxMzg3Y2Y0ZmNmMGRlMzg0YWQyZmIxOWVhMjEzNGJlMTBlN2YxYWI4MzZiZTUxMzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlhOThhNWEwZGQxMzQxZTUzODMyYTM2MzkyMTkxN2E5YTBmODA1MTUxZDllOGYyMDFmZGFiOTRhNTM1YTY3MTcifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2137-L2158",
+          "version": "repo-lines-v1:sha256:dba4e42f34363527f3790b997fa5b3ad5b04fd7b249c41717aa13e39b5a4f83f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhMmZjZDkzZDU3N2U5YTY2MGEzZmZmNGVjMTc4ZmVhNzBmNDlhZTVkNGFjOTkxNTMxZTFlNWRkMWNjM2M3YjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMGRjOWViOTE4NmVlZGY4MjM0YTAzYmQxZjU2ZTM0MjJkNTg5MGY4ZTFiZDlhMGNiNjk1OTk5ZmY5Yzg3MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJhMTIxYWRkMTVhMGQzOTI3YjFiOTEwNjYxYTZhODA0NzEyYmM2NzYwZGE2ZDhjODQwMTU4ZGQ2NDdjOWJhYTAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgxNGJiZjg0OTM4ZTFkNzA0MzA4NjUxOWRiMWYxNjI3MTZlMmQxNzUxNTdhZDI4NjY3OGYxNjljZGNjZGM3NmUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L897-L924",
+          "version": "repo-lines-v1:sha256:2d0c49afa5bb49ef76d3cc9a8b0431cd650d5a5c699ef2c816b65637c1971a97:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiZTIxNzgwZjBjYjRmOWNiODYyMDFjYzI0OWEwYzE5YmRhOTAzNGJhNmFmYmI4YTFkYmQxMzdmYzk4ZWExMzAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5ODY5OTE4NTgzNTE3NTNjYTZhYzE5ZjY1OGNiOGY0YTE2NjhhMzdkZWJlYmE1MTgyNThiNzJlYzEyZjA1YTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgyZWVkMDNkMDNkMDViMzlhYWE2N2JmOTJkMjhjMjQ3NzkyZjk3YWZmZDM0MjBiOWEwYmI0NmNjZGZkMGNkNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNjYzNiYzU1YjYwZDMxNWU0YjQ0ZDNhOTQwZjgwNGM1YTgyODNhNjM5Yjg5NjBmMDc4ZjBmNjFmYjg3MTI0MTAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4ecab6f1dd244a5487fce1321896974b",
+      "statement": "OMP's `models.yml` and `config.yml` are handled as an atomic ownership pair: custom files are preserved with example candidates unless forced, and routing updates snapshot and restore the pair and wrappers on failure or interruption.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1950-L2031",
+          "version": "repo-lines-v1:sha256:0e58c1dd45d250acfec67cf708455bf5e0a6b444d548dedb41ed3e717a3051bb:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk1NGFhZjRiMDc5MWY5OWM2ZDRhNWU1ZDZmOGJhYWIwYzMxNTM1NDVkMDUwNDYzMWVmN2E0YjEzMzcwMTJjYzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmU2NTQ5OGQwNzgwYTllYjRhYjg4ODE1YzgwMmM4YWU5NjBjNzVhMTQwYjk3MDdmODc3YzU2OGFmNzQ4OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkwMmNmYmU2NzcxMGFkNjg3MzAxNzU5MWQ3NjdhMWEzN2E2MzJlY2RiOWY5NmQyM2E4YTFkMjE2YzhjZTVlZGEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2200-L2227",
+          "version": "repo-lines-v1:sha256:df5f2c2ce50d06e1f3e1fd1975160e95d4bbfecb44140110c9a4d26cd5b8ff66:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkNDdjYTc0ZDdiYTM5YjBhMDBkMGQ4M2FiNTU5MjEyZGM0NWIxODMyOGQ4NzRkOWY0YzJjZjlkMGNiYTE3NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkYTBjZGY0MWQ0ODc0MDAzMDIxY2YxNDBhOWNkMDAxMGUxYTVlNDdmYWU1OTk3NzNhNGViZjFiMjc3ODRiOGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmNTZmOGFiNTEzYmZjNzIwZTU1OGE2ZmMwMzNhMzdmYzdmYzY2MDBlZmQyYjg5MGM2YjdiZjM1MmRmMjQ3NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkMDFjZTM5ODgwOGMxYWViZjJlNDEzZjNlZGRiOTIwNjg1NTU4YWE0ZmY5NTMzMmVjNGU5ZDVmYmFhNmUwODUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L766-L809",
+          "version": "repo-lines-v1:sha256:fc4a2dc26d1672984a508d8f0db61092a9b55d9b9fcd86bfa75c347b453067c2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiNzM2MTViYTdlY2YwNTMwZjVjYjY5MmE4MzM4YTZmZjYwZmU3Yjg1ZTJjZjY5ZDM0OTgxZjkwYWE1ODlmNzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBjOTc5NzY2OWFjNjYyYmUyNWNhYzQ2ZmVkZDE1OWY3NTM5NmQ3YTc3YjMwNzk5ODgwM2E1ZjkxOGFiZWNlMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ5MDMzZWU1MzhhMzZmZTg1Zjc1MmFkYWNjYjJjZGFjZTkzMjI2ZjYyYzIwNTRjMjI0NGY4OGFkMDY4MWVkNTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5YWZmYzM4ZGQ4NmY0YmFjYjFmYzZkYzc5ZmMxMTlkNGFhNjQ5MDVlZjczMjQyMWNmNWM0MDdiMWY2NjJkM2IifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L926-L991",
+          "version": "repo-lines-v1:sha256:165bb905e62b0a575376613bea808a79a3a428d80f6df4d91551e885443c3d46:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBmZjZlYjQ1NTMyYWRiYWY1ZjhiY2I0MWQxYWNiZmY0NmQ5MTRjZDhjZTcxMDgzNWNjMTYxMzUxYTc2ZjMxYTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlNTQ3MWVmZGE2YTJiM2I1ZmMxNDU4ZTRlOTRmNTJkNmRiZDEwNWIzMmMwMmYyOGVhODhjMzA3MTRhMmZmYTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkNWVjZDVhNDJiOTEzZTBhNzBkY2MxNDk0M2EwZGU3YmFhMmNkNjVhYjNjNzQyMWE4YjM4ZGQyMTQxYWEwYjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyNDQ2ODk5ZDlmYjY2NjRlYjg1NjQ3ZWM0N2I5Zjk4ODZlZThjMDExM2YzNmZiNmRkOGYwYmVmODkzMDY4ODYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c23e970916dc408f9fc27d30913939f7",
+      "statement": "The generated selected-agent wrapper exports a verified local key and loopback URLs for the selected `omp` or `pi` binary without overwriting an unmarked user-owned launcher; existing agent binaries are preserved unless an explicit upgrade is requested.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L431-L460",
+          "version": "repo-lines-v1:sha256:570845c86d3f3fdb0c5b86d63460737120ff59fcb486658db32e10459cc87ee9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjMGMwYmM3NDUxYzFlMjAzNDY4MTUxMjUxYTFlZWJiMjhlNGNiYTU2ODczMjc0M2NjN2Y5YWZhZTdhMjgzMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YzA2YzU2MWQ1YzMyNzM0MzY4NTI2OGE0NmIzMzkxZjM5OThlZWU4OTBkMmJlNTFmMGQyMWNjNGE1M2FlNmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZhZTVjNDhkMmE2YmE4ZGJhZDY5YzYwNGNiOTNjOGQzYzEyMzgzMzcyOGM1MmE4NDBlMWUzMDQwMGVjZDMwNWYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRjZGNkN2VkMjVjOGFkOWI0NzA4ODE3MzE5N2NmNjhlNzNiOGU2NWNkN2E3YzZmYzA2MTg2MjYwMWZiYjNiZGEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2386-L2420",
+          "version": "repo-lines-v1:sha256:39cf5dcb45e2d738e2f9ac98a63f9907bb3f4ee82a7b5355ac1d38edec44bd1f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZDE5ODExNTQxYTRjNjFiYWVlMTJmNWMwMWVlNjUzNzkxODg0ZTE4MDdhZjJlNTM4OGU0MTFmODQyMDA3MmUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ1YzY5YjBmZGUxODI5YWRjMTkyOGI2YWUyYjNlZDE5ZGFkMGI5YmI3ODQxNTliZjQ3OTcwYjc5ODdiNDhkYTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY3YThmMmU5NTNkN2ViMmVjNTEyYzdiOWUzODA4ZGIyZWIwOGNhNDc4ODNmNmUxZTJhMDg1NmFmNjc2YmNhOTYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2438-L2496",
+          "version": "repo-lines-v1:sha256:e08d637b91028db3adfcb5d5b0a0d0fd37db488f6a912061111fba2856c0e94e:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4ZmYwNTA3NDE1YTk4MDVlOTU4Y2Y0NmZjZGM1MjA0NGQ2ZjIwNjczNzExMTA0M2YyZDVhMjI3MjBmN2NlNzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyMGRjOWViOTE4NmVlZGY4MjM0YTAzYmQxZjU2ZTM0MjJkNTg5MGY4ZTFiZDlhMGNiNjk1OTk5ZmY5Yzg3MjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEyODljZTIzODJmOTc4NDY5ZGQ0NjBmOTU3MTQzYWI4N2IzNjBjYzBjODE5NGFhYjVhNTdkMzJkYTM3Y2YyMWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2MjdhMWYyYzVlMGZkYjBiOWY4MzhjMjIzN2RiZTJmMWFhOWYyYTgyMzYwNDQ2ODAxNGE1NzQ0MGZjOTllYTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_900941b82d7d4b32949f9b195fd049bc",
+      "statement": "The status implementation probes the loopback port independently of systemd state and reports authenticated, insecure, unauthorized, down, or error based on unauthenticated and authenticated protected/catalog probes; smoke intentionally performs a tier-specific authenticated chat request after confirming the auth wall.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3132-L3230",
+          "version": "repo-lines-v1:sha256:129e614eedc8a8bc5bb18d9cad630ce2eedc866cd9e8f17a64ba9f502e527059:eyJzZWxlY3RlZExpbmVDb3VudCI6OTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU5MmVkMDRhZWU5NWI3ZjY4NWNlMzJhMGMwNGYyODIxZWNkYzc0ZWU1YTFiYzcyNDgwYTk3OGE4ZDhlYzljODAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3YjE4MDQ1NzFiOThkODVlNWMwMzE0ZmI0ZGU5NDU5ODI0YzZhMTMyYjhkYzlmMGUwYWFjNzM1ODEyZTU3NGIifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3232-L3280",
+          "version": "repo-lines-v1:sha256:405b21acdd4945cffe926974774931fe290ba6498d9a0c448ba986d983769ec2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM2YmVkNjFjZTEzYzIwYzk0N2ZmMjE0ZGM0YjA2YjEzNmMzMDU4ZDc0NWZmYzg5N2RiYjY0ZGE2ODFhNWY4NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4ODE4OWUwNmUzOTAzNmFiNDFjNDA0MTg1MjBmNDA0NGRmNDIwOWVjMzJkYzYwNGQwYmQzMjY1NjhjYmUxMWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjEzNzBlMTcyMWFlMDRkODEzMjM1YmRhODc2NGI4ZDhlZTNkNDExMjk5OWRmZjkyMjE0ZjQ0MGM2MDA5ZDAyYzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlNGRjYmYwMjZmZjhlYTRiZDc1YThiNjFiOTIyMWZlODM0MDk5OWRhNTJkNWUwMGI3YzQzZDQxYzcwYzA3ZTYifQ"
+        },
+        {
+          "resource": "repo://tests/integration/generated-config-test.sh#L1028-L1067",
+          "version": "repo-lines-v1:sha256:d3631b19c663f833dc581855ef6c0dce18030b9dc6176e70504836be06d38a2f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlmNzljMzVlOGFjZDM2NDRiOWE3ZDBlMzcyNTJhZjlhNGQ4OTVhZTE0ODg4YmExN2QwYjZkNGI2MTVhYzE5NzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYjdkNzI4NTFiOTdlYmVlOWQ5YTE1MWEwM2UzZWI1MTYyMjBjMTQ2NmE0MmY5N2I4OGMyMzJlNGMwOGYzMGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3YzlmMjNjZGI0OWQyNDEwYWU3MTUyMjFkYTg2ZGNhNzg2ZTQ3YjI2Mzk0ZWNkYmFiNWY1YTU3MTdiNDA1MjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU4OGZmYzYzZTM4OWJjZTIxMmRlNzEyYzU2YzFlZWNkNjE1YjFiZmM5ZGQ3MzI3YmVjZmExMTk4ZmRlMmNmZDQifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T19:27:17.811Z"
+  }
+}

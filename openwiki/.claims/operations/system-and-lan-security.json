@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:0fba693e85bc72ea951e3dd38a5ecaae0eab57c4ae9e259096aa9b310e14ca9a",
+  "claims": [
+    {
+      "id": "claim_4a12b8708d964c409d5f371c8e923fc2",
+      "statement": "The setup engine targets Arch Linux and a normal invoking user for system-mutating commands; its `check` command reports Strix Halo identification, RAM, kernel version, CPU/RADV prerequisites, GPU group membership, and live TTM GTT page limit without making those observations hard host exclusions.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L478-L481",
+          "version": "repo-lines-v1:sha256:40418adbf762fb0ebc4b7e37f8c3f128887c4f6e387d2a8c6c209b55d3548b79:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDY3ODNlZjE3MGFjYzk0NGIxYWRkNzk3NDg5ZDg2ZmMxNDc3MzJlNTg2MDAxYzg3OTFkMDI5NmZkZDIxNWZmMCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDEyY2EzNDVjY2Y3NWJmOWMwODA2YmNlNjk1YmU4ZGU4MDhiNzk5ODQyNTFhN2E1NGQyMDJjZjYxMDFkZDQ1MSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOWM2ZTY0NzRmZDViOWFlNWM3ZWMwMTc5NGYzZDI0YmUyMzE2NmMxYjIxOTEyMzQ1NGI1MDE4YjFkY2MwZmU3ZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTJmNjFiYThjZGRhNzZmZGYwODk3OWM4OGIxNGVlNzJhZDAyNmU5NDI1YjAyZThjNDBlNTk4ZjllNGJiYjlkYSJ9"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L492-L557",
+          "version": "repo-lines-v1:sha256:9fa511377816ead63510e4d090048fd5cd5a90e096bd17e53ef4c19cab06d49b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmZDNhMWNjYTBmMDBmYmYxNDc4OWEzYjI5NzdkNWQ2OWYxMTNhNWYwYTJjOTA3OWIzNTQxMWQyYjAyOGE3ZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVmNzM2OGNjYWI4NWFmOTc4NTBhMGNkY2RhZWFhMTg0OTdlODQ0Y2M4ZTNhYjgyYWI0MGY1MGQyNTI0MTlhMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNjOTUxZmEwNzFmNTliNGQ1NzhlMGQ2ZTJiNjJmODZjYjEwYjE3OWQzYTU2MTRmY2U4NTc5YmZmZDQ0MTY3YjgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ef1236fbac4a486fa96e90d42d7104ed",
+      "statement": "`GTT_GIB` is validated as a positive integer in the 64–115 GiB range, while the interactive manager presents GTT tuning as optional and deferred after the baseline.",
+      "evidence": [
+        {
+          "resource": "repo://manage.sh#L655-L686",
+          "version": "repo-lines-v1:sha256:5d241155515e553682db96ce70b8e92b2d3084b194a35918313eab7de5d9cdea:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4YTUyZGJmNDMzMzM2ZDgwNGU2NDkzNGVmN2E1ZTYxODEwY2MzM2M5NTM0Yjc4MTYxYWIwMzdhMGJkZWNlNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzYzE1N2U5NWZkZmVkM2UwYmZhZjAzOWYxMDg1MTYyZTg0OGFkYjVmNDU3YTE5ODE5NzM0ZTVmMGRhMzg2ODIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNjE0ZmMyMzkyM2UwNjJmNmM0NDFhZGYzMGI1ODhlZDU5YWE5N2JjMzlkMmE4NzVkYjRjNGRjZjk4MTBhMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUwODg0ODBiNzY1ZTJiMGUzYzQ1OGQxNzc5MDRhNTU0ZjFlMjYwNWQ3ZDQ0YjY3NDJmZjFiMjA4ZDA0ZWNiZjIifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L270-L285",
+          "version": "repo-lines-v1:sha256:405ba0a988090e865db6909d935bfe4d340742d0f77d550d1e647afc7f8fc8db:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkYmFjNTg0MDhiZTk0NzU1OGZjMDBmYTI3MmYwNzdhMmFlZWQ4ZTEwNjIxYTRhY2Q4NzQ2OWE2MzhiZDc1NTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMyNzNhYWU1NjViOWRjOTNkMDAxNjMyYTU2MTlhZjQ1NDM3MzljMDk4YjFlZGU3NmJlOTA5YzlmYjk0ZTc1YjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImExYmRmNWQzYmM3Y2Q4NDUwY2ZmYzNlMzU5MmIzMTg2OGZmYWMxZmM2Y2Y0NDMyMDQ3MWJmY2VhZjViZjM5ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMyOTUzZTc0NzgzZTRiZTBjNDUxM2JkNGM3NmY1ZWEyN2FhMDRmNTJhMDZhOWYzNmY1YzVhMzMzZmMxZDZlMjIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d79eba3773c047ec8b6496b61f5eb9a4",
+      "statement": "The documented deployment keeps the BIOS UMA allocation at its small default and leaves IOMMU enabled because GTT is dynamically mapped model capacity and the workflow does not disable device isolation.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L148-L168",
+          "version": "repo-lines-v1:sha256:20f1f524610b2e915d5a704461161fffd286379a3650c8899a8db4406f987902:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2NzA4MTlhOGEyMGFhYWUxODg1N2JlYWNlYjBmZWE4YWFlY2Q0MzU4ZGEwODBiZTE1N2VhY2U2ZjNmNjBhYzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MjI5NDlhNjE2MTlhNDBjNGU0YWUzNDYwYThmYWYwMmI3MjM5M2Y1YzZiNjVmNjVmMjJjZGZiYTNhODI0ZTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxOGE5OTE1ODk2ZmE1ZjA5MGE4MjZjMDY3YjJmZjgwMDA0MGQ5N2IzZmI0ZjlkNDA4OWZkNGQyYjlkOTE3MzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImE1N2UwZGExMjc5OWIwNGRhNGUxNDVmYzc2Njc1ZTgxZDJjZDBhMjFlNWVjMjczNWYwYzFjNWI3YWQxZWY4YWIifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2913-L2923",
+          "version": "repo-lines-v1:sha256:58227d13da824fc79348c2a97776dcbb626678a486b082705252684fbad0d800:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4Yzg2MzFmNzYxYWZiN2E4OGUzZTYzMWJiMWRjZTM4ZTlkMTkyMmU0OGYxNWI4MTE0MWNiNDNlNmY1MjAyMzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNkODBlMzcxZDhmYmQ4ZGNlM2IwNmRiMTg4ZWEzYjVjZDVhNzVmYWZmMGE1ZmE2MzRkYzdjOTU5M2YzMjNiNTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJlODk0NWUwMjFjNjY3NGJiMjRjOGUzNTRhZWMyZmFhNWZmZjAwOTY1NzI5OWI0NDE3ODc1YmYyOTM2OTYwYTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ4NWY0Y2FmNjZkZWIyZDY4OTUxNTM1ZGRiMzg3NGExOGIwZWVmMGJkZjJhYmJmMDk0MTg3MTc5ZWUyYzVmYzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_663ad65b17304a4ba397ad34a0cfb180",
+      "statement": "A pending reboot blocks GPU initialization and local runtime activation unless the operator explicitly sets `ALLOW_PENDING_REBOOT=1`; status exposes the condition as `system.rebootRequired`.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L1500-L1502",
+          "version": "repo-lines-v1:sha256:65463565c9b8437370dcac3e1c4a1d07c8f24f1e2e2e5f1be59783efca7dbf2e:eyJzZWxlY3RlZExpbmVDb3VudCI6MywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM1ZGE0ZTk4YjRmODYyZmE5M2U2MWYwMzM3OTk4NDU0ZGIwNGE1MmUwODliMjAzOWU5YmI0OWZiMWM1YjcwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzVmYzkwZmY4YTQ0MTRjNTQ0MWQwZjY3N2M1Y2JmZGEzOGI0NzRlNTFiZmQ1NTlhNTU1OWRlMGY4NzcwNTUyNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZDA5NDAxMzk4ZDQ3NDM5NzJhZGY1NDQ5ZmVkOWM2NDQ3NjNkZjhkN2ViOGI3YTFlZTc1NTkzZjYxZjlkODllMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDNkZjc4Y2M4NGM0NDY5OTE3YmNkOTJjZmRjODlmNWE2Mjk0ZjgwMTRjYjk3ZTIwMjM1ZDYyNDI3NTIyZWFmZiJ9"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3201-L3212",
+          "version": "repo-lines-v1:sha256:b32c7965014b3f39ebedbf57feb22cca0cb7c30fa90b693b484447eb66b3d29a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk3YWM4NDM5ZTFhMTFlZTZjNjk1YTM1MmI3OTcwN2YyZTE2MmQyZDE3MjIyYjQzNjI5ZDExN2Q1ZDRlNTY2MTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2N2QwNGU4ODUwN2I0YTcyY2EyYzkxYzY4ZjY0N2NkNGNjNmZjMzc5YjYyZDM0NTE0OTEzNWVlM2ZhNDMyOWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkMTg0MzQ3M2IyZDQ3MTNjNDRmOTRkMDIxYzkzOGI3YWJlYzgyOTU0MWRkNDNkYzQ1NzIyYzAxMmQ4Mzk2YzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc0Y2U4MDllYWRhOGU3YWJkNmVlYmE3YjZiYmQ3NjU5MGVjMjdkMTM2N2UyMmYxZjJiYWIzMDFhNjQ2ZjYxY2EifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L575-L582",
+          "version": "repo-lines-v1:sha256:796ef49a9dfb6fa58a9e4acfdb4cd7943e3a0fc8511b7f84cad843b5bb4dfe45:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTM1ZGE0ZTk4YjRmODYyZmE5M2U2MWYwMzM3OTk4NDU0ZGIwNGE1MmUwODliMjAzOWU5YmI0OWZiMWM1YjcwZSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZWMxMDM1MmYzNmZjODZiMjkzMjU1M2JlNzA3ZWViZTNjYmMzYTllZDhjYzc2YWY3MTUzZTllYWRkZDQ1ODE5NyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMzhiMDMxYzcyMGI0ZTZkZWE1MTdkMGFiZjNhMzI3MWY1NmQ2ZGE3N2M0YTgyMTJiMmI4ZGQ3ZGM5ZGU4YzllMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNjBiOTE3ZmQ0ZDU2MjEwZGYyNmNhZGFhOTk4MGM4YzBiMzM2MzJjMjA1ODNlMmMwYTJiODU0ZTcwMmZmY2E3NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c256baeec0944eca257cde0d6269581",
+      "statement": "`kernel-tweaks` is an opt-in confirmed operation that installs `amd-debug-tools` and uses `amd-ttm --set` to persist the current TTM `pages_limit` form instead of deprecated GTT settings.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2810-L2828",
+          "version": "repo-lines-v1:sha256:5e7e1a236176d14494c712f4dae4e8c176432501343ba552e200c2b0d68d74a6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4YjhkM2NlNmQ2OTQ0Nzk5NGYwMmI1ODUxZGUwYmE4ZjRiNGY4NTJjOTEzNjg0YWIyNWU5OTM5NWFiNDA2YmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRhZmQxNmEyZWQ2NWE3MjI3OTBlYjUzN2NkNzA2OWFkODdkYzg5ODU4YTQ1NTMzZDUyMGZkODI2ZjQ5ZTg0MzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlODRlZGUyNzFiMDhlMjY1Njc1YzA0NDgyM2Q3YTlhMmEyNGQ4Mzc5MDk4YzBhYWMwZjM4ZjQ1ZGZjMzNjZTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIyMDM0NjNkMGRiMTYxNDEzOTNjOTk0MWM2ZjQxMjRjZjljMTFkZjkyODY2ZjQxYzI3YmY5MjY3M2RkMjRjOGYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2905-L2919",
+          "version": "repo-lines-v1:sha256:9cf2f23d012aefc573f5f57707474610ab905ad825aaec5e5b762bc2d3e9f3fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdiN2Q0ZDZmNzZkNDE3Y2I0NTAxYjNhNGYxMjFlODM4YjkwMGExZjI5NmI4MzFiZGY1N2U2NzI5OGQ4ZjcxOWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxNzg5NjM5OGMwN2Y4YzU5Yjg5ODYwZjMxMDQ4NzY1OWU5ZGNiZWUwMTBhYTY4MWUwMjBmMzczYzk4NWY2ZTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzM2Q2Mjk3MDRmODJiMzMwY2Y2NDA4MmIxNGZkN2VmN2UxMWVmZGYxNjg0ODBiOGExZWE0NjIyN2JhYmVmNGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRjNTBhMmVjODk5MjJhNWU0MzBjMjc5NWI3ZTVkMTVmZWI4YmVlNzk0NGIxMDViNjZkM2M2MjIyM2JmYzQyM2UifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bbc35e2560e344ada64d6ac815642581",
+      "statement": "Before GTT tuning modifies policy, the engine rejects symlinked/non-regular files and conflicting settings, recognizes only a narrow prior generated legacy policy for migration, and requires explicit `KERNEL_TWEAKS_FORCE=1` to replace a richer custom `ttm.conf`.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2829-L2869",
+          "version": "repo-lines-v1:sha256:0565ead14b8c00976a29360b5f37670aa248a35de445615e4958c30b4cd42139:eyJzZWxlY3RlZExpbmVDb3VudCI6NDEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFkMzkyNGZmZmZhN2M1MWJiNTE5NzI4ODhlMDE3YzhkZGFiZGIzNGU2YTgyNWVlMjUwODZkYWM0ZDYyYmYxYjAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4MGM0MzNiZjJiZGRlMjE4NzNhZTAzOWVjYjYyNzk4MmU1NmQ2NGU4MzE3N2U2MjY4OTE2ZTZjOGRhNWU2NjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImIyZjY4MmRkMTllNjI1NTlkYzEwZWY1YTM2MmJiZGU4YjEyNTI5MzQzNGFiY2Y3MWE4Yzc5ZjQ5YTU4NGM5YTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_dec8f8abfb374336b37530f2a94f3680",
+      "statement": "The GTT policy update is transactional: backups and signal/exit handlers restore prior target and legacy files and rebuild initramfs after failure or interruption; successful application still requires reboot guidance before the boot-time policy is active.",
+      "evidence": [
+        {
+          "resource": "repo://README.md#L616-L628",
+          "version": "repo-lines-v1:sha256:15b865c353b324353b46ade79eea3e03ee07fb58c304d40e8dc3741d35df133c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkYjJhMzAzNmYwYzM2ODhhMGY2M2RhMWVmYWRiYmMzZWJkZGJiM2QzMTZhNmIwZWEzNTA2MDFiNTZiYTBkZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMGYwYzU0MDFlZTZjNGI5ZTQwNmI2OWY4ZmU0MGE1NzE0Y2NmNjllYjBjZTNmNmMzMGRlOTU3OWQwNTFjYTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlOWY0NjNhYzJmMDI5MTQ2ODJjMGJmNDk4NGE0OGVmNjU4MWY5NDk5YWY5OTRhNDBjOTBiMGNkMGMwNTdlNmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJjNTk3ZWE3Yjc0OTYzZjY5OWZmMjM2ZDJjNWM3ZDMwODc3ZmRjN2Y2M2U0YTBhOTAyZDFiY2Q0ZjI3YjExN2IifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2771-L2807",
+          "version": "repo-lines-v1:sha256:9602303ec9b34815e2a874d9c77bf41a7716b4b8a94f952150fb9801cb52ed90:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiMWIyZmJmMDg3ODc2MzU3NmYxNjZhM2ZhZTA5MDQxNzk1ZjYxYmRjOTE5NjAzMDQxMzBmNzM1MTI3M2MxMzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA2ZDIzZjVhMzA4N2JlMzk5Y2ZmMzlhN2FhNzIxMDZiM2I2MWU3Y2ZjOTZhNzIxNjEzZjM2ZjFiYmEwNzhiMGMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2MGVjNTQ5ODMyYTczNWRkZjI1NDhiYWUzNWQ2ODI1NjEwMjc4YTJlNDBjYWJmMWY0NzYwNzhjMzJjNzJjNGUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L2871-L2915",
+          "version": "repo-lines-v1:sha256:dfe1aa8f65f68bab352a7fecdfafef3dec3363fdd487343c5c58614ba51e2942:eyJzZWxlY3RlZExpbmVDb3VudCI6NDUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUxYmZhMThlNTFhN2UwZDFjNTgwNWE3MjQ4ODkwNzVkYjEyNTY0ODI1MzJjYWY2MWRlMWM0MTMzZjJlMzIyNGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliYjJhNGM2MWUyMjZlZGQ1NDhkNDY3YzBlOTRkYzliMDU3NzVlMTZhMDU2ZGQ5MGY1YmU5MjU5OGFiMDRmMWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjNWMwYThlZmEwMTNhMzQzYjg2NjVlZDgyOWE3MWE2OGQ1MTc1N2M1YmY0MzZiNzVkMWM3ZDFkOWUzZThmNjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQwNzIxZTEzNjk3ZTEzMTYwODUzYmYzMmJmMDgxODY3ZmI1NmM2ZDg1MzU1NzA5MDdjNGYxNTc4ZmU1NjAwY2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f204912bf314728a8729be26ee264f6",
+      "statement": "`remote` prepares private SSH key paths and host keys without starting the daemon, requires the firewall perimeter before policy setup, preserves effective password and keyboard-interactive modes, then enables SSH only after the validated drop-in is installed.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3780-L3793",
+          "version": "repo-lines-v1:sha256:639240b521921ebddc7bf47dfa29b7cca978c808fb7dd3ae5e5ec550159af7b3:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYmRiODg3ODUyMGIyODAwMzg4ZTQ1MmJkOWU2MjU5OTc3NWMxZmFhNDBmZDU1YTIxMTFiMzc0YWRhYjAyMmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgwYmU4OTBiYzdlOWI3YWI5NWQ4MTlhNjkwZTcyM2E0MDk2MzVkYmYyODE1ZTdmNjcyOTc2MTE2ZWEzZDRkNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlOTg0YjZlZjcwYzY2ZWY2ODEyNWQ2NGIxMTZhNjEzZjkxNzU4MzRjMGJlNDM0NzI1MjU3MmIzOTFmYTQyOGEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4428-L4466",
+          "version": "repo-lines-v1:sha256:51e40521e15e1308c2759bb746f81f9b6f43576155956ddfe4f2c19e2f2d03ce:eyJzZWxlY3RlZExpbmVDb3VudCI6MzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMxMDliY2JhYzI5ZTIwN2EzOGVkOTQzZmU4YmNjY2UzOTQwZTRmZDc4ODFhNzc3NmYzOWZkYmQ0ZTI0MTllMjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3NzhjYjk2MzA4YTA2MTRhY2VjMmFiODMyZDQwNzY0N2IxZGJkZGFkODFhYjA4NzE2NmU0MDcyOTMxZjE2ZTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRiY2FiZTNiMmVmODc3YzUwMDNjYzcwYjExM2RjMjZhN2FmOGRlMzkzMmNjMDA4NDY0MDBhNmMzYmJhYTQ5MjMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a422f6d5187b46f78a8707f3e744af13",
+      "statement": "The remote firewall rejects active firewalld and invalid or overbroad LAN CIDRs, enables IPv6 filtering and default-deny incoming/routed UFW policy, permits only rate-limited LAN SSH, LAN mosh UDP 60000–61000, and LAN mDNS UDP 5353, then refuses completion when the active rule audit finds any other inbound allowance.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4042-L4053",
+          "version": "repo-lines-v1:sha256:1e2b3342512be5e5e0335a79138f6d4ffaca0506c8107f44bdb8655318dbd00c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjMTIwNzY2NmEwMjFlZTBhMWVkNTkyODZkYWNkZGMzODgwN2RhNmYxMjcxNDQwMGFkMjk3YjYwZjI3NzQ3Y2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlkMDkwODVhYTEwYTNlMzEyNzg2YzYzM2Y4ZWU5ZThjNjU2ZDdjODUwNTYyNzI1NjQyOWY0YzJjZWNmNzAyYzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjIzOThiZWU3YmEyN2M0NTdlODRmOWViODczYTJmNmQ4NzU2ODMwNDljZDg5ZmVlNmViMjRiMDFkOTZhZTI5N2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM2ZTU3ZjJkOTViZjkzNjRiNjRhODI2ZmMyYjlmNzllNTMyNTRiZTljMmRmNGY4Yzk5ZDg0NzcxMTRhNzEyOTkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4249-L4327",
+          "version": "repo-lines-v1:sha256:a338a1c8f07b38a9272c573919331488ea116e448a6908e4326dc540e0cef8f2:eyJzZWxlY3RlZExpbmVDb3VudCI6NzksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1ZWY2ZDI4MWM1ZDU3YWUyMzdlMjQyODBmN2U5YmEwZWJkMWRjMDU2NDYzNmUwMzliNjRmZTMyZDBjM2I5NjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRiZWY4MTQ1NmRjOWYzNzc3ZGZmOTUzOTVjYTA2MzEyZDVmOGRmYWEzYWIyNjExYWY3OTlhZjQ2ZDUyMzJjZGQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_86b51c9fd81b4bb490777735a0b0c7b8",
+      "statement": "The generated SSH drop-in disables root login, restricts access to the invoking user, enables public keys, disables X11 and agent forwarding, and transactionally validates both full syntax and resolved Match-aware settings before reload; failures or interruption restore the prior drop-in and active daemon policy.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3830-L3905",
+          "version": "repo-lines-v1:sha256:13c412dd83cc18c6976e4777b90d7d4114d8b48e33b114af5198d72e55627049:eyJzZWxlY3RlZExpbmVDb3VudCI6NzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3ZjgxZmQ4YmY0MGQ2YWViODVkNTkzNjZlN2E3MjU4NTdkNjY0NDU0M2I3Yjg0OTVhZDI4YzFjNGJkOWU3NzkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3OTIwYjBmODc1NTJlMDE4NjAxZjlkMGY1MGIyNzY1YjFmMThjNDAwZTI4MzNhNWQyNDcyZjNhOTYyOTY1ZGIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI0NzM0OTA1OWQxZmUyMTgwMzRlZTFlNTlmZTQ4MTFhYjIwNTNiNjE2ODVmZmJkMjFmNmRmMzU1YTZmODU3NmUifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3908-L4029",
+          "version": "repo-lines-v1:sha256:9221d1afdca91c97615e2044b5843e4600f743aa35a5b0bb7138e5ab5c3b0ddf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI5ZmEwZjY1NGI2NmVkNTk3Nzg4YjRjNTA1MDFhN2IzYThhNzlkMjRkNjFmODRkNjY4YzIwYjY4NzA4Y2FkZmFjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzNmQ3MGYyNjFjY2MxYzhmYWIxMmM2ZDlhOTA0NTJjMmJkMmY5OGU5MTQwYjU4YWE2YTUzNmY2OWNkYTM5OTExIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxYTJkM2IzOGM3Yjk1MTEzMzBlOGJhNTc0NjM4OTY4YWFmM2ExYzUzMzJmZGUzNWNhOTViNGQyMjI4ODU5NGY0IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJmMzdjYmVhNGU1N2I0Y2Q5YTFlODk2NGRhMWFmYmZmMmJiZjgwM2U0NDQ2YjdjOWMwNjY1ODNlNGRkYmFkYTdmIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_a6ada11c953d45ff846bf60d8b46808d",
+      "statement": "`ssh-harden` refuses to disable passwords until it proves the effective `AuthorizedKeysFile` includes the checked home key path and finds at least one valid key; it then sets both password and keyboard-interactive authentication to `no` without starting an inactive daemon.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L3808-L3828",
+          "version": "repo-lines-v1:sha256:f1459eab990327d8efc80329a988813cb2e905ff07b5844543540e34f40f9f27:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1MDQ3MjU4ZWI2ODA1MjNjNDNkZDdhMDcyZDg5ZjFhZmIzMWU1M2M3YTM0ZDJmMDU2Y2FlMjZhODk1NGFlMDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMmRkMzYxMzAwNzc1Zjc3Y2RlNGU0NzViNGM1MzJhNWIzOGMyNTY1NjAxZDViMWE0Y2U2OTQ4YzA0ODYwYTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwNmM4YTNjMWVhYTY4ZGQ0ODE2YmJlMDBmMzMyOTI3YThkZjA0OTgwMTMwMTg0NTgyNGMwYjM5NjgzOTA1ODgifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4520-L4545",
+          "version": "repo-lines-v1:sha256:fa273dc88065c4e5ee3ff8518296cdd0a4bedbe7bc3c17ccef317b4a72844827:eyJzZWxlY3RlZExpbmVDb3VudCI6MjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwNmRjZDhhMTZhYWJiZjNjMWNjNmQxMzZhYmExZGQ5MWRlNzVjZmE4NGY0MDhhMGRmMTgzMDJmNjFkMmU1N2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYjlhOTkxNDk3ODc0MzE3MTQzNDBmZmU0MDQ4MTYyMzk4ZWVhOWRmZjVkNjU5MjYxYmY4MmNkODNmMjFjZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZiZjdkYTVmODE5NGNhYzgyOTQxZDdjMjllYzgwY2Y4ZjJmN2U1OWQ0MDJlMWRiZjQyNDJkZWNkZjdhODE1MDYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5873ef1c3b044692963dab498902a948",
+      "statement": "`ai-session` creates or attaches a persistent tmux agent session keyed by canonical project path, chooses the agent from environment then saved configuration then OMP, and reads the local router secret inside a new pane rather than placing it in tmux arguments.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4128-L4194",
+          "version": "repo-lines-v1:sha256:d0a7ad024d94cbd4acf2d2a9962f440c4eb22b10c36411f56c4c60408a89f658:eyJzZWxlY3RlZExpbmVDb3VudCI6NjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViNzNhM2ZlOWI1NzQyMTc5MzE3NThjZDhiNWQ4MjgwOGU4ZjhmNmE1YjdmMDBkNzc4YzA4M2ZkMWYzMzdhMDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkY2MyNzNlOWE2NzNkMDAzNmM4MWQxYjE3ZWY4ZjNlMzdhY2MyOThmMjhmZTM1MGUyYjkzODllMDBmYTQ1NDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMxM2ZkZTVjMzI3N2Q5ZWNiZTBlMmZlNTE2NTY1YWNjNTA4NjEwMmJlNGZlNWRlNDM5YzdmZGE3ODUzZDk5MmYifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4197-L4246",
+          "version": "repo-lines-v1:sha256:ac754230635f6928776c442fec30a59462deb8e000c41135acf66cfe2c034e43:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5NGNjZTk1NDU5YTY3YTRiNzU1M2I4MDY1YmY3YzRjYTMxYjYzYTdiODRmNGQ3Y2NhM2UzNjZkMjcyYjg4NzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYjlhOTkxNDk3ODc0MzE3MTQzNDBmZmU0MDQ4MTYyMzk4ZWVhOWRmZjVkNjU5MjYxYmY4MmNkODNmMjFjZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmMGY3ODQxZGY2Y2IzMTgxYjQxNzE5ZThjMDgxZTliM2Q3Mzk3NGY2ZWU3NzkxN2QyNTIxMWY2YWFjMzA2YmMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_3a31aa7ebc71484a96e4e7bfaa67a365",
+      "statement": "The focused offline tests cover fail-closed firewalld behavior, SSH policy/key-path rollback and first-run host-key safety, and GTT transaction rollback including initramfs rebuild and symlinked-policy preservation.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/system-transaction-test.sh#L151-L264",
+          "version": "repo-lines-v1:sha256:4ddd5f606e1c661b99d4c285d3e1a0dc70970d930df1a689eb3da06d4e385355:eyJzZWxlY3RlZExpbmVDb3VudCI6MTE0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJkYTM3OTcxY2E1MTcxZjNiMzI3MWJkYzFhZTg1YTc4NjI3Y2IyMjMyODM2ZjY5YzUyMDYwODUzM2ZlNTE3MDIzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhNWI5Y2I5MDRjMDQ5ZjY2OWQ3OGVhM2E4NjUzMTBkY2Y2ZGI2ZTY2MjdmZWI1MDMyYjc1MTM2MDVkYmFlYmYyIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIwZjgzYzU4Y2EwMjQwYWNkNWU4NmFkZGI3MzUyMzFiYzJhZDk1MGZhNGQwZGM3ZjY4NDM4ZGFlYTNkMGZmNzlhIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIzYTQ5NjUxMDNmZjA1NzlhODFmZjNkMWFhOWVmNzhjMzZhOTE3OTBhYjY5MThkZGE2ZTUwYjk4ZDE5MTQyZDgxIn0"
+        },
+        {
+          "resource": "repo://tests/integration/system-transaction-test.sh#L327-L386",
+          "version": "repo-lines-v1:sha256:0e978da601170f4e46921bc981e00af3ca84ecbb47dc63331ba097160ef267ba:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZmYWIzZDkwY2MyZTI3M2UwMjFhYjExZTUwNzk0N2M1YzFkMDg3YjQ3N2U0NjJlZDk2NjY1OTI0MGFkODc4YjUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0ZGJlOGFkYTc0MWQ0OTBhM2EwN2FiYWU5Nzk5Y2VjZGRhZjE3M2IxZTQ4MzYxY2EwNTMxYmQ4ZTgxMWNlY2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MmM0ZTMyMDQ2OTM1Y2QzNzMxYzVjOWEzZjYyZDBlZTMwNWFkOTY1NzM4YjY5Yzc0YTE2YzBkZjU4ZDc4ZGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJiM2FjMDY2NWQwYTM5MmJjOWI3YzRhMjIwNWJmZWI3ZDA2NTVhNTc2N2U2ZmUzNjI2MzllZjliYTkwNTdhYTgifQ"
+        },
+        {
+          "resource": "repo://tests/run.sh#L7-L18",
+          "version": "repo-lines-v1:sha256:53e443082ceef3cce643578a8ed868a660acc5b4420bbb4fb01cf12f82e3f769:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3ZGJkNWExYTVkZDNiNGJkZTdmNDQzYTI0NjRkOGVlYzZiOGY4ZjI2NWJlNDAxMmY3ZTM0YTg1YzJlYzk0ZGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY3MWIxYWNhNGY1YTJiYTBmNWYwNzVkZTZjNGNiMGM0MDdiMDQ2MzFiZGNhOWZiNjhhY2FlM2NjMmJmODI4ZmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM4MjQxZjY1ZDNjZjQ0ZmYwOTUwY2VmY2VlNjgwYmFhODM5MmViZGZiODJkYzU3M2MyYjcxYjVjMTNjMDI4NjAifQ"
+        },
+        {
+          "resource": "repo://tests/unit/runtime-safety-test.sh#L105-L116",
+          "version": "repo-lines-v1:sha256:ba54d808d160e5d3f6549f500f518ac8e8e6e7d650f107e28355b01a2474bd8d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNzU3OTUzOGEyNjVlZTdjYTRlZmFiYzNjZTFjY2Q5YjFhMmVmMTA0Y2RhNTAzN2RjMDkxZTkyNWNkMTRhMjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYwMzk3MDk5YTYxNDZiN2M2OTUwNjRjNmM5YWMwNjg2ZGEwN2YyZGYxNzQ3NWVkYTIwMTViMGQ5NmEwMjdmZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY5MjE0MzA5MDk4YjFlODM4MTk0MDBjOTVkNDY4OGNmYmZlODA4Nzg5NTU0M2ZkYzZkODVhYzliYzVhYWUyODAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-07T19:27:17.811Z"
+  }
+}
