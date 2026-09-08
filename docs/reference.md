@@ -133,7 +133,7 @@ repositories, refusing known pending upgrades:
 ```
 
 It installs `llama-cpp`, `ggml`, `ggml-vulkan`, `vulkan-radeon`,
-`vulkan-icd-loader`, `vulkan-tools`, `curl`, `jq`, `nodejs`, `npm`, `bun`, and
+`vulkan-icd-loader`, `vulkan-tools`, `curl`, `jq`, `python`, `nodejs`, `npm`, `bun`, and
 `pciutils`.
 The package step does not refresh databases or upgrade the OS. Keep the
 repositories and release channel supplied by Omarchy. Its update
