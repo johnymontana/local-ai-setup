@@ -131,7 +131,7 @@ repositories, refusing known pending upgrades:
 ./local-ai install
 ```
 
-It installs `llama-cpp`, `ggml-cpu`, `ggml-vulkan`, `vulkan-radeon`,
+It installs `llama-cpp`, `ggml`, `ggml-vulkan`, `vulkan-radeon`,
 `vulkan-icd-loader`, `vulkan-tools`, `curl`, `jq`, `nodejs`, `npm`, `bun`, and
 `pciutils`.
 The package step does not refresh databases or upgrade the OS. Keep the
@@ -140,9 +140,24 @@ workflow includes snapshots and migrations; direct `pacman -Syu` and
 `yay -Syu` skip that workflow and are blocked by current Omarchy releases.
 See the [official update guide](https://omarchy.org/manual/updates/).
 
-`ggml-cpu` is required even for Vulkan inference; llama.cpp uses it as its base
-backend. The script also verifies that RADV and the GPU are visible when the
-relevant tools are installed.
+The ggml **CPU backend is required even for Vulkan inference**; llama.cpp uses
+it as its base backend. Arch shipped that backend as a separate `ggml-cpu`
+package and has since merged it into `ggml`, which now declares `ggml-cpu` in
+both its provides and its conflicts. Naming both in one transaction therefore
+fails with `unresolvable package conflicts detected`, so `install` resolves the
+backend against the packages your channel actually offers and requests exactly
+one of them. Nothing needs to be configured for this; both layouts install in a
+single transaction.
+
+If a superseded standalone `ggml-cpu` is still installed from an earlier setup,
+`install` stops and asks you to complete the replacement through
+`omarchy update` first. Only the native updater may swap a conflicting package,
+because that is the step covered by its snapshot and migration workflow.
+
+`check` reports the backend as installed whenever the dependency is satisfied,
+including when it is supplied through `ggml`'s provides rather than by a
+package of that exact name. The script also verifies that RADV and the GPU are
+visible when the relevant tools are installed.
 
 ## Reproducible downloads and installs
 
@@ -607,6 +622,13 @@ routing, load, KV, context, MTP, prompt, and reasoning identity fields match.
 
 Common failures:
 
+- **`ggml and ggml-cpu are in conflict` / `unresolvable package conflicts
+  detected` during `install`:** Arch merged the CPU backend into `ggml`, and
+  the two package names cannot coexist. Update this checkout — current
+  revisions request only the backend your channel offers. If a standalone
+  `ggml-cpu` is still installed from an earlier setup, run `omarchy update`
+  first so the native updater performs the replacement, reboot if requested,
+  then run `./local-ai install` again.
 - **`no CPU backend found`:** run `omarchy update`, reboot if requested,
   then run `./local-ai install` for matching llama.cpp/ggml packages and
   `./local-ai apply` to reactivate.

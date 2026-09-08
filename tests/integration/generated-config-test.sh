@@ -686,10 +686,19 @@ pass "generated server launcher quotes every executable argument"
 if MOCK_MISSING_REASONING=1 SERVICE_HEALTHCHECK=0 SYSTEMCTL_LOG="$systemctl_log" \
     PATH="$mock_bin:$PATH" MODEL_LOCK="$LOCK" LOCAL_AI_CONFIG_DIR="$config" \
     MODELS_DIR="$models" LOCAL_BIN_DIR="$mock_bin" UNIT_DIR="$units" \
-    "$ENGINE" service >/dev/null 2>&1; then
+    "$ENGINE" service > "$TEST_TMP/option-guard.out" 2>&1; then
   fail "server option guard confused --reasoning-effort with missing --reasoning"
 fi
 pass "boundary-aware llama-server option guard"
+
+# An incompatible runtime must name the exact capability gap; "run the updater"
+# alone leaves an operator with nothing to check when the channel is current.
+grep -q -- '(--reasoning)' "$TEST_TMP/option-guard.out" || \
+  fail "incompatible llama-server did not report which option is missing"
+if grep -q -- '--reasoning-effort' "$TEST_TMP/option-guard.out"; then
+  fail "incompatible llama-server reported a present option as missing"
+fi
+pass "incompatible llama-server names its missing options"
 
 # A download/no-op verification must not rewrite the active preset outside the
 # service transaction.

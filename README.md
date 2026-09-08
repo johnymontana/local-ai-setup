@@ -53,6 +53,16 @@ again. Downloads resume. For repeatable deployments, use a
 > **Start with Everyday.** The installer sets up the baseline; add Coder and
 > Senior when a task calls for them. Keep this checkout in its permanent home.
 
+> [!NOTE]
+> **If the package step stops.** Arch reorganizes the llama.cpp and ggml
+> packages from time to time — the mandatory CPU backend moved out of
+> `ggml-cpu` and into `ggml`, and the two names now conflict. The installer
+> resolves the current names against your channel, so update this checkout
+> first if you see `unresolvable package conflicts detected`. When a superseded
+> `ggml-cpu` is still installed from an earlier setup, run `omarchy update`
+> once so the native updater performs the replacement, then run `./install.sh`
+> again. [Other install failures](docs/reference.md#verification-and-troubleshooting).
+
 After installation, open a new terminal:
 
 ```bash

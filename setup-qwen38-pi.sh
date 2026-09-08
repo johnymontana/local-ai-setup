@@ -541,10 +541,10 @@ cmd_check() {
   fi
 
   if command -v pacman >/dev/null 2>&1 && command -v llama-server >/dev/null 2>&1; then
-    if pacman -Q ggml-cpu >/dev/null 2>&1; then
-      ok "ggml-cpu backend installed"
+    if local_ai_cpu_backend_installed; then
+      ok "ggml CPU backend installed"
     else
-      warn "ggml-cpu is MISSING — model loads will fail with 'no CPU backend found'. Run '$(local_ai_omarchy_update_command)', then '$0 install'."
+      warn "The ggml CPU backend is MISSING — model loads will fail with 'no CPU backend found'. Run '$(local_ai_omarchy_update_command)', then '$0 install'."
     fi
   fi
 
@@ -585,15 +585,25 @@ cmd_install() {
   need_arch
   info "Installing local AI packages from Omarchy's configured repositories"
   info "Complete '$(local_ai_omarchy_update_command)' before first install; keep your selected Omarchy channel."
-  # Note: ggml-cpu is NOT optional — llama.cpp needs the CPU backend as its
-  # base even when inference runs entirely on Vulkan. Without it, model loads
-  # fail with "make_cpu_buft_list: no CPU backend found".
+  # The ggml CPU backend is NOT optional — llama.cpp needs it as its base even
+  # when inference runs entirely on Vulkan. Without it, model loads fail with
+  # "make_cpu_buft_list: no CPU backend found". Arch merged that backend into
+  # the base `ggml` package, which now conflicts with the older standalone
+  # `ggml-cpu`; resolve the current name against the configured repositories so
+  # both layouts install in a single, conflict-free transaction.
+  local cpu_backend
+  cpu_backend="$(local_ai_cpu_backend_packages)" || \
+    die "Could not resolve llama.cpp's required ggml CPU backend; resolve the package state above and retry."
+  local -a packages=(llama-cpp ggml)
+  [[ -z "$cpu_backend" ]] || packages+=("$cpu_backend")
+  packages+=(
+    ggml-vulkan
+    vulkan-radeon vulkan-icd-loader vulkan-tools
+    curl jq nodejs npm bun pciutils
+  )
   # Omarchy owns full-system updates, snapshots, migrations, and repository
   # channels. Install only this package set against its synchronized state.
-  local_ai_install_packages \
-    llama-cpp ggml-cpu ggml-vulkan \
-    vulkan-radeon vulkan-icd-loader vulkan-tools \
-    curl jq nodejs npm bun pciutils || die "Local AI dependencies were not installed; resolve the package error above and retry."
+  local_ai_install_packages "${packages[@]}" || die "Local AI dependencies were not installed; resolve the package error above and retry."
 
   ok "Installed. llama-server: $(command -v llama-server || echo 'NOT FOUND')"
   llama-server --version 2>&1 | head -2 || true
@@ -1493,13 +1503,20 @@ required_llama_server_options() {
 }
 
 llama_server_preflight() {
-  local server_bin server_help option
+  # Prints the usable binary path on success. An incompatible runtime exits 2
+  # and prints every missing option instead, so callers can name the exact
+  # capability gap rather than sending the operator on a blind update.
+  local server_bin server_help option missing=""
   server_bin="$(command -v llama-server 2>/dev/null || true)"
   [[ -n "$server_bin" && -x "$server_bin" ]] || return 1
   server_help="$("$server_bin" --help 2>&1 || true)"
   while IFS= read -r option; do
-    help_has_option "$server_help" "$option" || return 2
+    help_has_option "$server_help" "$option" || missing="${missing:+$missing }$option"
   done < <(required_llama_server_options)
+  if [[ -n "$missing" ]]; then
+    printf '%s\n' "$missing"
+    return 2
+  fi
   printf '%s\n' "$server_bin"
 }
 
@@ -1533,7 +1550,8 @@ cmd_service() {
     if (( preflight_rc == 1 )); then
       die "llama-server not found — run: $0 install"
     fi
-    die "llama-server is missing required router/MTP/reasoning/cache options; run '$(local_ai_omarchy_update_command)' before installing this service."
+    # $server_bin holds the preflight's missing-option report on this path.
+    die "llama-server is missing required router/MTP/reasoning/cache options (${server_bin}); run '$(local_ai_omarchy_update_command)', reboot if requested, then '$0 install'. Keep Omarchy's configured channel rather than mixing llama.cpp packages from another source."
   fi
 
   command -v sha256sum >/dev/null 2>&1 || die "sha256sum is required (install coreutils)"
@@ -2609,7 +2627,8 @@ cmd_plan() {
     if (( preflight_rc == 1 )); then
       echo "  gate: llama-server is not installed (run '$0 install')"
     else
-      echo "  gate: llama-server lacks required router/MTP/reasoning/cache options (run '$(local_ai_omarchy_update_command)')"
+      # $server_bin holds the preflight's missing-option report on this path.
+      echo "  gate: llama-server lacks required router/MTP/reasoning/cache options: ${server_bin} (run '$(local_ai_omarchy_update_command)')"
     fi
     blocked=1
   fi
