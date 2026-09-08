@@ -67,6 +67,62 @@ local_ai_require_omarchy() {
   [[ $EUID -ne 0 ]] || { warn "Run as your normal Omarchy user; sudo is used where needed."; return 1; }
 }
 
+local_ai_repo_package_provides() {
+  # Print one `Provides` token per line for a repository package. `pacman -Si`
+  # wraps long fields onto indented continuation lines, so collect the whole
+  # field rather than the first line. Unknown packages print nothing.
+  LC_ALL=C pacman -Si -- "$1" 2>/dev/null | awk '
+    /^Provides[[:space:]]*:/ {
+      collecting = 1
+      sub(/^[^:]*:[[:space:]]*/, "")
+      for (i = 1; i <= NF; i++) print $i
+      next
+    }
+    collecting && /^[[:space:]]/ {
+      for (i = 1; i <= NF; i++) print $i
+      next
+    }
+    collecting { exit }
+  '
+}
+
+local_ai_cpu_backend_installed() {
+  # `ggml` provides `ggml-cpu` on current channels, where a plain
+  # `pacman -Q ggml-cpu` reports a false negative. `pacman -T` resolves
+  # provisions against the local database and needs no privileges.
+  pacman -T ggml-cpu >/dev/null 2>&1
+}
+
+local_ai_cpu_backend_packages() {
+  # llama.cpp needs the ggml CPU backend as its base even when inference runs
+  # entirely on Vulkan; without it, model loads fail with
+  # "make_cpu_buft_list: no CPU backend found".
+  #
+  # Arch shipped that backend as a separate `ggml-cpu` package until it was
+  # merged into the base `ggml` package, which now declares `ggml-cpu` in both
+  # its provides and its conflicts. Naming both in one transaction therefore
+  # makes pacman abort with "unresolvable package conflicts detected", while
+  # older channels still need the split package listed explicitly. Resolve the
+  # name against the configured repositories instead of hard-coding a layout.
+  #
+  # Prints the extra package names to request, or nothing when the base `ggml`
+  # package already carries the backend.
+  local token
+  while IFS= read -r token; do
+    # Provisions may carry a version constraint, e.g. `ggml-cpu=0.23.0`.
+    [[ "${token%%[<=>]*}" == ggml-cpu ]] || continue
+    # `ggml` supersedes the split package. A standalone `ggml-cpu` left over
+    # from an earlier install still conflicts with it, and only Omarchy's
+    # update workflow may perform that replacement.
+    if pacman -Qq ggml-cpu >/dev/null 2>&1; then
+      warn "The separate 'ggml-cpu' package is now part of 'ggml' and conflicts with it. Run '$(local_ai_omarchy_update_command)' to complete the replacement, reboot if requested, then retry."
+      return 1
+    fi
+    return 0
+  done < <(local_ai_repo_package_provides ggml)
+  printf '%s\n' ggml-cpu
+}
+
 local_ai_install_packages() {
   local_ai_require_omarchy || return 1
   local pending rc=0

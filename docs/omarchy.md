@@ -27,9 +27,12 @@ from the same checkout afterward.*
    [README](../README.md#make-yourself-at-home). Use your desktop session so
    `systemctl --user` can manage the router.
 2. The installer checks the workstation and rejects known pending updates
-   before installing required packages. If a kernel, driver, or TTM change
-   needs a reboot, it stops before downloading or loading a model. Reboot,
-   return to the checkout, and run `./install.sh` again.
+   before installing required packages. It resolves the llama.cpp runtime
+   against the packages your channel currently offers, so a repository
+   reorganization — such as the ggml CPU backend moving out of `ggml-cpu` and
+   into `ggml` — does not need a manual package list. If a kernel, driver, or
+   TTM change needs a reboot, it stops before downloading or loading a model.
+   Reboot, return to the checkout, and run `./install.sh` again.
 3. It downloads and verifies the locked Everyday artifacts, activates the
    authenticated router, installs the pinned agent and Herdr, and adds the local
    commands and desktop launchers. The first model load can take time.
@@ -59,6 +62,25 @@ server for the first time.
 > Keep the checkout somewhere permanent. The installed `local-ai` command and
 > desktop entries return to that reviewed source; they are not a separate copy
 > of the application.
+
+### When the first install stops
+
+The installer is restartable. Every stage refuses to proceed on an unclear
+state instead of half-applying one, so the fix is normally to resolve what it
+reported and run `./install.sh` again from the same checkout.
+
+| What it reports | What to do |
+|---|---|
+| `unresolvable package conflicts detected`, `ggml and ggml-cpu are in conflict` | Update this checkout; recent revisions request only the CPU backend your channel offers. If a standalone `ggml-cpu` is still installed from an earlier setup, run `omarchy update` so the native updater replaces it, reboot if requested, then retry. |
+| Pending system updates must be completed | Run `omarchy update`, reboot if requested, then retry. The package step deliberately never refreshes databases or upgrades the OS itself. |
+| A required package is unavailable in your configured repositories | Run `omarchy update` and retry on the same channel. Do not add repositories or an AUR build; the pinned stack expects Omarchy's packages. |
+| A reboot is required | Reboot before any GPU work, then run `./install.sh` again. Verified downloads resume where they stopped. |
+| `llama-server is missing required router/MTP/reasoning/cache options` | The message names each missing option. Complete `omarchy update`, reboot if requested, and retry; if your current channel genuinely lacks them, review the available Omarchy release rather than mixing llama.cpp packages from another source. |
+| `<tier> files do not match models.lock` | Inspect `local-ai model-catalog`, then `local-ai model-prune` and download again. Never bypass the checksum. |
+
+The [reference troubleshooting section](reference.md#verification-and-troubleshooting)
+covers download, authentication, service, memory, and routing failures in
+detail.
 
 ## Open the menu, choose a task
 
@@ -208,6 +230,14 @@ This command checks the existing package databases for pending upgrades and
 stops if it finds any. It then installs required packages with
 `pacman -S --needed`; it does not refresh package databases or update the OS. Running the
 native updater first keeps the package set coherent.
+
+The requested package names are resolved against your channel each time, so
+upstream reorganizations do not strand this checkout. When one package
+supersedes another that you already have installed — the ggml CPU backend
+moving out of `ggml-cpu` and into `ggml` is the current example — the install
+step stops and hands the replacement to `omarchy update`. Swapping a
+conflicting package is exactly the step the native updater covers with its
+snapshots and migrations, so let it perform that change and then rerun.
 
 When a reboot is requested, reboot before GPU work. After updating, verify the
 running kernel and RADV, then reactivate and exercise the router:

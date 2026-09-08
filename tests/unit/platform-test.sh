@@ -35,6 +35,31 @@ pacman() {
         printf 'fixture package unavailable in selected channel\n' >&2
         return 1
       fi
+      # Reproduce pacman's field layout, including a wrapped continuation line,
+      # so the Provides parser is exercised on realistic output.
+      case " $* " in
+        *" ggml "*)
+          printf 'Repository      : extra\nName            : ggml\nGroups          : None\n'
+          printf 'Provides        : %s\n' "${MOCK_GGML_PROVIDES:-ggml}"
+          printf '                  %s\n' "${MOCK_GGML_PROVIDES_CONTINUED:-}"
+          printf 'Depends On      : glibc  libgcc  libstdc++\nConflicts With  : %s\n' \
+            "${MOCK_GGML_PROVIDES:-ggml}"
+          ;;
+      esac
+      ;;
+    -Qq)
+      # Only a literally installed package name matches; provides do not.
+      case " ${MOCK_INSTALLED_PACKAGES:-} " in
+        *" $2 "*) printf '%s\n' "$2" ;;
+        *) return 1 ;;
+      esac
+      ;;
+    -T)
+      # deptest resolves provisions recorded by installed packages.
+      case " ${MOCK_SATISFIED_DEPS:-} " in
+        *" $2 "*) ;;
+        *) printf '%s\n' "$2"; return 127 ;;
+      esac
       ;;
     -S)
       if [[ "${MOCK_INSTALL_FAILED:-0}" == 1 ]]; then
@@ -72,13 +97,47 @@ local_ai_os_release_value PRETTY_NAME >/dev/null
 [[ ! -e "$TEST_TMP/unsafe-marker" ]] || test_fail 'os-release was executed'
 test_pass 'os-release is parsed as data'
 
+# llama.cpp's mandatory CPU backend moved from the standalone `ggml-cpu`
+# package into `ggml`, which now both provides and conflicts with that name.
+# Requesting both in one transaction aborts with "unresolvable package
+# conflicts detected", so the requested set is resolved per channel layout.
+assert_eq 'ggml-cpu' "$(MOCK_GGML_PROVIDES=None local_ai_cpu_backend_packages)" \
+  'split channel still requests the separate ggml-cpu backend package'
+assert_eq '' "$(MOCK_GGML_PROVIDES='ggml  ggml-cpu' local_ai_cpu_backend_packages)" \
+  'merged channel omits the conflicting ggml-cpu package'
+assert_eq '' "$(MOCK_GGML_PROVIDES='ggml=0.23.0' \
+  MOCK_GGML_PROVIDES_CONTINUED='ggml-cpu=0.23.0' local_ai_cpu_backend_packages)" \
+  'versioned provisions on a wrapped continuation line are recognized'
+assert_eq 'ggml-cpu' "$(MOCK_GGML_PROVIDES='ggml  ggml-cpu-extras' local_ai_cpu_backend_packages)" \
+  'a similarly named provision does not satisfy the CPU backend'
+# An unknown package leaves the split name in place so the shared installer
+# reports the missing package against the configured channel.
+assert_eq 'ggml-cpu' "$(MOCK_PACKAGE_MISSING=1 local_ai_cpu_backend_packages 2>/dev/null)" \
+  'an unresolvable ggml package defers to the installer channel error'
+if (MOCK_GGML_PROVIDES='ggml  ggml-cpu' MOCK_INSTALLED_PACKAGES='ggml-cpu' \
+    local_ai_cpu_backend_packages) >"$TEST_TMP/superseded.out" 2>&1; then
+  test_fail 'a superseded standalone ggml-cpu install was accepted'
+fi
+assert_file_contains "$TEST_TMP/superseded.out" 'omarchy update' \
+  'a superseded ggml-cpu install directs the replacement through Omarchy'
+
+# The installed-state probe must resolve provisions, or the merged `ggml`
+# package would be reported as a missing CPU backend forever.
+expect_failure 'an unsatisfied CPU backend dependency is reported' \
+  local_ai_cpu_backend_installed
+if MOCK_SATISFIED_DEPS='ggml-cpu' local_ai_cpu_backend_installed; then
+  test_pass 'a CPU backend supplied through provides counts as installed'
+else
+  test_fail 'a CPU backend supplied through provides counts as installed'
+fi
+
 if (( EUID != 0 )); then
   : > "$TEST_TMP/packages.log"
-  local_ai_install_packages llama-cpp ggml-cpu ggml-vulkan >"$TEST_TMP/install.out" 2>&1 || {
+  local_ai_install_packages llama-cpp ggml ggml-vulkan >"$TEST_TMP/install.out" 2>&1 || {
     cat "$TEST_TMP/install.out" >&2
     test_fail 'package installation failed on a synchronized Omarchy fixture'
   }
-  assert_file_contains "$TEST_TMP/packages.log" '^sudo pacman -S --needed --noconfirm -- llama-cpp ggml-cpu ggml-vulkan$' 'coupled runtime packages install together without refreshing or upgrading'
+  assert_file_contains "$TEST_TMP/packages.log" '^sudo pacman -S --needed --noconfirm -- llama-cpp ggml ggml-vulkan$' 'coupled runtime packages install together without refreshing or upgrading'
   assert_file_not_contains "$TEST_TMP/packages.log" 'pacman -S[^[:space:]]*[yu]' 'package helper never initiates a system update'
 
   for scenario in pending error missing transaction; do
@@ -89,7 +148,7 @@ if (( EUID != 0 )); then
         missing) MOCK_PACKAGE_MISSING=1 ;;
         transaction) MOCK_INSTALL_FAILED=1 ;;
       esac
-      local_ai_install_packages llama-cpp ggml-cpu ggml-vulkan
+      local_ai_install_packages llama-cpp ggml ggml-vulkan
     ) >"$TEST_TMP/$scenario.out" 2>&1; then
       test_fail "$scenario package failure was accepted"
     fi
