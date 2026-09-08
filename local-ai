@@ -11,17 +11,37 @@ case "${1:-menu}" in
     (( $# == 1 )) || { echo 'Usage: local-ai logs' >&2; exit 2; }
     exec journalctl --user -u llama-server.service -f
     ;;
-  --desktop)
-    [[ $# == 2 && ( "$2" == menu || "$2" == logs ) ]] || {
-      echo 'Usage: local-ai --desktop menu|logs' >&2; exit 2;
+  workspace)
+    shift
+    # The installed helper retains custom Herdr/config/data roots across new
+    # terminals, including desktop launches with no inherited setup variables.
+    workspace_helper="${LOCAL_BIN_DIR:-$HOME/.local/bin}/local-ai-workspace"
+    if [[ -x "$workspace_helper" && -f "$workspace_helper" && ! -L "$workspace_helper" ]] &&
+       grep -qxF '# Managed by local-ai-setup: Herdr launcher' "$workspace_helper"; then
+      exec "$workspace_helper" "$@"
+    fi
+    command -v python3 >/dev/null 2>&1 || {
+      echo 'Python 3 is required for workspaces. Run local-ai herdr to install prerequisites.' >&2; exit 1;
     }
+    (( $# > 0 )) || set -- open "$PWD"
+    exec python3 "$LOCAL_AI_REPO/scripts/local-ai-workspace.py" "$@"
+    ;;
+  --desktop)
+    [[ $# == 2 && ( "$2" == menu || "$2" == logs || "$2" == workspace ) ]] || {
+      echo 'Usage: local-ai --desktop menu|logs|workspace' >&2; exit 2;
+    }
+    if [[ "$2" == workspace ]]; then
+      set -- workspace open "$LOCAL_AI_REPO" --profile ops
+    else
+      set -- "$2"
+    fi
     if command -v omarchy-launch-tui >/dev/null 2>&1; then
-      exec omarchy-launch-tui bash "$LOCAL_AI_REPO/local-ai" "$2"
+      exec omarchy-launch-tui bash "$LOCAL_AI_REPO/local-ai" "$@"
     fi
     command -v xdg-terminal-exec >/dev/null 2>&1 || {
       echo 'No Omarchy terminal launcher found; run local-ai in a terminal.' >&2; exit 1;
     }
-    exec xdg-terminal-exec -- bash "$LOCAL_AI_REPO/local-ai" "$2"
+    exec xdg-terminal-exec -- bash "$LOCAL_AI_REPO/local-ai" "$@"
     ;;
   *) exec bash "$LOCAL_AI_REPO/setup-qwen38-pi.sh" "$@" ;;
 esac

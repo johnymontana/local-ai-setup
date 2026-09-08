@@ -1,6 +1,6 @@
 # An Omarchy workstation, with local AI
 
-[Start here](../README.md) · [Full reference](reference.md)
+[Start here](../README.md) · [Herdr workflows](herdr.md) · [Full reference](reference.md)
 
 **The workstation field guide** · Install once. Work from your terminal. Keep
 the desktop yours.
@@ -34,10 +34,10 @@ from the same checkout afterward.*
    TTM change needs a reboot, it stops before downloading or loading a model.
    Reboot, return to the checkout, and run `./install.sh` again.
 3. It downloads and verifies the locked Everyday artifacts, activates the
-   authenticated router, installs the pinned agent, and adds the local command
-   and desktop launchers. The first model load can take time.
+   authenticated router, installs the pinned agent and Herdr, and adds the local
+   commands and desktop launchers. The first model load can take time.
 4. Open a new terminal, run `local-ai status`, then `local-ai smoke everyday`.
-   Enter a trusted project and run `local-ai-agent`.
+   Enter a trusted project and run `local-ai workspace`.
 
 `./install.sh` delegates to the repeatable `all` workflow; it does not install
 Coder or Senior. Models need about 24 GiB of free space for the default Everyday
@@ -51,6 +51,12 @@ baseline. Choose a larger disk or set `MODELS_DIR` before downloading if needed:
 Use an ordinary directory on a filesystem accessible to your user service.
 Avoid storing weights inside a Git checkout. The service uses the saved
 absolute path and needs the disk mounted before it starts.
+
+Herdr is included by default. `HERDR_ENABLED=0 ./install.sh` keeps the baseline
+to the model, agent, and router. An existing installation can add the pinned
+workspace layer with `local-ai herdr`, then `local-ai desktop` to refresh app
+search. Installation prepares Herdr; opening a workspace starts its named
+server for the first time.
 
 > [!TIP]
 > Keep the checkout somewhere permanent. The installed `local-ai` command and
@@ -93,7 +99,8 @@ in Everforest colors. Your selected terminal theme supplies the live appearance.
 [Capture details and text version](assets/README.md#terminal-screenshots).*
 
 Search for **Local AI** in the app launcher to open the same menu, or **Local
-AI Logs** to follow router logs. Omarchy's configured terminal launches these
+AI Logs** to follow router logs. **Local AI Workspaces** opens the operations
+workspace with router logs, status, and a shell. Omarchy's configured terminal launches these
 entries; switching terminal preferences does not require changing this
 project's theme or agent settings. The
 [terminal guide](https://omarchy.org/manual/terminal/) describes that preference.
@@ -107,17 +114,27 @@ local-ai model-catalog      # installed tiers and download progress
 local-ai logs               # follow the router journal; Ctrl-C exits
 local-ai plan               # preview desired configuration
 local-ai apply              # activate the reviewed configuration
+local-ai workspace          # open this project's persistent coding workspace
+local-ai workspace list     # inspect known workspaces
 ```
 
 For coding, enter the repository you want the agent to work on, then run
-`local-ai-agent`. It selects this project's configured agent and loads local
-API credentials directly. `omp-everyday`, `omp-coder`, and `omp-senior` select
+`local-ai workspace`. A new coding workspace starts its Lead through
+`local-ai-agent`, which selects this project's configured agent and loads local
+API credentials directly. Reopening a workspace keeps its existing processes.
+Use `local-ai-agent` directly for a single terminal. `omp-everyday`, `omp-coder`, and `omp-senior` select
 an installed tier explicitly. Omarchy's own `omp` and `pi` commands may be
 managed by its updater; they are independent of these pinned launchers.
 
 Keep sticky routing until a particular task needs a larger model. Download
 an optional tier, inspect `plan`, run `apply`, and use `smoke` before relying on
 it. See [the model team](reference.md#the-model-team).
+
+Use menu **w** for a project workspace, **o** for operations, or **h** to install
+Herdr separately. The [Herdr workflow guide](herdr.md) explains role panes,
+golf projects, explicit build commands, and specialist delegation. Detaching
+keeps live processes; after a reboot, reopen the layout and explicitly restart
+the agents you need.
 
 > [!TIP]
 > Use `status` for a quiet check and `logs` to watch the router. Use `smoke`
@@ -147,11 +164,19 @@ configuration, model data, and desktop integration.*
 | `~/.local/bin/local-ai-agent`, `omp-*` | Launchers for this project's agent and tiers |
 | `~/.local/share/applications/local-ai.desktop` | Local AI menu entry |
 | `~/.local/share/applications/local-ai-logs.desktop` | Local AI Logs entry |
+| `~/.local/share/applications/local-ai-workspaces.desktop` | Local AI Workspaces entry |
 | `~/.local/share/local-ai/agents/` | Private pinned agent packages and executables |
+| `~/.local/share/local-ai/herdr/bin/herdr` | Checksum-pinned Herdr binary |
+| `~/.config/local-ai/herdr/config.toml` | Managed terminal-theme and restore policy |
+| `~/.config/herdr/sessions/local-ai/` | Named Herdr session layout and runtime state |
+| `~/.local/bin/local-ai-herdr`, `local-ai-workspace` | Scoped Herdr and workspace helpers |
+| `~/.local/bin/local-ai-pi` | Managed authenticated pi workspace fallback |
 | `~/.omp/agent/` | OMP providers and role configuration |
 | `~/.pi/agent/` | Optional pi configuration |
 
-`XDG_DATA_HOME` is respected for desktop entries and private agent packages;
+`XDG_DATA_HOME` is respected for desktop entries and private agent/Herdr packages;
+`XDG_CONFIG_HOME` supplies Herdr's session root. The full
+[Herdr file map](herdr.md#configuration-and-ownership) includes hooks and skills.
 `LOCAL_BIN_DIR` can override the command directory.
 
 The stack adds its marked shell integration to personal shell files, preserves
@@ -171,6 +196,7 @@ To refresh integration after moving the checkout:
 ```bash
 cd /new/path/to/local-ai-setup
 ./local-ai desktop
+./local-ai herdr-config
 ```
 
 To remove just this project's app entries and installed management command:
@@ -237,6 +263,13 @@ configured pinned version. Review a version change before changing
 `OMP_VERSION` or `PI_VERSION`; the OMP version must match its generated config
 schema. This does not upgrade Omarchy's own agent packages.
 
+Herdr has its own reviewed [release lock](../herdr.lock). Use `local-ai herdr`
+to install a missing runtime and `local-ai herdr-config` to refresh managed
+helpers, hooks, and the coordination skill. Use `local-ai herdr-upgrade` only
+for an intentional replacement with the configured locked release. The
+[Herdr maintenance guide](herdr.md#updates-and-recovery) covers live sessions
+and preserved custom files.
+
 ## Backups and recovery
 
 > [!IMPORTANT]
@@ -250,7 +283,8 @@ agent configuration in your home directory. Snapshot boot and restoration
 also depend on the installed bootloader; see the
 [official snapshot guide](https://omarchy.org/manual/system-snapshots/).
 
-Back up your repositories, private local-AI settings, and agent configuration
+Back up your repositories, private local-AI settings, Herdr's named session,
+and agent configuration
 separately. Keep a record of the reviewed repository commit. Large locked GGUF
 files can be downloaded again; back them up too if download time or bandwidth
 matters. Treat copies of `llama.key` as credentials.
@@ -287,7 +321,9 @@ quality, desktop launcher behavior, or memory headroom on your machine.
 
 After installation, confirm that app search opens Local AI in the configured
 terminal, the menu is legible in your chosen theme, and a fresh shell can run
-`local-ai-agent`. Then check the actual service and GPU:
+`local-ai-agent`. Open a trusted project with `local-ai workspace`, detach, and
+reattach to confirm its panes and running processes remain. Verify that a
+second project gets its own workspace. Then check the actual service and GPU:
 
 ```bash
 local-ai check

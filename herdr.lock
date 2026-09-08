@@ -1,0 +1,5 @@
+# local-ai-setup Herdr release lock
+# Verified against the immutable upstream v0.9.0 release metadata on 2026-09-07.
+# Source: https://github.com/herdrdev/herdr/releases/tag/v0.9.0
+# version|os|arch|url|bytes|sha256
+0.9.0|Linux|x86_64|https://github.com/herdrdev/herdr/releases/download/v0.9.0/herdr-linux-x86_64|24644488|4fa1a01158dd8043da92d31b270780b0dcc10603038d9b61cac4d81ab63fb71f

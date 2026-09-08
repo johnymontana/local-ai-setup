@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # manage.sh — a keyboard-first local AI menu for Omarchy on Framework Desktop.
-# Every action delegates to setup-qwen38-pi.sh and remains scriptable directly.
+# Setup actions use the engine; persistent workspaces use the local-ai front door.
 
 set -euo pipefail
 
@@ -658,6 +658,29 @@ run_raw_bench() {
   pause
 }
 
+workspace() {
+  # A workspace can remain attached for hours. Do not run it through the setup
+  # engine or hold the lifecycle lock while the terminal session is open.
+  local rc
+  printf '%s$ ./local-ai workspace' "$DIM"
+  printf ' %q' "$@"
+  printf '%s\n' "$R"
+  if bash "$HERE/local-ai" workspace "$@"; then
+    return 0
+  else
+    rc=$?
+    warn "Workspace exited ${rc} — review the output above."
+    return "$rc"
+  fi
+}
+
+open_workspace() {
+  local project
+  read -r -p "Project directory (default: $PWD): " project || return 0
+  workspace open "${project:-$PWD}" --profile coding || true
+  pause
+}
+
 # Use gum when an interactive terminal supports it; the plain menu stays useful
 # before packages are installed, over simple SSH sessions, and with piped input.
 # LOCAL_AI_MENU=plain also keeps the original single-key shortcuts available.
@@ -678,8 +701,11 @@ main_choice() {
       "3) Choose coding agent"
       "4) Install selected agent"
       "u) Upgrade coding agent"
+      "h) Install Herdr workspaces"
       "d) Add app launchers"
       "x) Remove app launchers"
+      "w) Open project workspace"
+      "o) Open Local AI operations"
       "5) Plan and apply settings"
       "6) Tune model configuration"
       "9) Install language servers"
@@ -712,10 +738,14 @@ main_choice() {
   cat <<EOF
 
   ${ACCENT}Install${R}
-   ${B}1)${R} Local AI               ${DIM}packages → everyday model → router → agent${R}
+   ${B}1)${R} Local AI               ${DIM}packages → everyday model → router → agent → Herdr${R}
    ${B}2)${R} Models and routing     ${B}3)${R} Choose agent     ${B}4)${R} Install agent
    ${B}u)${R} Upgrade agent          ${B}d)${R} Add app launchers
    ${B}x)${R} Remove app launchers
+   ${B}h)${R} Install Herdr
+
+  ${ACCENT}Workspaces${R}
+   ${B}w)${R} Open project           ${B}o)${R} Local AI operations
 
   ${ACCENT}Setup${R}
    ${B}5)${R} Plan and apply         ${B}6)${R} Tune models      ${B}9)${R} Language servers
@@ -745,8 +775,11 @@ main_menu() {
     3) choose_agent ;;
     4) engine agent; pause ;;
     u|U) upgrade_agent ;;
+    h|H) engine herdr; pause ;;
     d|D) engine desktop; pause ;;
     x|X) engine desktop-remove; pause ;;
+    w|W) open_workspace ;;
+    o|O) workspace open "$HERE" --profile ops || true; pause ;;
     5) plan_and_apply; pause ;;
     6) tune_config ;;
     7) engine remote; pause ;;

@@ -6,15 +6,16 @@
 
 A local coding workspace for a freshly installed [Omarchy](https://omarchy.org/)
 system on the **Framework Desktop, Ryzen AI Max+ 395, 128 GiB**. Open a compact
-keyboard-driven menu, keep an everyday model warm, and bring in larger models
-when the work calls for them.
+keyboard-driven menu, keep an everyday model warm, and give each project a
+persistent [Herdr](https://herdr.dev/) workspace. Leave your agent, build, and
+logs in place; return to them from your desktop or over SSH.
 
 [Get running](#make-yourself-at-home) · [Meet the models](#a-small-model-team) ·
-[Workstation guide](docs/omarchy.md) · [Full reference](docs/reference.md)
+[Herdr workflows](docs/herdr.md) · [Workstation guide](docs/omarchy.md) · [Full reference](docs/reference.md)
 
 | At your keyboard | On your machine | Under your control |
 |---|---|---|
-| A compact menu and pinned OMP coding agent | One local model at a time, accelerated by RADV / Vulkan | Plain configuration, reviewed downloads, a systemd user service |
+| Herdr project workspaces and a pinned OMP agent | One local model at a time, accelerated by RADV / Vulkan | Plain configuration, reviewed downloads, a systemd user service |
 
 The experience follows Omarchy's terminal, theme, and personal-configuration
 conventions. The Strix Halo memory and inference settings remain the same.
@@ -44,8 +45,9 @@ less setup-qwen38-pi.sh
 
 Run as your ordinary desktop user; the installer asks for `sudo` only for
 system changes. It checks for pending updates, installs the runtime packages,
-everyday model and pinned agent, enables the user service, and adds **Local AI**
-and **Local AI Logs** to app search. If it requests a reboot, reboot and run `./install.sh`
+everyday model, pinned agent and Herdr, enables the router's user service, and
+adds **Local AI**, **Local AI Logs**, and **Local AI Workspaces** to app search.
+If it requests a reboot, reboot and run `./install.sh`
 again. Downloads resume. For repeatable deployments, use a
 [reviewed commit](docs/reference.md#reproducible-downloads-and-installs).
 
@@ -69,7 +71,7 @@ After installation, open a new terminal:
 local-ai status
 local-ai smoke everyday
 cd ~/github/your-project
-local-ai-agent
+local-ai workspace
 ```
 
 Use `local-ai` to open the menu, or search for **Local AI** in Omarchy's app
@@ -77,11 +79,41 @@ launcher. `status` reads state; `smoke` intentionally loads a model and generate
 a response. [The workstation guide](docs/omarchy.md) covers setup, desktop
 integration, updates, backups, and recovery.
 
+`workspace` opens the current project with a lead agent and dedicated terminal
+roles. Reopening reuses the workspace. `local-ai-agent` remains available for
+a single terminal session. Set `HERDR_ENABLED=0` when running `./install.sh` to
+skip Herdr, or add it later with `local-ai herdr`.
+
 ![The Local AI menu with grouped Install, Setup, and Inspect actions, shown before installation.](docs/assets/screenshots/local-ai-menu.png)
 
 *The real plain-terminal menu in an isolated pre-install demo, rendered with an
 Everforest-inspired palette. [Capture details and text version](docs/assets/README.md).
 Your live menu follows your selected terminal theme.*
+
+## A place for work to stay
+
+![Herdr groups a coding project and a golf project into persistent role panes. Lead agents use the same authenticated llama.cpp router; delegation runs one worker at a time, and the router keeps one model resident.](docs/assets/herdr-workspaces.svg)
+
+*An illustrated workspace map in the documentation's Everforest palette.
+Herdr itself follows your active Omarchy terminal colors.*
+
+```bash
+local-ai workspace open ~/github/your-project
+local-ai workspace open ~/github/golf-game --profile golf
+local-ai workspace list
+local-ai workspace attach ~/github/your-project
+```
+
+**Coding** makes room for Lead, Shell, Tests, Build, Logs, and Status. **Golf**
+adds Physics, Course, Rendering, and Audio roles, ready for explicit tasks.
+**Operations** opens the local router journal, status, and a shell without
+starting a coding agent. Only Lead starts automatically in a new coding or golf
+workspace; extra panes do not mean extra resident models.
+
+The [Herdr guide](docs/herdr.md) turns those roles into working build/test
+commands, serialized specialist delegation, a golf development loop, and
+persistent SSH access. Menu shortcuts **w** and **o** open project and
+operations workspaces; **h** installs the pinned Herdr layer.
 
 ## A small model team
 
@@ -144,6 +176,7 @@ untrusted repositories.
 | Next stop | What you’ll find |
 |---|---|
 | [Workstation guide](docs/omarchy.md) | The install path, daily workflow, updates, and recovery |
+| [Herdr workflows](docs/herdr.md) | Persistent projects, golf roles, explicit builds, delegation, and SSH |
 | [Full reference](docs/reference.md) | Model routing, tuning, commands, remote access, and security |
 | [Contributor checks](docs/reference.md#contributor-checks) | Portable tests and opt-in hardware verification |
 | [Performance implementation record](docs/performance-dx-plan.md) | Design rationale and the layers of evidence |

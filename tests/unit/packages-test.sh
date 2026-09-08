@@ -26,13 +26,13 @@ install_request() {
 
 local_ai_cpu_backend_packages() { printf '%s\n' ggml-cpu; }
 assert_eq \
-  'llama-cpp ggml ggml-cpu ggml-vulkan vulkan-radeon vulkan-icd-loader vulkan-tools curl jq nodejs npm bun pciutils' \
+  'llama-cpp ggml ggml-cpu ggml-vulkan vulkan-radeon vulkan-icd-loader vulkan-tools curl jq python nodejs npm bun pciutils' \
   "$(install_request)" \
   'a split channel installs the separate CPU backend beside the base package'
 
 local_ai_cpu_backend_packages() { :; }
 assert_eq \
-  'llama-cpp ggml ggml-vulkan vulkan-radeon vulkan-icd-loader vulkan-tools curl jq nodejs npm bun pciutils' \
+  'llama-cpp ggml ggml-vulkan vulkan-radeon vulkan-icd-loader vulkan-tools curl jq python nodejs npm bun pciutils' \
   "$(install_request)" \
   'a merged channel installs the base package alone, without a conflicting name'
 

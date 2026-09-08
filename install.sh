@@ -4,7 +4,8 @@ set -euo pipefail
 case "${1:-}" in
   -h|--help|help)
     echo 'Usage: ./install.sh'
-    echo 'Install the pinned everyday model, local service, agent, and desktop launchers.'
+    echo 'Install the pinned everyday model, local service, agent, Herdr workspaces, and desktop launchers.'
+    echo 'Herdr adds persistent project terminals. Set HERDR_ENABLED=0 to skip it.'
     echo 'Update Omarchy and reboot first. See README.md for the fresh-install walkthrough.'
     exit 0
     ;;

@@ -28,7 +28,8 @@ cmd_desktop() {
   local launcher="$LOCAL_BIN_DIR/local-ai" path stage quoted_exec name action
   [[ "$applications" == /* && "$launcher" == /* ]] || die 'Desktop paths must be absolute.'
   quoted_exec="$(local_ai_desktop_exec_quote "$launcher")" || die 'Desktop paths cannot contain control characters.'
-  for path in "$launcher" "$applications/local-ai.desktop" "$applications/local-ai-logs.desktop"; do
+  for path in "$launcher" "$applications/local-ai.desktop" "$applications/local-ai-logs.desktop" \
+    "$applications/local-ai-workspaces.desktop"; do
     local_ai_desktop_owned_or_absent "$path" || die "User-owned path preserved: $path. Move it before running desktop."
   done
   [[ -f "$SCRIPT_DIR/local-ai" ]] || die "Missing local-ai entry point in $SCRIPT_DIR"
@@ -46,12 +47,12 @@ cmd_desktop() {
   } > "$stage"
   chmod 700 "$stage"
   mv -- "$stage" "$launcher"
-  for action in menu logs; do
-    if [[ "$action" == menu ]]; then
-      name='Local AI'; path="$applications/local-ai.desktop"
-    else
-      name='Local AI Logs'; path="$applications/local-ai-logs.desktop"
-    fi
+  for action in menu logs workspace; do
+    case "$action" in
+      menu) name='Local AI'; path="$applications/local-ai.desktop" ;;
+      logs) name='Local AI Logs'; path="$applications/local-ai-logs.desktop" ;;
+      workspace) name='Local AI Workspaces'; path="$applications/local-ai-workspaces.desktop" ;;
+    esac
     stage="$(mktemp "$applications/.local-ai-desktop.XXXXXX")"
     cat > "$stage" <<EOF
 # Managed by local-ai-setup: desktop integration
@@ -64,7 +65,7 @@ Exec=/usr/bin/bash $quoted_exec --desktop $action
 Icon=utilities-terminal
 Terminal=false
 Categories=Development;Utility;
-Keywords=LLM;Qwen;coding;Omarchy;
+Keywords=LLM;Qwen;coding;Omarchy;Herdr;workspace;
 EOF
     chmod 644 "$stage"
     mv -- "$stage" "$path"
@@ -78,7 +79,8 @@ EOF
 
 cmd_desktop_remove() {
   local applications="${XDG_DATA_HOME:-$HOME/.local/share}/applications" path
-  for path in "$LOCAL_BIN_DIR/local-ai" "$applications/local-ai.desktop" "$applications/local-ai-logs.desktop"; do
+  for path in "$LOCAL_BIN_DIR/local-ai" "$applications/local-ai.desktop" "$applications/local-ai-logs.desktop" \
+    "$applications/local-ai-workspaces.desktop"; do
     if [[ -e "$path" || -L "$path" ]]; then
       if local_ai_desktop_owned_or_absent "$path"; then
         rm -f -- "$path"

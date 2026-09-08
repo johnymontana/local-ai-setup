@@ -97,6 +97,8 @@ source "$PLATFORM_LIB"
 source "$SCRIPT_DIR/lib/local-ai-agents.sh"
 # shellcheck source=lib/local-ai-desktop.sh
 source "$SCRIPT_DIR/lib/local-ai-desktop.sh"
+# shellcheck source=lib/local-ai-herdr.sh
+source "$SCRIPT_DIR/lib/local-ai-herdr.sh"
 MODEL_LOCK="${MODEL_LOCK:-$SCRIPT_DIR/models.lock}"
 LOCAL_AI_CONFIG_DIR="${LOCAL_AI_CONFIG_DIR:-$HOME/.config/local-ai}"
 SETUP_ENV="${SETUP_ENV:-$LOCAL_AI_CONFIG_DIR/setup.env}"
@@ -105,7 +107,7 @@ KEY_FILE="${KEY_FILE:-$LOCAL_AI_CONFIG_DIR/llama.key}"
 LOCAL_BIN_DIR="${LOCAL_BIN_DIR:-$HOME/.local/bin}"
 OMP_AGENT_DIR="${OMP_AGENT_DIR:-${PI_CODING_AGENT_DIR:-$HOME/.omp/agent}}"
 
-CONFIG_KEYS="AGENT QUANT CTX CODER_CTX SENIOR_CTX PORT MODELS_DIR REASONING_EFFORT DRAFT_N MODELS_MAX ROUTING_PROFILE STARTUP_TIER LOAD_MODE_EVERYDAY LOAD_MODE_CODER LOAD_MODE_SENIOR KV_CACHE_PROFILE DISK_RESERVE_GIB DOWNLOAD_JOBS GTT_GIB PI_VERSION OMP_VERSION"
+CONFIG_KEYS="AGENT QUANT CTX CODER_CTX SENIOR_CTX PORT MODELS_DIR REASONING_EFFORT DRAFT_N MODELS_MAX ROUTING_PROFILE STARTUP_TIER LOAD_MODE_EVERYDAY LOAD_MODE_CODER LOAD_MODE_SENIOR KV_CACHE_PROFILE DISK_RESERVE_GIB DOWNLOAD_JOBS GTT_GIB PI_VERSION OMP_VERSION HERDR_ENABLED HERDR_VERSION"
 CONFIG_ENV_EXPLICIT_KEYS=" "
 for _config_key in $CONFIG_KEYS; do
   if printenv "$_config_key" >/dev/null 2>&1; then
@@ -188,6 +190,8 @@ DOWNLOAD_JOBS="${DOWNLOAD_JOBS:-2}"
 GTT_GIB="${GTT_GIB:-115}"
 PI_VERSION="${PI_VERSION:-0.84.4}"
 OMP_VERSION="${OMP_VERSION:-18.0.10}"
+HERDR_ENABLED="${HERDR_ENABLED:-1}"
+HERDR_VERSION="${HERDR_VERSION:-0.9.0}"
 ALLOW_PENDING_REBOOT="${ALLOW_PENDING_REBOOT:-0}"
 SERVICE_READY_TIMEOUT="${SERVICE_READY_TIMEOUT:-600}"
 SERVICE_HEALTHCHECK="${SERVICE_HEALTHCHECK:-1}"
@@ -264,6 +268,8 @@ save_config() {
 }
 
 validate_config() {
+  case "$HERDR_ENABLED" in 0|1) ;; *) die "HERDR_ENABLED must be 0 or 1" ;; esac
+  [[ "$HERDR_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || die "HERDR_VERSION must be an exact x.y.z release"
   case "$AGENT" in pi|omp) ;; *) die "AGENT must be pi or omp (got: $AGENT)" ;; esac
   case "$QUANT" in UD-Q4_K_XL|Q8_0) ;; *) die "QUANT must be UD-Q4_K_XL or Q8_0 (got: $QUANT)" ;; esac
   case "$REASONING_EFFORT" in xhigh|medium|low) ;; *) die "REASONING_EFFORT must be xhigh, medium, or low" ;; esac
@@ -599,10 +605,11 @@ cmd_install() {
   packages+=(
     ggml-vulkan
     vulkan-radeon vulkan-icd-loader vulkan-tools
-    curl jq nodejs npm bun pciutils
+    curl jq python nodejs npm bun pciutils
   )
   # Omarchy owns full-system updates, snapshots, migrations, and repository
   # channels. Install only this package set against its synchronized state.
+
   local_ai_install_packages "${packages[@]}" || die "Local AI dependencies were not installed; resolve the package error above and retry."
 
   ok "Installed. llama-server: $(command -v llama-server || echo 'NOT FOUND')"
@@ -1949,7 +1956,8 @@ install_omp_pair() {
 write_omp_launchers() {
   local force="${1:-0}"
   mkdir -p "$LOCAL_BIN_DIR"
-  local tier id launcher backup quoted_omp quoted_key launcher_tmp fallback=""
+  local tier id launcher backup quoted_omp quoted_key quoted_agent_dir launcher_tmp fallback=""
+  printf -v quoted_agent_dir '%q' "$OMP_AGENT_DIR"
   printf -v quoted_omp '%q' "$(local_ai_agent_bin_dir)/omp"
   if ! local_ai_is_omarchy; then
     fallback='if [[ ! -x "$omp_bin" ]]; then omp_bin="$(command -v omp 2>/dev/null || true)"; fi'
@@ -1983,6 +1991,7 @@ write_omp_launchers() {
 #!/usr/bin/env bash
 # Managed by local-ai-setup: force the ${tier} router alias.
 set -euo pipefail
+export PI_CODING_AGENT_DIR=${quoted_agent_dir}
 omp_bin=${quoted_omp}
 ${fallback}
 [[ -n "\$omp_bin" && -x "\$omp_bin" ]] || { echo "error: omp is not installed; run '$0 agent-upgrade omp'" >&2; exit 1; }
@@ -2435,7 +2444,8 @@ add_api_key_export() {
 }
 
 write_agent_launcher() {
-  local launcher="$LOCAL_BIN_DIR/local-ai-agent" quoted_bin quoted_key quoted_local_bin launcher_tmp fallback=""
+  local AGENT="${1:-$AGENT}"
+  local launcher="$LOCAL_BIN_DIR/${2:-local-ai-agent}" quoted_bin quoted_key quoted_local_bin quoted_agent_dir launcher_tmp fallback=""
   mkdir -p "$LOCAL_BIN_DIR"
   if [[ -e "$launcher" || -L "$launcher" ]]; then
     if [[ -L "$launcher" || ! -f "$launcher" ]] || ! grep -q '^# Managed by local-ai-setup: selected agent launcher' "$launcher"; then
@@ -2449,12 +2459,17 @@ write_agent_launcher() {
   fi
   printf -v quoted_key '%q' "$KEY_FILE"
   printf -v quoted_local_bin '%q' "$LOCAL_BIN_DIR"
+  case "$AGENT" in
+    omp) printf -v quoted_agent_dir '%q' "$OMP_AGENT_DIR" ;;
+    pi) printf -v quoted_agent_dir '%q' "${PI_AGENT_DIR:-$HOME/.pi/agent}" ;;
+  esac
   launcher_tmp="$(mktemp "$LOCAL_BIN_DIR/.local-ai-agent.XXXXXX")" || die "Could not stage $launcher"
   cat > "$launcher_tmp" <<EOF
 #!/usr/bin/env bash
 # Managed by local-ai-setup: selected agent launcher (${AGENT}).
 set -euo pipefail
 export PATH=${quoted_local_bin}:"\$PATH"
+export PI_CODING_AGENT_DIR=${quoted_agent_dir}
 agent_bin=${quoted_bin}
 ${fallback}
 [[ -n "\$agent_bin" && -x "\$agent_bin" ]] || { echo "error: ${AGENT} is not installed; run '$0 agent-upgrade ${AGENT}'" >&2; exit 1; }
@@ -2709,6 +2724,7 @@ rollback_apply_files() {
   apply_restore_path "$OMP_AGENT_DIR/models.yml" omp-models.yml || failed=1
   apply_restore_path "$OMP_AGENT_DIR/config.yml" omp-config.yml || failed=1
   apply_restore_path "$LOCAL_BIN_DIR/local-ai-agent" local-ai-agent || failed=1
+  apply_restore_path "$LOCAL_BIN_DIR/local-ai-pi" local-ai-pi || failed=1
   apply_restore_path "$LOCAL_BIN_DIR/omp-everyday" omp-everyday || failed=1
   apply_restore_path "$LOCAL_BIN_DIR/omp-coder" omp-coder || failed=1
   apply_restore_path "$LOCAL_BIN_DIR/omp-senior" omp-senior || failed=1
@@ -2752,6 +2768,7 @@ cmd_apply() {
   apply_snapshot_path "$OMP_AGENT_DIR/models.yml" omp-models.yml || { cleanup_apply_transaction; die "Could not snapshot OMP models.yml"; }
   apply_snapshot_path "$OMP_AGENT_DIR/config.yml" omp-config.yml || { cleanup_apply_transaction; die "Could not snapshot OMP config.yml"; }
   apply_snapshot_path "$LOCAL_BIN_DIR/local-ai-agent" local-ai-agent || { cleanup_apply_transaction; die "Could not snapshot selected-agent launcher"; }
+  apply_snapshot_path "$LOCAL_BIN_DIR/local-ai-pi" local-ai-pi || { cleanup_apply_transaction; die "Could not snapshot pi workspace launcher"; }
   apply_snapshot_path "$LOCAL_BIN_DIR/omp-everyday" omp-everyday || { cleanup_apply_transaction; die "Could not snapshot everyday launcher"; }
   apply_snapshot_path "$LOCAL_BIN_DIR/omp-coder" omp-coder || { cleanup_apply_transaction; die "Could not snapshot coder launcher"; }
   apply_snapshot_path "$LOCAL_BIN_DIR/omp-senior" omp-senior || { cleanup_apply_transaction; die "Could not snapshot senior launcher"; }
@@ -2780,7 +2797,11 @@ cmd_apply() {
   else
     info "AGENT=pi uses manual model selection; no managed OMP routing was present to refresh."
   fi
-  if ! (write_agent_launcher); then
+  if ! (write_agent_launcher && {
+    if [[ -e "$LOCAL_BIN_DIR/local-ai-pi" || -L "$LOCAL_BIN_DIR/local-ai-pi" ]]; then
+      write_agent_launcher pi local-ai-pi
+    fi
+  }); then
     rollback_apply_files || true
     trap - HUP INT TERM
     die "Agent-launcher generation failed; prior desired/routing files were restored and the router was not changed."
@@ -4648,10 +4669,14 @@ cmd_all() {
   cmd_model everyday
   cmd_service
   cmd_agent
+  if [[ "$HERDR_ENABLED" == 1 ]]; then cmd_herdr; fi
   cmd_desktop
   echo
   ok "Everyday baseline ready (agent: ${AGENT}). Try: $0 status; then cd <project> && $LOCAL_BIN_DIR/local-ai-agent"
   echo "   Optional model team: $0 model coder   and   $0 model senior"
+  if [[ "$HERDR_ENABLED" == 1 ]]; then
+    echo "   Project workspace: cd <project> && $LOCAL_BIN_DIR/local-ai-workspace"
+  fi
   echo "   Optional: $0 remote   — SSH/mosh access from your phones and laptops (LAN-only)"
 }
 
@@ -4667,6 +4692,7 @@ Lifecycle:      model-maintain remove <tier> [--yes] | model-maintain prune [--y
 Configuration:  plan | apply | show-config | save-config KEY=VALUE ... | routing [--force]
 Operations:     status [--json] | smoke [tier] | bench [tier] [--manage-service] | perf [tier] [--keep] | perf-history [tier|all]
 Agents:         pi | omp | agent-upgrade [pi|omp] | omp-lsp
+Workspaces:     herdr | herdr-config | herdr-upgrade (then local-ai workspace --help)
 System:         kernel-tweaks | remote | ssh-harden
 Desktop:        desktop | desktop-remove (launchers only)
 
@@ -4925,6 +4951,9 @@ case "$command_name" in
   service)        require_no_args service "$@"; locked_command cmd_service ;;
   agent)          require_no_args agent "$@"; locked_command cmd_agent ;;
   agent-upgrade)  locked_command cmd_agent_upgrade "$@" ;;
+  herdr)          require_no_args herdr "$@"; locked_command cmd_herdr ;;
+  herdr-config)   require_no_args herdr-config "$@"; locked_command cmd_herdr_config ;;
+  herdr-upgrade)  require_no_args herdr-upgrade "$@"; locked_command cmd_herdr_upgrade ;;
   pi)             require_no_args pi "$@"; locked_command cmd_pi ;;
   omp)            require_no_args omp "$@"; locked_command cmd_omp ;;
   omp-lsp)        require_no_args omp-lsp "$@"; locked_command cmd_omp_lsp ;;

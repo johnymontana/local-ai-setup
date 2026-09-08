@@ -13,10 +13,14 @@
   Start with 1 to install, or run ./install.sh from the terminal.
 
   Install
-   1) Local AI               packages → everyday model → router → agent
+   1) Local AI               packages → everyday model → router → agent → Herdr
    2) Models and routing     3) Choose agent     4) Install agent
    u) Upgrade agent          d) Add app launchers
    x) Remove app launchers
+   h) Install Herdr
+
+  Workspaces
+   w) Open project           o) Local AI operations
 
   Setup
    5) Plan and apply         6) Tune models      9) Language servers
