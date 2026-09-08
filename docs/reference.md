@@ -1,6 +1,6 @@
 # Local AI reference
 
-[Start here](../README.md) · [Omarchy workstation guide](omarchy.md)
+[Start here](../README.md) · [Omarchy workstation guide](omarchy.md) · [Herdr workflows](herdr.md)
 
 **The workbench** · Models, tuning, commands, and recovery in one place.
 
@@ -17,6 +17,7 @@ from any directory. The original `setup-qwen38-pi.sh` engine remains supported.
 | Find an action | [Command index](#commands) · [Upgrade an existing install](#upgrading-a-previous-single-model-install) |
 | Diagnose or tune | [Verification and troubleshooting](#verification-and-troubleshooting) · [Optional GTT](#optional-gtt-expansion) |
 | Work from another device | [LAN access](#lan-only-remote-access) · [Persistent sessions](#device-setup-and-persistent-sessions) |
+| Keep project work running | [Herdr workspaces](#herdr-persistent-workspaces) · [Golf and delegation](herdr.md#a-golf-development-workspace) |
 | Inspect or contribute | [Security boundaries](#security-boundaries) · [Contributor checks](#contributor-checks) · [Sources](#sources) |
 
 ## The model team
@@ -212,6 +213,14 @@ is refused when that private OMP version differs from the pinned schema
 version; run `./local-ai agent-upgrade omp` for an explicit replacement.
 Replace a mismatched private pi with `./local-ai agent-upgrade pi`.
 
+Herdr is independently pinned at **0.9.0** in [`herdr.lock`](../herdr.lock).
+Its Linux x86_64 binary is verified by size and SHA-256 before execution and
+installed under `~/.local/share/local-ai/herdr/bin`. Ordinary `herdr` setup
+preserves an installed runtime; `herdr-upgrade` explicitly replaces a managed
+release with the reviewed lock's version. Official OMP/pi state hooks are
+vendored at that release with their license and installed with digest
+receipts. See [workspace ownership and configuration](herdr.md#configuration-and-ownership).
+
 Pin the setup repository itself as well: record the 40-character commit you
 reviewed (`git rev-parse HEAD`) and deploy that commit or a reviewed release,
 not an unreviewed moving branch. A reproducible checkout looks like:
@@ -347,6 +356,8 @@ hard safety boundary for this 128 GiB target; larger values are rejected.
 | `PORT` | `8080` | Loopback API port, 1–65535 |
 | `GTT_GIB` | `115` | Optional `kernel-tweaks` target, 64–115 GiB |
 | `PI_VERSION`, `OMP_VERSION` | `0.84.4` / `18.0.10` | Exact pinned `x.y.z` agent releases used by install/upgrade commands |
+| `HERDR_ENABLED` | `1` | `0` or `1`; include Herdr in `all` / `install.sh` |
+| `HERDR_VERSION` | `0.9.0` | Must match a reviewed Linux x86_64 artifact in `herdr.lock` |
 
 `SERVICE_READY_TIMEOUT` (10–3600 seconds, default 600) and
 `PERF_PROMPT_WORDS` (512–32768, default 4096) are validated environment-only
@@ -452,6 +463,36 @@ Switch back and regenerate the selected launcher with:
 ./local-ai agent
 ```
 
+## Herdr: persistent workspaces
+
+![Herdr project roles sharing the existing single-model local runtime, with explicit specialist delegation.](assets/herdr-workspaces.svg)
+
+Herdr holds project terminals and agent processes in the named `local-ai`
+session. llama.cpp remains the existing systemd user service; adding Herdr
+does not change context, MTP, Vulkan, GTT, `MODELS_MAX=1`, or router parallelism.
+`local-ai workspace` goes directly to the orchestration helper, so an attached
+UI never holds the installer's lifecycle lock.
+
+Profiles `coding`, `golf`, and `ops` provide role panes. Coding and golf start
+only Lead on first creation, unless `--no-agent` is supplied. Operations starts
+no coding agent. Reopening uses the canonical project identity and leaves
+existing tasks running. Build/test commands are always explicitly supplied.
+`--no-agent` suppresses all initial commands, including journal/status.
+Each profile has its own layout for the project; pass `--profile` to later
+commands when that project has more than one profile open.
+The [Herdr guide](herdr.md) provides complete daily, golf, and remote workflows.
+
+`delegate` serializes synchronous delegated workers across this setup. Other
+interactive agents and external API clients can still submit requests and
+queue behind the same inference slot. Keep a lead waiting for its specialist
+and choose model swaps deliberately.
+
+Herdr uses the current terminal palette. The managed config disables native
+agent restoration because upstream's native `omp`/`pi` resume commands bypass
+this project's authenticated launchers. Detach retains live processes;
+after a reboot or server restart, explicitly restart agents and project
+commands in the restored layout.
+
 ## Commands
 
 **Review and activate:** `status` → `plan` → `apply` → `smoke everyday`.
@@ -460,9 +501,9 @@ terminal control.
 
 | Command | Effect |
 |---|---|
-| `./install.sh` | Install the everyday baseline, then add the local command and desktop entries |
+| `./install.sh` | Install the everyday model, agent, router, Herdr, and desktop entries; `HERDR_ENABLED=0` skips Herdr |
 | `./local-ai` / `./local-ai menu` / `./manage.sh` | Interactive control panel over the commands below |
-| `./local-ai all` | Repeatable everyday baseline plus desktop integration; stops for a required reboot and does not fetch optional tiers |
+| `./local-ai all` | Repeatable everyday baseline with configured Herdr and desktop integration; stops for a required reboot and does not fetch optional tiers |
 | `check` | Check Omarchy, hardware, kernel, memory, packages, RADV, and current GTT |
 | `install` | Check for pending upgrades and install required packages; update with Omarchy first |
 | `desktop` / `desktop-remove` | Install or remove the managed local command and desktop launchers |
@@ -479,6 +520,17 @@ terminal control.
 | `routing [--force]` | Lower-level repair: install/update OMP providers, roles, and launchers |
 | `agent` / `omp` / `pi` | Install the selected, primary, or fallback agent |
 | `agent-upgrade [pi\|omp]` | Explicitly replace an installed agent with its pinned configured release |
+| `herdr` | Install the missing pinned Herdr runtime and configure managed helpers, hooks, and skills |
+| `herdr-config` | Refresh managed Herdr configuration/integrations; preserve custom files |
+| `herdr-upgrade` | Explicitly replace the managed Herdr runtime with the configured locked release |
+| `workspace [PROJECT]` | Open the current or specified project with the default coding profile |
+| `workspace open [PROJECT] [--profile coding\|golf\|ops] [--no-attach] [--no-agent]` | Create/reuse a project/profile; optional headless setup or shells without initial commands |
+| `workspace list` | List known project workspaces |
+| `workspace status [PROJECT]` / `workspace attach [PROJECT]` | Inspect or reattach to a project's workspace |
+| `workspace run ROLE [PROJECT] -- COMMAND ARG...` | Run an explicit project command in a role terminal |
+| `workspace agent ROLE [PROJECT] --tier selected\|everyday\|coder\|senior\|pi` | Explicitly launch a local agent in a role |
+| `workspace delegate ROLE [PROJECT] --tier TIER --prompt-file FILE [--timeout 1800]` | Run one synchronous delegated task through the shared delegation lock |
+| `workspace read ROLE [PROJECT] [--lines 80]` | Read recent output from a role pane |
 | `omp-lsp` | Optionally install common language servers |
 | `logs` | Follow the router journal; `Ctrl-C` exits |
 | `status [--json]` | Read-only service, API, model, configuration, and reboot state; never loads a model |
@@ -521,7 +573,8 @@ The migration path is intentionally conservative:
    service files, and OMP routing, then run `./local-ai apply`.
 6. Run `./local-ai status`, followed by the intentionally mutating
    `./local-ai smoke everyday`.
-7. Run `./local-ai desktop` to add or refresh the command and app launchers.
+7. Run `./local-ai herdr` to add persistent project workspaces, then
+   `./local-ai desktop` to add or refresh the command and app launchers.
 
 If the previous generated setup left `export OMPX_PARSER_ACTIVE=1` in
 `~/.bashrc` or `~/.zshrc`, the OMP installer removes that exact obsolete line.
@@ -723,8 +776,7 @@ From a laptop on the same LAN:
 
 ```bash
 ssh-copy-id user@hostname.local
-ssh -t user@hostname.local ai-session ~/github/my-project
-mosh user@hostname.local -- ai-session ~/github/my-project
+ssh -t user@hostname.local '~/.local/bin/local-ai-workspace open ~/github/my-project'
 ```
 
 `ssh-copy-id` and the first password connection require password or another
@@ -735,6 +787,19 @@ trusted session when passwords are already disabled.
 For iPhone/iPad, Blink Shell has strong mosh support; Termius also works.
 Generate a key in the client, connect during the bootstrap window, and append
 its public key to `~/.ssh/authorized_keys`.
+
+`local-ai-workspace` attaches to the desktop's named Herdr session using this
+project's private executable and configuration. Keep the remote command
+quoted so `~` is expanded on the desktop. Its project panes and live agents
+survive a client disconnect. See [the Herdr SSH workflow](herdr.md#return-from-another-device)
+for multiple projects and the boundary with upstream multi-machine features.
+
+The existing tmux workflow is still available:
+
+```bash
+ssh -t user@hostname.local '~/.local/bin/ai-session ~/github/my-project'
+mosh user@hostname.local -- ai-session /absolute/remote/project/path
+```
 
 `ai-session <project-dir>` creates or attaches to a tmux session and starts the
 saved agent (OMP by default). Its readable session name includes a short digest
@@ -805,6 +870,11 @@ The localhost API key protects the model endpoint from unrelated browser pages
 and local processes that do not have the key. It does not sandbox an authorized
 agent or make arbitrary repositories safe.
 
+Herdr exposes your own persistent terminals through a local user-owned socket.
+Role panes share the project's working tree; they are not isolated sandboxes.
+Keep agent credentials in managed launcher configuration, and treat pane
+history, prompt files, and session backups as private project data.
+
 ## Contributor checks
 
 See the [Omarchy workstation guide](omarchy.md#verify-on-the-workstation) for
@@ -833,6 +903,12 @@ Unit tests exercise side-effect-free helpers, configuration boundaries, and
 manager ordering/restoration rules; integration tests exercise generated files
 and rollback behavior in temporary homes; offline end-to-end tests drive
 complete CLI workflows through mocks.
+
+Herdr tests use a fake executable/server to check project identity, argument
+forwarding, preserved custom integration, and bounded delegation without
+starting agents or downloading the release. Real detach/reattach, hook state,
+and reboot recovery still need the workstation checks in
+[the Herdr guide](herdr.md#updates-and-recovery).
 
 Hardware-only checks belong under `tests/hardware/` and run only with
 `RUN_LOCAL_AI_E2E=1 bash tests/run.sh all`; add `RUN_LOCAL_AI_PERF_E2E=1` to
@@ -882,6 +958,14 @@ Agents:
   [models documentation](https://github.com/can1357/oh-my-pi/blob/main/docs/models.md),
   [providers documentation](https://github.com/can1357/oh-my-pi/blob/main/docs/providers.md)
 - [pi llama.cpp guide](https://pi.dev/docs/latest/llama-cpp)
+
+Herdr:
+
+- [Pinned v0.9.0 release](https://github.com/herdrdev/herdr/releases/tag/v0.9.0)
+- [Configuration and terminal themes](https://herdr.dev/docs/configuration/)
+- [Session state and restoration](https://herdr.dev/docs/session-state/)
+- [CLI reference](https://herdr.dev/docs/cli-reference/)
+- [Socket API](https://herdr.dev/docs/socket-api/)
 
 Remote access:
 

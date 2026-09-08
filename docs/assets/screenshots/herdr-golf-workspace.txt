@@ -1,0 +1,32 @@
+ spaces                  │  Code     Workbench     Observe     Simulation     Presentation    +
+                         │┌ Physics ──────────────────────────────────────────────┐┌ Course ───────────────────────────────────────────────┐
+ · coding-project        ││                                                       ││                                                       │
+ · golf-game             ││Physics workspace                                      ││Course workspace                                       │
+                         ││Ball dynamics / surface friction / tests               ││Hole layout / terrain / scoring                        │
+                         ││                                                       ││                                                       │
+                         ││No agent started in this preview.                      ││Ready for an explicit project task.                    │
+                         ││~/github/golf-game ❯                                   ││~/github/golf-game ❯                                   │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+ new                 menu││                                                       ││                                                       │
+─────────────────────────││                                                       ││                                                       │
+ agents           grouped││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                         ││                                                       ││                                                       │
+                        «│└───────────────────────────────────────────────────────┘└───────────────────────────────────────────────────────┘

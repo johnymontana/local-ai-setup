@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1080" viewBox="0 0 1120 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Herdr workspaces for a local model team</title>
+  <desc id="desc">Coding workspaces contain Lead, Shell, Tests, Build, Logs, and Status roles. Golf adds Physics, Course, Rendering, and Audio. Operations has Logs, Status, and Shell with no agent. Only Lead starts in a new coding or golf workspace. A lead can wait for one delegated specialist through the coordination helper. All agents share the existing authenticated llama.cpp user service, with one model resident and one inference slot. Detach keeps processes running; reboot restores layout and requires explicit agent restart.</desc>
+  <defs>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace; fill: #d3c6aa; }
+      .eyebrow { font-size: 18px; letter-spacing: 2px; fill: #a7c080; }
+      .title { font-size: 36px; font-weight: 700; }
+      .heading { font-size: 25px; font-weight: 600; }
+      .body { font-size: 20px; }
+      .small { font-size: 18px; fill: #9da9a0; }
+      .label { font-size: 18px; letter-spacing: 1px; fill: #7fbbb3; }
+      .panel { fill: #2e383c; stroke: #475258; stroke-width: 1.5; }
+      .pane { fill: #232a2e; stroke: #475258; stroke-width: 1.5; }
+      .arrow { fill: none; stroke: #a7c080; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#a7c080" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1120" height="1080" fill="#272e33"/>
+  <path d="M40 32H1080" stroke="#475258"/>
+  <text x="40" y="64" class="eyebrow">LOCAL AI / HERDR / WORKSPACES</text>
+  <text x="40" y="119" class="title">A place for work to stay.</text>
+  <text x="40" y="157" class="small">Your project paths. Persistent terminals. The same local model runtime.</text>
+
+  <rect x="40" y="194" width="508" height="306" class="panel"/>
+  <text x="64" y="231" class="label">01 / CODING</text>
+  <text x="64" y="268" class="heading">~/github/your-project</text>
+  <rect x="64" y="292" width="216" height="50" fill="#343f36" stroke="#a7c080"/>
+  <circle cx="84" cy="317" r="5" fill="#a7c080"/>
+  <text x="102" y="324" class="body">Lead</text>
+  <text x="188" y="324" class="small">agent</text>
+  <rect x="300" y="292" width="224" height="50" class="pane"/>
+  <text x="319" y="324" class="body">Shell</text>
+  <rect x="64" y="354" width="216" height="50" class="pane"/>
+  <text x="83" y="386" class="body">Tests</text>
+  <rect x="300" y="354" width="224" height="50" class="pane"/>
+  <text x="319" y="386" class="body">Build</text>
+  <rect x="64" y="416" width="216" height="50" class="pane"/>
+  <text x="83" y="448" class="body">Logs</text>
+  <rect x="300" y="416" width="224" height="50" class="pane"/>
+  <text x="319" y="448" class="body">Status</text>
+
+  <rect x="572" y="194" width="508" height="306" class="panel"/>
+  <text x="596" y="231" class="label">02 / GOLF</text>
+  <text x="596" y="268" class="heading">~/github/golf-game</text>
+  <text x="596" y="304" class="small">Coding roles + four specialists</text>
+  <rect x="596" y="325" width="216" height="50" class="pane"/>
+  <text x="615" y="357" class="body">Physics</text>
+  <rect x="832" y="325" width="224" height="50" class="pane"/>
+  <text x="851" y="357" class="body">Course</text>
+  <rect x="596" y="387" width="216" height="50" class="pane"/>
+  <text x="615" y="419" class="body">Rendering</text>
+  <rect x="832" y="387" width="224" height="50" class="pane"/>
+  <text x="851" y="419" class="body">Audio</text>
+  <text x="596" y="474" class="small">Only Lead starts on first open.</text>
+
+  <rect x="40" y="524" width="1040" height="106" class="panel"/>
+  <text x="64" y="561" class="label">03 / OPERATIONS</text>
+  <text x="64" y="600" class="body">Router journal + status + shell</text>
+  <text x="734" y="561" class="small">Retained setup checkout</text>
+  <text x="734" y="600" class="body">No coding agent</text>
+
+  <text x="40" y="681" class="eyebrow">A DELIBERATE HANDOFF</text>
+  <rect x="40" y="704" width="330" height="118" class="pane"/>
+  <text x="64" y="741" class="heading">Lead waits</text>
+  <text x="64" y="782" class="small">One bounded prompt file</text>
+  <path d="M370 763H414" class="arrow"/>
+  <rect x="420" y="704" width="330" height="118" class="pane"/>
+  <text x="444" y="741" class="heading">Specialist works</text>
+  <text x="444" y="782" class="small">One delegated worker</text>
+  <path d="M750 763H794" class="arrow"/>
+  <rect x="800" y="704" width="280" height="118" class="pane"/>
+  <text x="824" y="741" class="heading">Lead reviews</text>
+  <text x="824" y="782" class="small">Read, test, integrate</text>
+  <text x="40" y="855" class="small">Other interactive clients can still queue. The helper serializes delegation.</text>
+
+  <rect x="40" y="884" width="1040" height="126" fill="#232a2e" stroke="#a7c080" stroke-width="1.5"/>
+  <text x="64" y="920" class="label">UNCHANGED / INFERENCE</text>
+  <text x="64" y="960" class="heading">llama.cpp · systemd user service · authenticated localhost</text>
+  <text x="64" y="992" class="small">One resident model · one inference slot · RADV / Vulkan · 128 GiB shared memory</text>
+  <text x="40" y="1049" class="small">Detach keeps processes. Reboot restores layout; restart agents explicitly.</text>
+  <path d="M40 1066H1080" stroke="#475258"/>
+</svg>

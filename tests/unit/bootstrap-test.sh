@@ -14,10 +14,14 @@ system_reboot_required() { [[ ${PENDING_REBOOT:-0} == 1 ]]; }
 cmd_model() { echo "model $*" >> "$events"; }
 cmd_service() { echo service >> "$events"; }
 cmd_agent() { echo agent >> "$events"; }
+cmd_herdr() { echo herdr >> "$events"; }
 cmd_desktop() { echo desktop >> "$events"; }
 
 cmd_all >/dev/null
-assert_eq $'check\nsave\npackages\nmodel everyday\nservice\nagent\ndesktop' "$(cat "$events")" 'fresh install reaches desktop after a ready baseline'
+assert_eq $'check\nsave\npackages\nmodel everyday\nservice\nagent\nherdr\ndesktop' "$(cat "$events")" 'fresh install reaches workspaces and desktop after a ready baseline'
+: > "$events"
+HERDR_ENABLED=0 cmd_all >/dev/null
+assert_eq $'check\nsave\npackages\nmodel everyday\nservice\nagent\ndesktop' "$(cat "$events")" 'Herdr opt-out preserves the agent and desktop baseline'
 : > "$events"
 set +e
 (set -e; VALID_HOST=0; cmd_all) > "$TEST_TMP/host.log" 2>&1

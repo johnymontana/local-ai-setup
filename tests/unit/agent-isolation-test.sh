@@ -55,6 +55,9 @@ write_mock_agent() {
   cat > "$binary" <<EOF
 #!/usr/bin/env bash
 printf 'private|%s|%s\\n' "\${0##*/}" "\$*" >> "\$EVENT_LOG"
+if [[ -n "\${AGENT_CONTEXT_LOG:-}" ]]; then
+  printf '%s|%s|%s\\n' "\${PI_CODING_AGENT_DIR:-}" "\${LLAMA_BASE_URL:-}" "\${LLAMA_API_KEY:-}" > "\$AGENT_CONTEXT_LOG"
+fi
 if [[ "\${1:-}" == --version ]]; then printf '%s\\n' '$version'; fi
 EOF
   chmod +x "$binary"
@@ -135,6 +138,30 @@ for launcher in local-ai-agent omp-everyday; do
   assert_file_not_contains "$EVENT_LOG" '^omarchy-stub' \
     "$launcher never dispatches to Omarchy's moving version"
 done
+
+# Herdr's persistent environment may belong to the other agent or predate a
+# key rotation. Every new agent uses its own configured directory and fresh key.
+(
+  OMP_AGENT_DIR="$TEST_TMP/custom omp"
+  PI_AGENT_DIR="$TEST_TMP/custom pi"
+  PORT=8191
+  write_agent_launcher >/dev/null
+  write_agent_launcher pi local-ai-pi >/dev/null
+  write_omp_launchers >/dev/null
+  export AGENT_CONTEXT_LOG="$TEST_TMP/agent-context"
+  for key in local-ai-first-key-12345678901234567890 local-ai-rotated-key-12345678901234567890; do
+    printf '%s\n' "$key" > "$KEY_FILE"
+    for launcher in local-ai-agent omp-everyday local-ai-pi; do
+      agent_dir="$OMP_AGENT_DIR"
+      [[ "$launcher" != local-ai-pi ]] || agent_dir="$PI_AGENT_DIR"
+      PI_CODING_AGENT_DIR="$TEST_TMP/stale-agent" LLAMA_API_KEY=stale "$LOCAL_BIN_DIR/$launcher" >/dev/null
+      assert_eq "$agent_dir|http://127.0.0.1:8191|$key" "$(cat "$AGENT_CONTEXT_LOG")" \
+        "$launcher loads its configured agent root and current authenticated endpoint"
+    done
+  done
+)
+write_agent_launcher >/dev/null
+write_omp_launchers >/dev/null
 
 # Remote sessions use the same pinned runtime, including an explicit AGENT
 # override, even when a tmux server's environment predates installation.

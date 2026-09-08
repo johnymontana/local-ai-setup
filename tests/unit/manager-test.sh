@@ -185,6 +185,34 @@ main_menu <<< 'X' >/dev/null
 assert_eq 'engine|desktop-remove' "$(<"$EVENT_LOG")" \
   "plain menu removes app launchers through the engine"
 reset_events
+main_menu <<< 'h' >/dev/null
+assert_eq 'engine|herdr' "$(<"$EVENT_LOG")" \
+  "plain menu installs Herdr through the engine"
+workspace() {
+  event "workspace|$(printf '%s|' "$@")"
+  return "${MOCK_WORKSPACE_RC:-0}"
+}
+reset_events
+main_menu <<< $'w\n' >/dev/null
+assert_eq "workspace|open|$PWD|--profile|coding|" "$(<"$EVENT_LOG")" \
+  "project workspace defaults to the current directory without an engine lock"
+reset_events
+main_menu <<< $'w\n/project with spaces; literal' >/dev/null
+assert_eq 'workspace|open|/project with spaces; literal|--profile|coding|' "$(<"$EVENT_LOG")" \
+  "project workspace forwards the selected path as a literal argument"
+reset_events
+main_menu <<< 'o' >/dev/null
+assert_eq "workspace|open|$ROOT|--profile|ops|" "$(<"$EVENT_LOG")" \
+  "operations workspace targets the retained setup checkout"
+reset_events
+MOCK_WORKSPACE_RC=23 main_menu <<< 'o' >/dev/null
+assert_eq "workspace|open|$ROOT|--profile|ops|" "$(<"$EVENT_LOG")" \
+  "failed workspace returns to the menu without an installer action"
+reset_events
+main_menu <<< 'w' >/dev/null
+assert_eq '' "$(<"$EVENT_LOG")" \
+  "workspace prompt end of input never opens a project"
+reset_events
 NO_COLOR=1 LOCAL_AI_MENU=plain main_choice <<< 's' >/dev/null
 assert_eq s "$MENU_CHOICE" "plain menu retains the status shortcut"
 assert_eq '' "$(<"$EVENT_LOG")" "noninteractive menu never starts gum"
