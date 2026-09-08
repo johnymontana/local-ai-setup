@@ -1,11 +1,11 @@
 ---
 type: runtime architecture
 title: Runtime Stack and Ownership Boundaries
-description: How the Omarchy-focused local coding stack moves from repository and desktop entry points to an authenticated llama.cpp user service, pinned artifacts, and selected coding agents. It identifies generated state, user-owned state, and the safety boundaries for changing each.
+description: How repository, terminal, and desktop entry points converge on a per-user authenticated llama.cpp router and pinned coding tools. It distinguishes engine-managed desired state from user-owned configuration, launchers, and workspaces.
 tags: [local-inference, llama-cpp, systemd, coding-agents, omarchy, ownership-boundaries]
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T20:31:06.055Z
+    at: 2026-09-08T03:08:40.315Z
 sources:
   - id: openwiki-source-03ffc32a0ca502ab67c54b25
     resource: repo://install.sh
@@ -15,6 +15,8 @@ sources:
     resource: repo://lib/local-ai-common.sh
   - id: openwiki-source-2e9ec2f9c4214d7a3a160f3d
     resource: repo://lib/local-ai-desktop.sh
+  - id: openwiki-source-59c4ee3de11f11823df478c4
+    resource: repo://lib/local-ai-herdr.sh
   - id: openwiki-source-e74e9b6efe2ee2ecde41adcc
     resource: repo://lib/local-ai-platform.sh
   - id: openwiki-source-e845b6622635329fca37f1f6
@@ -27,88 +29,92 @@ sources:
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T03:08:40.315Z" }
 ---
 
-This project deploys a **per-user, local coding stack** for the Framework Desktop target, rather than a hosted model platform. The operational route is a selected coding agent to an authenticated OpenAI-compatible llama.cpp endpoint on loopback. Model artifacts may all be stored locally, but the generated router is constrained to one resident model; OMP is the default routed agent and pi is an explicit manual alternative.
+This is a **per-user local coding stack** for an Omarchy Linux Framework Desktop, not a hosted-model platform. A selected, pinned coding agent calls an authenticated OpenAI-compatible llama.cpp router bound to loopback. The router may expose several complete model tiers, but its generated configuration fixes residency to one model; OMP is the default selected agent and pi is an explicit alternative.
 
 ```mermaid
 flowchart LR
-  Install["install.sh"] --> All["setup engine all"]
-  Desktop["Omarchy desktop entry"] --> Front["local-ai front door"]
-  Front --> Menu["manage.sh menu"]
-  Menu --> Engine["setup-qwen38-pi.sh"]
-  Front --> Engine
-  Engine --> State["setup.env and generated files"]
-  Engine --> Unit["llama-server.service user unit"]
-  Unit --> Launcher["llama-qwen38-server launcher"]
-  State --> Launcher
-  Lock["models.lock"] --> Artifacts["verified GGUF artifacts"]
-  Launcher --> Router["llama-server router"]
-  Artifacts --> Router
-  Agent["local-ai-agent or omp tier wrapper"] --> API["authenticated loopback API"]
+  Installer["install.sh"] --> Engine["setup-qwen38-pi.sh engine"]
+  Command["local-ai command"] --> Manager["manage.sh menu"]
+  Manager --> Engine
+  Command --> Engine
+  Desktop["XDG desktop entries"] --> Command
+  Engine --> Config["setup.env and managed configuration"]
+  Engine --> Service["llama-server.service user unit"]
+  Engine --> Agents["pinned agents and wrappers"]
+  Engine --> Herdr["private Herdr runtime and workspace helpers"]
+  Lock["models.lock"] --> Models["verified GGUF artifacts"]
+  Config --> Service
+  Service --> Launcher["llama-qwen38-server launcher"]
+  Launcher --> Router["llama-server on loopback"]
+  Models --> Router
+  Agents --> API["authenticated OpenAI-compatible API"]
   API --> Router
 ```
 
-*Runtime flow: repository and desktop entry points converge on the setup engine, which generates the user-service inputs; coding-agent wrappers then call the router's authenticated loopback API.*
+*Runtime flow: entry points converge on the setup engine; it creates the user-service inputs and optional workspace tools, while agent wrappers reach the router through its authenticated loopback API.*
 
-## Entry points and control flow
+## Entry points converge on one engine
 
-`install.sh` is intentionally narrow: with no arguments it `exec`s the engine's `all` command. `all` verifies the workstation, saves configuration after that check, installs prerequisites, stops for a required reboot before attempting model/GPU work, then installs the Everyday artifacts, service, selected agent, and desktop integration.
+`install.sh` accepts no operational arguments and `exec`s `setup-qwen38-pi.sh all`. The `all` bootstrap checks the workstation before persisting configuration, installs prerequisites, and stops before downloading models or loading the GPU if a reboot is required. On a ready host it installs the Everyday tier, generates/starts the service, installs the selected agent, optionally installs Herdr when `HERDR_ENABLED=1`, and installs desktop integration.
 
-The installed `local-ai` command is the daily front door and deliberately points back to the checkout. `local-ai menu` starts `manage.sh`; `local-ai logs` follows the user-service journal; ordinary subcommands are passed directly to `setup-qwen38-pi.sh`. Its `--desktop menu|logs` mode uses `omarchy-launch-tui` when available, otherwise `xdg-terminal-exec`, so a graphical launcher opens the same terminal-oriented interface rather than a second implementation.
+`local-ai` is the normal front door and deliberately resolves its repository from its own location. `menu` starts `manage.sh`; `logs` follows `llama-server.service` in the user journal; and other commands go to the engine. `workspace` uses a recognized generated `local-ai-workspace` helper when present, otherwise invokes the repository Python workspace tool (and requires Python). Desktop mode supports menu, logs, and workspace; it uses `omarchy-launch-tui` when available, otherwise `xdg-terminal-exec`, so graphical activation opens the same terminal-oriented implementation.
 
-`manage.sh` is a keyboard-first, interactive Omarchy-aware panel. It sources the common, platform, and agent helper libraries, displays engine `status --json`, and delegates mutations to the engine. The engine is the scriptable implementation boundary: its command dispatcher distinguishes read-only operations including `plan`, `status`, catalogs, configuration display, history, and checks from lifecycle commands protected by a per-user operation lock. In particular, `status` queries `/v1/models?autoload=0`; it does not generate output or autoload a model. `smoke`, by contrast, sends a selected-model chat request and can cause a swap.
+`manage.sh` is an interactive control panel, not an alternative lifecycle implementation: it reads status and delegates engine actions. The engine dispatcher is the scriptable boundary. Read-only commands—including `plan`, `status`, catalogs, configuration display, history, and checks—are dispatched directly; lifecycle and system mutations are wrapped in the operation lock. In particular, status reads the router catalog with `/v1/models?autoload=0`, so it does not generate output or autoload a model. `smoke` deliberately sends a chat request for a selected tier and can trigger a model swap.
 
-The shared `lib/local-ai-common.sh` is side-effect-free so both manager and engine can use the same safe configuration reads, file metadata helpers, semantic-version parsing, and credential handling. A credential must be a nonempty regular, non-symlink file containing a restricted token format. Authenticated curl calls supply `Authorization: Bearer ...` through curl's stdin configuration, rather than curl argv.
+Both shell entry points source `lib/local-ai-common.sh`. Its shared credential helpers accept only a nonempty regular, non-symlink key file whose token has the restricted safe format. Authenticated curl calls pass `Authorization: Bearer ...` through curl configuration on standard input rather than putting the secret in curl argv.
 
-## Setup engine, desired state, and concurrency
+## Desired state, transactions, and ownership
 
-The engine imports focused libraries rather than making Omarchy package or desktop files its own:
+The engine imports platform, agent, desktop, and Herdr libraries rather than taking ownership of Omarchy defaults:
 
-- `lib/local-ai-platform.sh` detects a genuine Omarchy installation from `os-release` plus Omarchy entry points/version data without executing Omarchy tools. Package installation refuses pending system upgrades and uses the configured pacman repositories; it does not add repositories or fall back to a source build/AUR.
-- `lib/local-ai-agents.sh` isolates pinned agent binaries from Omarchy's moving `pi`/`omp` launchers. On Omarchy, its private prefix is under `${XDG_DATA_HOME:-~/.local/share}/local-ai/agents`; an absent private binary is treated as uninstalled even if an Omarchy stub exists.
-- `lib/local-ai-desktop.sh` owns only marked launchers and desktop entries. It generates `~/.local/bin/local-ai` plus `Local AI` and `Local AI Logs` entries under the user's XDG applications directory, preserves unmarked or symlinked paths, and can remove only its own marked entries.
+- `lib/local-ai-platform.sh` identifies Omarchy from `os-release` plus installed entry points or version data without executing Omarchy tools. Package installation requires Linux x86_64 Omarchy and a normal user, rejects pending upgrades, validates the complete package set in configured repositories before sudo, and neither adds repositories nor falls back to AUR/source installation.
+- `lib/local-ai-agents.sh` keeps pinned pi and OMP binaries separate from Omarchy's mutable launchers. On Omarchy their private root is `${XDG_DATA_HOME:-~/.local/share}/local-ai/agents`; an absent private binary remains uninstalled even if an Omarchy stub exists.
+- `lib/local-ai-desktop.sh` owns only marker-bearing entries: `~/.local/bin/local-ai` and three XDG application entries for Local AI, Local AI Logs, and Local AI Workspaces. A custom or symlinked target blocks replacement; removal likewise removes only recognized managed files.
+- `lib/local-ai-herdr.sh` owns an optional, pinned private Herdr runtime and generated workspace integration. It preserves a modified runtime, custom configuration, symlinked paths, and unrecognized hooks rather than replacing them.
 
-Persisted configuration has a strict precedence: **an explicitly exported supported variable, then `setup.env`, then a built-in default**. Only the fixed `CONFIG_KEYS` set is read or written. The engine validates enumerations, paths, numeric ranges, and exact agent version syntax; it rejects a symlink or non-regular `setup.env`, stages the replacement in its parent, sets mode `0600`, and renames it atomically. Operational switches such as `SERVICE_READY_TIMEOUT` are intentionally environment-only. Saved legacy `MODELS_MAX>1` and `REASONING_EFFORT=none` have narrow migration paths when not explicitly supplied, while explicit invalid values fail validation.
+Configuration precedence is explicit supported environment variable, then saved `setup.env`, then built-in default. The engine reads and writes only `CONFIG_KEYS`, rejects symlinked/non-regular `setup.env`, validates the resolved values, and atomically installs a mode-`0600` replacement in its parent directory. `SERVICE_READY_TIMEOUT` and similar operational controls are environment-only. Compatibility migration is narrow: an unexplicit saved `MODELS_MAX>1` becomes `1`, and saved `REASONING_EFFORT=none` becomes `medium`; explicitly supplied invalid values still fail validation.
 
-`plan` is the review boundary and `apply` is the coordinated desired-state commit. `apply` reruns planning; snapshots saved configuration, OMP configuration, agent/tier wrappers, preset, launcher, unit, and prior service enabled/active state; then saves configuration, refreshes applicable routing and selected-agent wrapping, and generates/restarts the service. A routing or launcher failure restores files before the router phase. A service failure rolls the transaction back instead of leaving the new desired files partially committed.
+`plan` is the review boundary. `apply` reruns that preflight, snapshots desired configuration, OMP's provider/role-map pair, agent and tier wrappers, and the service trio plus enabled/active state. It then persists configuration, refreshes applicable routing and selected-agent wrappers, and runs the service transaction. If routing or launcher creation fails, the router is not changed; a service failure restores the prior files and service state. Interrupted transactions follow the same restoration path, retaining backups if recovery is incomplete.
 
-Mutating commands run under one private, user-scoped operation lock. It is deliberately independent of `MODELS_DIR`, which is configurable: downloads, model maintenance, configuration, agent routing, service state, and system operations still share other mutable resources. The lock validates private ownership/mode, records PID plus a process-start cookie, and handles stale PID reuse before recovery.
+All dispatched mutations share one per-user lock. Its location is independent of configurable `MODELS_DIR`, because configuration, wrappers, the user service, and system operations remain shared even when artifact storage changes. The lock demands a private, user-owned runtime directory, records PID and process-start identity, rejects a live owner, and atomically reclaims stale locks without trusting PID reuse.
 
-## Artifacts and service ownership
-
-`models.lock` is repository-owned data, separate from executable shell code. Every pipe-delimited row binds a tier and variant to a router ID, model directory, repository, immutable revision, remote path, exact byte count, SHA-256, and kind. A selected tier includes its `ALL` rows: Everyday has main quant plus MTP draft and vision projection; Coder is four main shards; Senior is three main shards. Downloads are verified before completion, and service generation verifies complete tiers against the lock (with identity-bound verification receipts as a fast path). A partial, wrong-sized, or unverified tier is excluded from the preset and OMP catalog.
-
-| Location | Owner and role | Change boundary |
+| Location | Owner and role | Safe change boundary |
 |---|---|---|
-| `models.lock` in the checkout | Repository artifact contract | Change with review of artifact identity and setup behavior. |
-| `~/llm/models` by default | User storage containing engine-managed manifest paths | The engine may download, verify, remove, or prune only managed artifacts; unrelated user files are not desired state. |
-| `~/.config/local-ai/setup.env` | Engine-managed desired state | Use `save-config`, `plan`, and `apply`; do not replace it with a link or special file. |
-| `~/.config/local-ai/models.ini`, `~/.local/bin/llama-qwen38-server`, and `~/.config/systemd/user/llama-server.service` | One generated router-service trio | The engine replaces the trio only when all are absent or recognizable as managed; custom, mixed, symlinked, or non-regular paths are preserved and block replacement. |
-| `~/.config/local-ai/llama.key` and `verified-models/` | Private credential and integrity receipts | The engine creates/uses a regular `0600` key and validates it before an agent/service uses it. |
-| `~/.omp/agent/models.yml` and `config.yml` | Generated OMP provider and role-map pair | Custom ownership of either half preserves both and writes reviewable examples; `routing --force` backs up then replaces the pair. |
-| `~/.local/bin/local-ai-agent` and `omp-*` | Generated agent launchers | Managed files can be refreshed; unmarked user-owned launchers are preserved. Tier wrappers exist only for complete tiers. |
+| `models.lock` in the checkout | Repository artifact contract | Review identity, immutable revision, size, and digest with setup changes. |
+| `~/llm/models` by default | User storage containing engine-managed artifact paths | The engine verifies, downloads, removes, or prunes managed artifacts; unrelated files are not desired state. |
+| `~/.config/local-ai/setup.env` | Engine desired state | Change through `save-config`, inspect with `plan`, and commit with `apply`; do not turn it into a link or special file. |
+| `~/.config/local-ai/models.ini`, `~/.local/bin/llama-qwen38-server`, and `~/.config/systemd/user/llama-server.service` | Generated service trio | Replacement requires all three to be absent or recognizable as managed; custom, mixed, symlinked, and non-regular paths are preserved and block replacement. |
+| `~/.config/local-ai/llama.key` and `verified-models/` | Private credential and verification receipts | The service creates/reuses a regular `0600` key and validates it before use. |
+| `~/.omp/agent/models.yml` and `config.yml` | OMP provider and role-map pair | Ownership of either half preserves both and writes examples; `routing --force` backs up then replaces both. |
+| `~/.local/bin/local-ai-agent`, `omp-*`, and `local-ai-workspace` | Generated convenience launchers | Marker-bearing files can be refreshed; unmarked user launchers are preserved. |
+| `${XDG_DATA_HOME:-~/.local/share}/local-ai/herdr` | Private pinned Herdr runtime | An explicit `herdr-upgrade` replaces only a recognized, verified managed runtime. |
 
-Service installation stages the preset, launcher, and unit, runs shell syntax validation and (when present) `systemd-analyze --user verify`, snapshots existing files, then enables and restarts the user unit. Failed installation, activation, or readiness restores the trio and its former enabled/active state. The generated unit is still a user process, but reduces its write/privilege surface with `NoNewPrivileges`, strict system protection, read-only home/model access, private temporary storage, namespace/SUID/kernel protections, a dedicated cache, and DRM character-device access.
+## Artifacts and generated service
 
-## Router and API invariants
+`models.lock` separates remote artifact identity from executable code. Each pipe-delimited record binds tier/variant and router ID to a model directory, repository, immutable revision, remote path, byte count, SHA-256, and kind. `ALL` rows are required supplemental artifacts: Everyday includes draft and projection files, while Coder and Senior are split main-file sets. Downloads are verified, and service generation verifies every complete candidate against the lock; identity-bound receipts can avoid repeated hashing only while the exact file identity persists. Partial, wrongly sized, or unverified tiers are excluded from the generated preset and OMP catalog.
 
-The generated launcher runs `llama-server` on `127.0.0.1:${PORT}` (default `8080`) with `--api-key-file`, `--models-preset`, `--models-max 1`, and `--models-autoload`. Router-wide host, credential, preset, and residency arguments belong in that launcher; common and tier-specific inference configuration is emitted in `models.ini` only for complete tiers.
+Service installation first verifies llama-server capabilities and all serving artifacts. It refuses an incomplete selected Everyday quant or a configured unavailable startup tier. It stages `models.ini`, the launcher, and the user unit; checks shell syntax and, when available, `systemd-analyze --user verify`; snapshots the prior trio and systemd enabled/active state; then installs, reloads, enables, restarts, and checks readiness. Failure in installation, activation, authentication, catalog matching, or startup readiness rolls back the files and prior unit state.
 
-`MODELS_MAX` is fixed at exactly `1` for the 128 GiB target. Thus one available configured `STARTUP_TIER` receives `load-on-startup`; `STARTUP_TIER=none` makes the router cold. The router may subsequently autoload/swap among exposed aliases on a request, but OMP also constrains task concurrency and llama.cpp in-flight requests to one so concurrent requests do not fight the single resident slot.
+The generated launcher runs `llama-server` on `127.0.0.1:${PORT}` (default `8080`) with `--api-key-file`, `--models-preset`, `--models-max 1`, and `--models-autoload`. Model-specific options stay in the preset. The user unit constrains the process with `NoNewPrivileges`, strict system protection, read-only home/model access, a dedicated cache, private temporary storage, namespace/SUID/kernel protections, and DRM character-device access.
 
-Loopback is not a trust boundary by itself. The service creates a 256-bit random key if absent, or validates the existing private key. Its readiness check requires a keyless protected chat request to return `401` or `403`, a keyed protected request to be semantically accepted, the keyed catalog with `autoload=0` to match installed aliases, and on Linux the managed systemd `MainPID` to own the listener. A configured startup model must reach `loaded` or `sleeping`; a listening port or `/health` alone is insufficient.
+`MODELS_MAX` is hard-fixed to `1` for the 128 GiB target. Exactly one available `STARTUP_TIER` gets `load-on-startup`; `none` leaves the router cold. The router can subsequently autoload/swap exposed aliases, so generated OMP config limits both task concurrency and llama.cpp in-flight requests to one.
 
-## Agents and role routing
+Loopback is not sufficient authentication. The service creates a 256-bit random key when absent or validates the existing private key. Readiness requires an unauthenticated protected chat probe to return `401`/`403`, a keyed protected probe to be accepted, a keyed `autoload=0` catalog matching installed aliases, and—on Linux where observable—the managed unit `MainPID` owning the listener. When a startup tier is configured, its state must reach `loaded` or `sleeping`; a listening socket or `/health` alone is not a successful deployment.
 
-The generated OMP provider calls `http://127.0.0.1:${PORT}/v1` using OpenAI completions, `LLAMA_API_KEY`, and an authorization header. It exposes only complete tiers and disables OMP's implicit keyless `llama.cpp` provider. Base selection is the first complete tier in **Everyday → Coder → Senior** order; a complete Coder becomes the specialist and a complete Senior becomes the architect. `sticky` keeps all roles on base, `balanced` sends `task` to specialist, and `quality` additionally sends slow, planning, advisor, and designer roles to architect. This makes absent tiers fall back safely rather than producing broken aliases.
+## Agents, routing, and workspaces
 
-`omp-everyday`, `omp-coder`, and `omp-senior` set the verified local key and loopback URLs before invoking OMP with a chosen model ID. They are deliberately withheld or removed when that tier is incomplete. `local-ai-agent` similarly chooses `omp` or `pi` from `AGENT`, verifies and exports the same credential/URLs, and never overwrites an unmarked launcher. Normal agent installation preserves an existing binary but rejects one that does not match the configured supported release; `agent-upgrade` is the explicit replacement path. On Omarchy, the project's pinned agent location is kept distinct from the distribution's launcher-managed commands.
+The OMP provider generated in `models.yml` calls `http://127.0.0.1:${PORT}/v1` using OpenAI completions, `LLAMA_API_KEY`, and an authorization header; its implicit keyless llama.cpp provider is disabled. Only complete tiers are emitted. The base is the first complete tier in Everyday → Coder → Senior order. A complete Coder becomes specialist and a complete Senior becomes architect. `sticky` retains base for every role, `balanced` sends `task` to specialist, and `quality` additionally sends `slow`, `plan`, `advisor`, and `designer` to architect. Missing tiers therefore fall back to a complete base instead of producing invalid aliases.
 
-## Operations and change checks
+`omp-everyday`, `omp-coder`, and `omp-senior` force an installed tier after validating/exporting the local key and loopback URLs; wrappers for incomplete tiers are withheld or removed. The selected `local-ai-agent` does the equivalent for configured `omp` or `pi`, but never overwrites an unmarked user-owned launcher. Normal installation leaves an existing agent binary untouched but rejects a version other than the configured pin; `agent-upgrade` is the explicit replacement path.
 
-Use read-only discovery before a coordinated change:
+Herdr is an opt-in persistent-workspace layer, not part of router execution. Its runtime is downloaded from the exact locked release asset, size/digest checked, made executable, and version checked before promotion with a receipt; failed promotion restores the previous managed runtime. Generated helpers pass workspace roots/configuration between new terminals and explicitly unset inference credentials for the persistent server. Per-agent integration hooks and skills are written only when recognized as managed, avoiding a takeover of user extensions.
+
+## Operating and changing the boundary
+
+Start discovery and coordinated change with:
 
 ```bash
 local-ai status
@@ -118,15 +124,15 @@ local-ai smoke everyday
 journalctl --user -fu llama-server.service
 ```
 
-`status` probes the loopback port independently of systemd state: an inactive unit must not conceal a conflicting listener. It categorizes the API as `authenticated`, `insecure`, `unauthorized`, `down`, or `error` from keyless and keyed protected/catalog probes. `smoke` is intentionally load-bearing: after proving the auth wall and catalog it requests a completion for the selected tier.
+`status` independently probes loopback as well as systemd, so an inactive unit cannot hide a conflicting listener. It classifies API observations as authenticated, insecure, unauthorized, down, or error. `smoke` is intentionally load-bearing: after checking the auth wall and catalog, it performs an authenticated chat completion for the chosen tier.
 
-When modifying this boundary, retain focused coverage in `tests/integration/generated-config-test.sh` for generated presets/launchers, one startup tier, custom and symlink ownership preservation, service rollback, verification receipts, atomic OMP pair behavior, routing fallbacks, and token non-leakage. The supporting unit suites exercise bootstrap sequencing, configuration validation, agent isolation, and runtime safety. These checks protect the architectural properties that syntax checks cannot: user state must not be overwritten, a role must not point at an absent tier, and an apparently healthy loopback service must not be unauthenticated or unrelated.
+The focused integration coverage in `tests/integration/generated-config-test.sh` exercises generated presets/launchers, single-tier startup, custom and symlink ownership preservation, transaction rollback, verification receipt invalidation, and argument quoting. When changing this layer, retain these properties: managed state must not overwrite user state, routing must not select an absent tier, and a seemingly live loopback endpoint must not be mistaken for the authenticated managed router.
 
 ## Related pages
 
 - [Configuration artifacts and safety](/openwiki/concepts/configuration-artifacts-and-safety.md)
 - [Coding agents and role routing](/openwiki/integrations/coding-agents-and-role-routing.md)
 - [Router health and performance](/openwiki/operations/router-health-and-performance.md)
-- [System and LAN security](/openwiki/operations/system-and-lan-security.md)
 - [Model and desired-state lifecycle](/openwiki/workflows/model-and-desired-state-lifecycle.md)
+- [Persistent Herdr workspaces](/openwiki/workflows/persistent-herdr-workspaces.md)
 - [Quickstart](/openwiki/quickstart.md)

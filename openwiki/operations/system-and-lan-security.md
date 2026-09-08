@@ -1,10 +1,9 @@
 ---
-type: "Reference"
-title: "System and lan security"
+type: operations security guide
+title: System and LAN Security
+description: Security and operational gates for host mutation, TTM tuning, the loopback inference API, and LAN-only remote access. Covers SSH, firewall, credential, reboot, and rollback safeguards.
+tags: [security, operations, ssh, firewall, lan, omarchy]
 openwiki_generated: true
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T20:31:06.055Z
 sources:
   - id: openwiki-source-3bd2ed3dac4f5554f20e6944
     resource: repo://lib/local-ai-common.sh
@@ -24,6 +23,9 @@ sources:
     resource: repo://tests/run.sh
   - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
     resource: repo://tests/unit/runtime-safety-test.sh
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-08T03:08:40.315Z
 generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
 ---
 

@@ -1,0 +1,304 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:fff4fde71c9a6abf2f0edd3c7cd40fd0795b3b0f7deca72fac56039e07fbfcdc",
+  "claims": [
+    {
+      "id": "claim_136dd09ea7024b398332c45dc6beaa30",
+      "statement": "Herdr is installed as a private checksum-pinned Linux x86_64 runtime under the local-ai data root; installation verifies locked URL, byte count, SHA-256, and reported version, promotes runtime and receipt transactionally, and requires an explicit upgrade to replace a different managed release.",
+      "evidence": [
+        {
+          "resource": "repo://herdr.lock#L1-L5",
+          "version": "repo-lines-v1:sha256:c5c9a87f6201820e766cb9d1c0a1c5c1f6018078f64426aa96bb109cb92539c6:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzA3MDI4NGFmYzVjMWQxMzBmNWMzNWE5NTIxODBjZTg2OTVkODI0NDc5NmExZTU0NmRmMWZhOGRiOGUzMmQyNSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjBhODk5NjZhZGRmNzBjZmE3M2Y3NmI2OTU2NGQwNTg4ODM0YTc4ODE0MGE5OTJhNmY0M2ZmYWU3YTM2MTQxNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L4-L14",
+          "version": "repo-lines-v1:sha256:eb434e28a02f9de719388c26dc7d63180c2423875d7522bb3e191a7c8d58ce18:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5YjBmMDM1OWU1ZmQ4YmUwMmRmNjVlOGE0NWZhM2I2NjNlMTZmN2VhODMzN2NkOWQyMDU0YzA1YmM5MjA4MDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI3YTFjMjY3N2E1NmNkMzg1Y2JkNmQ0YTM1ODQ4NDY3ZjA4MDFkMTliMDFlY2RlMGQ4MTk3OWJkZmRlMjg3OGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzOWJhOGJiNjdjOTQwZWRlNWQwZGU5M2U3YTJhMDdiMmUxYWY5NDhjOTJjZjM4ZTkyOGE2ODgyYzNhNmZhNWMifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L45-L72",
+          "version": "repo-lines-v1:sha256:fa85bbe79ca136d6e01180824a9ab22b73cd621a3e3ae011b9bbe0e961610d0b:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwNmNmMTJmMTFmZWMyZTA5ODMwYjk1ZDMyOTcyYThhMjBmZmQ1MDdkYzk1M2VjOGI1MGQ0NzhhZDM5NTEwM2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg3ODY1MTk2NGQyZTU2M2NiZTgyNzE0ZmQzMjVmOTA5MGY4ZWMzNjM0MDRmZmNkMTVjMzVjYWQxMmNkYmVjMTgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmZWJmNzY3NDBjNjMxNDYwZjc2MzAyNjI4MTA1NTlmODliYzY4ZjYzYmU0YWQ2ZGJiMTQ1YjFjZjg2ZGFlMmQifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L74-L139",
+          "version": "repo-lines-v1:sha256:efa2239fc47cee0c1a63519870a589fe76748ea702550382f874615b31fb2280:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiOGY3ZjEyZmIxMWQ0OTM4YmM0ZTBjOGNmYzhmMzQyNzZkYjMwNjBjN2UzOWEyOTBjMDA2ZWRkOGVmOTQ0YzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxYWFkNmJkNWMzMTc4NjdiNmM2YmQyNWMyZWM4YWFkNDJkZTVkNTUzYmUyMzhhYTJiNTc4ZjczMTVlNDcyYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmYzg1MGFkN2Q1YTIxNzQwYWZlMmZmNDU5MzY3ZWYwOTg0Njc2YTE4NmFjOGUyMjg0NGYyM2UxY2Q3ZmU5ZTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bdf9e727db084b5d98ca7a03b80d0dae",
+      "statement": "Herdr runtime installation refuses unsafe/symlinked paths and modified or user-owned targets, and rollback restores the prior runtime and receipt if promotion fails.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L26-L43",
+          "version": "repo-lines-v1:sha256:429c2990c6f6206dd78a60d9d5ec0590d929dac1e65ae390fdd7dcd1f6561a51:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3NTU0NjczZDkyY2QyMDA4MTAxMjQ0NTBjYzljYzY4NDNmZmFhNzNlOTJhMWI1OWFjZWVmNDY4ZmQ5M2I0NTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBjMDk1ODdmN2UwYTdhMTM4YTJlYjllMzM5MDY3ZTYxZDRiNWQ3MmJkMGJiZjVjYTVlYzA4OTA0ZGQwY2UyMmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRkMzhkMmYxZDdkZGIwMzY4NjlhODZkZmY5YjBmYmE0NjUyNTI5OGZhYjhiYjk3MTcwODA5YTFiYzVmYmUzNDUifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L86-L119",
+          "version": "repo-lines-v1:sha256:3d78a2842098062cf2f9ea5740345f8b5001ee4eeaa87f61c15a7fe2155470d9:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwNmMzYWE0OTc5NTE3NTA5ODU5MDVhOTY0YWIyNDVkMDM5NjhkNWZjYWU1ZDYzYmNkZjJjZmNkZDFlMzliMjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcxMzc5YmQ3MjJlODY3MzAwMmI0MjIyZDA2OTVjYmEyMWY3NDk4NjkxZjAwMTM0NDQyMWQwMjFjZmNjMjAzNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlYTkwODFhOTUzZDBhM2Q5NjBkZjc1NmYxYzhjYzVhODU3ZDY2MGY0Mjk2NmMyMzljMWEwNjYxZjhlZjFlZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5ZWQ0ZmNhOGQ1NDhmZDQzZDBjMDUyOTI3ODg0OWJlNjQ3MzE2MmM0YzM5ZTVjYTI1OTRmY2UyY2ZhMWJjYjcifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-install-test.sh#L149-L172",
+          "version": "repo-lines-v1:sha256:5d2e69ed53a57335b46281a3121c54760bc4e8acd1f0476418c9bcc4bb1d8851:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRmMDE4NzAyZmNkYjVjOTRkMGVkZDJmODVlMjFjNWJjMDk2YzczMzU3ZjAxYWEzMjNhNGM4ODM2MTNmNWZhYTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQwZmY0MDAwMWFhNGE5NDY3NTE1ODU0ZmVkZjM2ZGY2MGJmOWQzNWUzYWE1NzdjOWQwZWEzNjU1OGVjOGExYTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMyODJhMmQ0ZDdmNTgyNGUwMmY0ZGIyYjUyMDk5YzFiZDNkNTI1MmQ4YWYyMWI1ZTNiMDIwNjMwMDAwODdmMmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2ZGQ4ZDYyMzcwNzQ0OTc5YzZmMjc2YjdhMmQ3NThiNGVmZWM4OTYwMzI4MTM1NGZmYjljMzY4NzBiMzBmNmYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1a144d0dc73942298237c1b4a65707e2",
+      "statement": "Herdr configuration disables agent resume on layout restore and pane-history persistence, while generated scoped launchers select the local-ai session/configuration and remove inherited llama API credentials.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L141-L180",
+          "version": "repo-lines-v1:sha256:793243c96b193a82a2563c75e30ea5b1e8c9f95b3f8f8f07ea9c18a97f35f346:eyJzZWxlY3RlZExpbmVDb3VudCI6NDAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAzNDA4YmRmNWVjNDAzMjMxZDc0MGRmZWY4ODdlM2ZmYTRmNzY4NjczMzgxOWY2Y2NiMmQ4MTZmYTdiYzQwOWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1Y2Y5ZjdjM2QyMzAxN2YzNDAwNTQ0OTI2NjEwNDdkN2IxYzNiNzg0ZTFlNjdlZDUyMDk1NmQwZWRjM2E2NGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkMTQ3MzkzZTA0YTNmZTNlMTE4NmQ2OTBjNDJmYWZhYTAyOWY2ZWQ4MWVhYzc4ODNhOGE0ZTE1MDZkY2M5ZDEifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L286-L316",
+          "version": "repo-lines-v1:sha256:6b18819c43ba2c6a92bbd6a24596b65652617f7b85d2ead1896a5e1741473b40:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAwY2EzNmM0MmNmM2Q5ZmJmY2E5MDRkYzQ3N2RmNmEyNjMzMmMwNTA3YTFhMzBkZTA0N2QzNjFhMTcyMGFmZjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIxYzYyOGMxODMwMWZiYTMzMDlkYmJjN2VkZjQ0ODY5YmYwZGRkMWE2ODAxMmMwMzA5MDcxYjQ4OWYzZDNiNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU1YTUwZDg1NGJkZTFhNTIwMDM0NTg3MGFhZDQxMjRhZmQ5MjZmYTE4NTJlN2ZhYThlMTAzMzRmNzg4ZjM3ODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM2ZGE4MTkxMTRjMzc5MDliOTA5MzkwNDZkNDk5MmJiNGRiMDBmMzYyNDg0ZmNiNGI0NDc2MzQzMDliNzY1ZGQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-install-test.sh#L101-L127",
+          "version": "repo-lines-v1:sha256:3bf554c1831c36b6f068d618a43ff40d98dbb45b3eb41cb02eec107b40a9a251:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3M2MyZTZiNTJlMDZjZTBjOGY4MGUyMDEwM2FjMDg5ZWYzNTMzNTdkOWY5ZGRjMWU2ODVjYmRjYTgwZmUyNzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhkMTgxZjFhYmIwNDdiZTRkMGYxZmU4YTA5YjcyNTMzNGE4YmNmODNjYjFmODUxNDkyNjFiYmExNjQzM2MxNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ3MjZiZjAwNDM3OWRlNTIwZTFjYTYxNzllYzg5YTQ2ZDIyOTBlZjlhOTA3ZDA5Y2ViMzkwZDNiNjZlOGQwYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhhNzY4ZjE5OGZmNGNkYmZmNDQ3NGFhZjMxMzgyNzM1ZDBiODczZWJlNjZiNzAwNzA4NGVmNTIxNDViYzFiM2EifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d4b0aea52bca4f5883bfe9ca243412a3",
+      "statement": "The workspace helper separates ownership: Herdr owns terminals and session persistence, while the helper owns role assignment and interrupted-layout recovery and does not implicitly run project scripts, start inference, or close terminals.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L1-L7",
+          "version": "repo-lines-v1:sha256:7e26d3fe243800bdf72f920136a1b049673cc68e0061a77efda8c859f86cb45b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZDY4MmNiZGI0YzhiMDc1MThiZjQ4NmM1ODk5MGZjMzkxNzgzYWEyMGE5MTZiZmIyN2FkMjExZWIxZDVjMzY0MiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTMwM2VjZGQ0YTRkMTBmMTljNzNmZDQyZmQxMjQzN2ZkMzM1NGE4MjY4MTYwNWRhNTI1NWE5N2EzOTA2OGRiYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzJmODdkOWFiNGJkMDIzYzI1YzkzMTA4NmVkZjAxYzQ1MDQ5MWUzZTQ5M2M0M2I5MjI0ZmM5M2YwNmI4NDAzNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_577f89468f6541bc8be738342d70e764",
+      "statement": "Workspace identity is the resolved canonical project path plus profile, represented by owner/project/profile metadata digests; this isolates same-basename projects and permits separate reusable profile layouts for one checkout.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L185-L215",
+          "version": "repo-lines-v1:sha256:9ed30c1b99483f07de940d34c03ce01c9d880dce8915ec9fd41a1b590e6deb36:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjODQxNTk3NGNkNWUwY2E1YTc5NDNiYTE5YWNjMWI0NjIxZjI1NjIwYzBkZjA2YzA2MDMwNGZiNTRlNWE1YzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MDdmNzdiM2IxZmU4YzEyYWFhNGIyMGYxMmRmYzdjMjc0ZWI4NmFlMTk5ZDVlNzhlYjQ2ZGVlMTA4NmI1MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjljYzYxNWE3YTg0MDAzOWE0NTQ4MTdmMGMzMjZiM2I2ZTVlYjk0YmU2OGRlYzBjYWMwMmNkZmRlZGYzMTYyYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMmE1YjNiY2U2ZGNiY2FkNWM4ZjgxYWZkNGQ2YTJmNmM4MzBjZDZiZWVkYTNiOTg2ZWUyMzc1ZGY0OGE4ZGEifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L217-L247",
+          "version": "repo-lines-v1:sha256:d0719ea4de829495151570ed5db05487410d66ed34dda00d6ee2b52f89dd3002:eyJzZWxlY3RlZExpbmVDb3VudCI6MzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjOTk1ODI4MGY2ODAzNTBkNTdmYjYwYTY1YTg5OTVmYjljOTFjNThjMzAxN2Q2N2IyZjZjZGZiZjBkYzI5MTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg1ZDY1YTlkMzlhNjc2MGVjZmFmNmMyNDg4NTQyMDFjNmZkMDBiNGU4YTZhZjA3MjBhMWVmOGFhZDU5Njc1NTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiMDljODdlYjhkNDZmM2FmMmYxOGJiY2M5Y2NiZjhjNzBjYWQwZDEzNDA0NGQwZWFhZTYzOTgzNDVmYWU1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVkYjY1NTU2ODI4NzllYjI2NWYwODBlZGQyMWM5NDMzYTgzOTk4NjQ5YTEzYjVhNGRiNTU1MThmYzUwM2Y3ZWMifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L60-L86",
+          "version": "repo-lines-v1:sha256:706b6ed06e5732419b77faf50d3c763a9b322da195a4721d748e60e6d4078d20:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBiYmJmYjA5NTMyYzQ3YTNjZjMwYWM4NTAxMjcxNTg0NTMyNjY5MzAzMzNkMDUyNzI4MGYxNzJmYjFmMDk2ZTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdkNjY4OTk2Y2U1YTRjNzFlNjU5MjQ2OTk4NjA5OTNhYjA4OWIwYTlmZmVmNGNjNDE4MmRkNzM5NjkzN2FkZmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5MjNmYTY5MmJjYmNhY2ZjMGVkOTIyYWU4OTQ5ZGI1ZmFiYjkwZGZlNzdhMjJkYzI0YTkzZjBmYTM0MDllYTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImMzOTlkM2JhMzZlNTA0OTg5NzMyY2NhMWQ0MTYxZDM4ZmE2NjAyZDc0N2ZlNmM0YjA3MTZhNTYyNTAyZWMyZDQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L111-L123",
+          "version": "repo-lines-v1:sha256:cbe64af2b4d1f7ac9c4518096013f986173eaa41c615fd61bbd2e60184455f6c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIwMGZlNjJiZDU5NzdlNmViYThiYjc3MTNmMjNhMWVmYzM5MmJhYTljNmZmMzE0ZmMyMDZiYTYwNDcxYmQ2ODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZmIxNTVmMTA3NWM4NGQzNTQ1ODc5ZDBmNTI2MzJiMjYwNzZhNzMxZWE1ZGRmZTlhNzhmYzQzNTk1YzgwMTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjgzNDM4OGUwM2VjZGFiMWFmNWMzYjJmYmJiMTcyNDgxYzhjYmY4NjVjMTllOTJhZDc1OWU3MDJkMzVjODA3ZTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExMTkxNTc2YWE4ODhkYzc2ODUwM2U3NzIyN2VmNDlkMmUzODU3ZjU3ZDNiNzgxMjllNzg5Zjk0Njk1ODJhYzMifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L254-L258",
+          "version": "repo-lines-v1:sha256:6ea4fc80eba820c2a662fe3943eaf226a0be3d762662b1a9b1bfa9fd5d0635e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM5NzJjYmRlZWRjNmJhZWNmYzczZWQxNmRiNTk4YzA0ZjliZGE4MGI4ZGQyN2YwMTllYmE5YTI3OGQwZDE1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMTg5M2U2N2Q2YjNmMTc0YWVjZGM0MGQ4NTU1ZWFhNjJiNmE5YzNiNjI0OTc0YjdkOWQzNDM3MDhlZjRjZGMxNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGJlMzc2OWEwOWVmYzc5ZGVkNzZkZGJiY2Y2ZDkzNzUzYzA2OGU5YzJjNTNjYmU3ZDA4YWFmM2QwNmRjMmE3MyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMGRjNDdjMzAzYTYwMmRjNjFiZDhkNmFmOTJjZmNlZGE2NTY5MjE0Y2JmYzNhNWQ1YTZmMzcyYTcyMjZkOTcwYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_de80c5769e964017a25c15fcf570e941",
+      "statement": "The workspace registry is schema-versioned local state written atomically, and state/configuration paths are rejected when symlinked, non-regular, or unsafe rather than being followed or overwritten.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L158-L180",
+          "version": "repo-lines-v1:sha256:cd68d092fc2491379fe122fb3e36f2072e7d57faca163b44a024f2f1138a9ce2:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJhN2Y4ZmU4ZmQ5ZTc4MDNiZjc0NTkzNjJlNTM5ZjYxZmM2MjU1MWJkNTIzYTEwNzM1NzUzZGJhMTE2ZTcyYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY5NDlhY2NkOWM3ZDNjYzBhY2Y1ZmQ0MWI4YTgxMmM4Njk0ZjE2MTQ1ZGI4OGMxOWFhMDkwZTAxZDhkNmVjOTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyMzE0YWMwNzQyY2JjYzBiMDE2ZTMwMDUxNmJjZTQ0NTZhMjMyMTQ1NjNiNDEyN2IwMzJhZjY2NTgwYThlNTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY1YmZiYzNiYTEyZTRkMmM3MmFiZmQwNWExOTkxNTkzZGIwYTkyMDA2ODBlYWNiMzdiNTM1NzJiYzQ3NGM2N2IifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L41-L57",
+          "version": "repo-lines-v1:sha256:00a488e5ef5f29366754e19c883d399fac785a728e35b788b358d50fe732d4dd:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTllYWM5ZGE2NWYzNjQ3NzdlZTMxZTMwZGY2MWIyNzBhYTQ1N2MyNTU4Yjk0MWM0Y2Y4MTA5NGZkYTM2MjkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhY2JjMjU0NDU0OWNmOTY4OGUzZjIwNjhhNmFjY2Y3YWEzMmMzOGQ2YjFkMDRhYTY1Y2IzM2ZiMTU2ZTE1N2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg1NDEyNzMwOWZkZTJiZWUxOWQzODY1MWRkOWU5ZmJiZmQzM2E5MGM2Yjc1ODk4NjY4MzM3N2U1YmNjNzUyOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ2OTE3ZjBjMmM4MzA3MzEzZjI1MTBjZTE3NzYzNmNmNjJiOTI1MWFmNGZjZDAwZDhmN2ZkMzMyYzM3Mzg3Y2IifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L283-L302",
+          "version": "repo-lines-v1:sha256:61d7476a84f6d15dc90947c29b92400fc03926273f3421859a9e0e6eff718b57:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjYjE5MWU5ZjBkZDgwMzdlOGUyZDQ4YzBiYTdmNTA2MGRkNjZkZWJiYTg4MGViMzY2NTczNTA5Y2I5MGI2MjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI2YTE0OGM5YzVkNzlhNDAxNmIxODg4MTczMTUwMzA5ZWM1ZTU2MTE5OTlkMzE5NWViZTU3ZGMzYTc4Y2E0N2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmNzQxZWNlNjdkZDBlYjFhMDg3NDZiOTIzNzUzNzEyMmYwZWE0MTZhY2JlODI2YjM0ZDUyZjRmNDdjZWQ3NGEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7f48e9b74efa441d8c6d46d3b025c8c3",
+      "statement": "Coding, golf, and ops profiles define distinct role layouts; golf extends coding with simulation and presentation roles, while ops has logs/status/shell and no lead role.",
+      "evidence": [
+        {
+          "resource": "repo://assets/herdr/SKILL.md#L23-L30",
+          "version": "repo-lines-v1:sha256:69dd4619ef1768dc7e9952762b9c7464ecea1b6c39ed08a661a9b66ab71354a6:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZWFlOWQ5NDUwYjVhNDU3NWYxZmQ3NjQ1OWMyOTViMzBiYjNmMzgxOWY0NDZiZDA4Mzk4MzNhNWNkZjg3YjNlZiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYzJmMzkwMGJiY2I3NTE2YTk2MjAyYmJlMDc5MTk1YzRjOGQxNTEyMjliMzg0NGU2YjVhNGFiMTc5MTBhNDVlMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZWI3ZTIzMWU4YTBmYjg4MzRkMjU0MWM0Yjc3N2NlZTkwNmM5Nzg4Y2I4NzcxOWNhNDE2OGUzZmNjNWU1MmNmMyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzM3NjZmZWY0N2FiNDFkMjc2YzIxMDUzMDdiZTI2ZGM4YzEwZTI4NDcwYzAyYzI2NmNlYzEwMDA3NmU5MDliOSJ9"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L23-L34",
+          "version": "repo-lines-v1:sha256:a4806d1cdc4940609e927988ec6f087c5df6aafd6c820b04699b352376df105e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ3YjNiNzhlODhjMjg1MTFiNzlkYTZlNjAxMGY5YzE1MDcyZTljYWY1NjcxZDU5YTMzMDcyNjVjYTUyNzRmOWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjlhZGU0NjgwMWUzODIzYWRiY2NiMGYxNjdkNWExMjc5MGFhNWUxOGZjYTYwM2MxM2EyZmU3Y2I0ODM5MjhjMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk3ZjQ2YWJkNDE1MDBlMTQ2YTk3ZWVhOGU2NzBkODM4NzFkMDI3N2ZhMTEyZGQ2MmQ0ZGYyNzhkMThhZWM0NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZkN2QwNTg4ODM2YTc1Yzc5YTQ3NWQwMGE4MjlkZGQyODIzOTkxZTdhNGU2ZGJkMzdjNTVjMDlmYWJhOGIzODAifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_eb09ebdf95274e1591cdf1f1fcf4748f",
+      "statement": "Opening validates project/profile, verifies a compatible Herdr daemon before workspace mutation, reuses only validated owned or restored layouts, and incrementally repairs missing roles without destroying existing panes.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L113-L140",
+          "version": "repo-lines-v1:sha256:dc4281eff95437d508500594bc2253ac98fdbd88b229d7b8678d19912fcddc37:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMWVlZjEwMzQ1MTcwM2JhMDQ2MjQ0OTM4Mzc1ZGNiZjA5NzMwYzIxYWMzNjQ1ODU2OGRjODc4NTFlYWQ5YTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjYxMTY5OGJmOWY5ZGUxYWRmMTA4NjBmMGQ5NDZkYjRkYjE0YmYyMTYwNTM2MmViMmNkMDFkM2FiZTE5MjZhMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlZjJkMWMwNDQ2OTQ4OTJlYmJhYjViYTBkZmFmNzYxMzE3ZjNjMDdkZmQyMTA5ODEzMmE5MzY5MDhmZGE1N2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdlODg2ODJlYTgxM2Y2YjAyODVjNzQ4NjU5YjFiNGRiNjY5NmI5OGU1N2I3N2ViZTJjZTMzM2RkMzVhM2FmY2UifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L189-L215",
+          "version": "repo-lines-v1:sha256:d152085bfb44cc346644ee210243186418d22926c4ac0cde642022d0a9df751d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1YjNhZmExNTE1ZmMzNWI4N2NlNWZhODhhN2M3ZDg4ZWJmZTQ0Njg4ZjUwYWJmMGM3MmE5YjBkNGQ5ZWNlN2IiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2MDdmNzdiM2IxZmU4YzEyYWFhNGIyMGYxMmRmYzdjMjc0ZWI4NmFlMTk5ZDVlNzhlYjQ2ZGVlMTA4NmI1MDEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEzOTM4M2I3MzRhYjVjYjQzN2UyN2FlYmFlMDNmMDc0OTFhNjFkOTg3Y2IwM2YzMDA5NGE1ZjQxNjc5YjEyNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgwMmE1YjNiY2U2ZGNiY2FkNWM4ZjgxYWZkNGQ2YTJmNmM4MzBjZDZiZWVkYTNiOTg2ZWUyMzc1ZGY0OGE4ZGEifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L217-L291",
+          "version": "repo-lines-v1:sha256:3be2b76f3f998ca49bcc185b65479941849e758387a0d3d091a34e22d8fef82c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdjOTk1ODI4MGY2ODAzNTBkNTdmYjYwYTY1YTg5OTVmYjljOTFjNThjMzAxN2Q2N2IyZjZjZGZiZjBkYzI5MTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ1YmI1YjQ4NWI2YTg2ZThjMmZmM2JlYjVlNjEwM2Q3MjVkZjgzYjBmMDczMmEzMzM1NjI5NzFlZDNhYTExNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiMDljODdlYjhkNDZmM2FmMmYxOGJiY2M5Y2NiZjhjNzBjYWQwZDEzNDA0NGQwZWFhZTYzOTgzNDVmYWU1ZTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImYzYWU2ZjI0YjUxNTJjMTA1YjA1MTg5NGNlN2NjY2FkNTkzY2UxM2JhMDkzODY3OTI5ZDBiYWI4ZGI1ZjI3ZWQifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L146-L157",
+          "version": "repo-lines-v1:sha256:0b667264049c9c7af4e0c31523dd3e27d0aa44cfd479b8004c51ff55043a969e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzNzc1MDMyMzZkZjkwNDA2YTY1M2UyOGNiNjE2ZDEyZWYwMGU2YTJlYjZiNGFlZGU3OTk1YTk1ZjM4YjVkZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVlZjYzOWFkMTBjZjQxNWRkMDUzN2IzNzM3MDkyNmRhOWI0ZjFkYjE5MzJmMTcyZDJlYjFlZGUyZWY2MTE1ZjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYzQ3YzMwM2E2MDJkYzYxYmQ4ZDZhZjkyY2ZjZWRhNjU2OTIxNGNiZmMzYTVkNWE2ZjM3MmE3MjI2ZDk3MGMifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L203-L252",
+          "version": "repo-lines-v1:sha256:6bc1ff8b9288c242bab4c4fb72a399c89f8b24b05a89aac6d47bdb26a3ebdfd4:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMzgxYTJmODI5ZjI0MmI1MWZiMjQ2YWY5MDRmOWExZTE0N2U1ODZiZTc5YzgzNGEzODAzNDg1N2Y1NWUxYzciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhMjBhYTdiZjk2ZDBmZTQ4ZTkyYWI2NjM1NzBlYzNmOGM3MzFkNzUzYWE2OGYxNzkzODVjYjBhNGZmYjk4NGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI2YWQ3N2NmNWMzNTM3ODE4OWMyZmEzMDQ0OWE2ZjY3MWIwYmY0NTYwZGI2MWJiMTE3ZTM3ODExZTcwYWUyYzUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_15410c4185c243b0b13be4d918beb0df",
+      "statement": "Initialization state is persisted before terminal input is sent, so recovery avoids replaying a Lead/log/status command after interruption; restored layouts do not automatically resume agents.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L299-L312",
+          "version": "repo-lines-v1:sha256:f3f2ece2a363cada076393d8a3b38aa8388dccb59162b8a3c3e1bbe6d9ba24c2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQzMDZmMWY5Y2MxNzQ3NjhkZmNmZmE0MTJjMDk1OTY4YTQzMzdlMDM0ZWUxYWI0ZDgzNDkyMTM1OGQxMGI2MjIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhMjFjNWIzYmZmMDI5OWMwMTYxNDcwNDY4ZjM1NWU1YjRhZmNmMTdhNWY1OTNhYjY4Mzk0ZWY3YWYzMTljZGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjMDJhMGMxOWQ0ZGI3YTNmMTJkMzQ5NDRhMDBiNDkzYTFkMTUxYzY2ODJjM2Q0ZThjOWQ4MDdlYjMyMmJjMmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxY2QwZGYzYmI2ZjUwNTAzMmYyNDY4NWM3MmFiNTUzNzdlMTE0Y2I0ZDZkMDQ0YTM5MzVmYWQzNzM3ZWUwMTEifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L477-L501",
+          "version": "repo-lines-v1:sha256:ab2c9d71c97f329147d78ce40e32873505dab54e26f1c304ae3fdb78b2903508:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiNTA4Mzc2YTQxM2YxMzM2MTE2ZTE0ZDcwYmE4MDNhNzRlMDcxMmViODkzMzc1ZTdhOWNmMTA0OWFiNTI4M2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNmYWNiZjM2OWFhOGQ5ZjEzMjhkOTAyNTRkNzEyMGQ5M2EyY2U0M2NkM2Y2ZDg2NmJmY2FlZThlMzIwMmUxOGYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjFjNTBhMzkwYjIwZDU3ZjQ4MGY2YmNlMmNkODc2ZDlmZDgyMWQyZmYzYjVkNDJiOTJjNzY1MDNjZjk3Mjg0YmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdjYzg0YzkzMjFlN2JjYTNhN2UwNDkyNDE4YTI0N2JkMzA2ZTc4NTFjMGMzODE1NzQ3M2NjN2JiZmEyMzBiMTMifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L203-L214",
+          "version": "repo-lines-v1:sha256:6b7d6294d9823d92fa5542ed031360154b6a4050886a39a38876532269deaaed:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOGU4MmMxNmUxMzA3ODM0MDMzYzExNTNjOGE3ZjA0MmIzZjVmYzRhOGI4N2FiMTQ1M2I5ZTA2ZThiZDcxYWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhhMjBhYTdiZjk2ZDBmZTQ4ZTkyYWI2NjM1NzBlYzNmOGM3MzFkNzUzYWE2OGYxNzkzODVjYjBhNGZmYjk4NGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBkYzQ3YzMwM2E2MDJkYzYxYmQ4ZDZhZjkyY2ZjZWRhNjU2OTIxNGNiZmMzYTVkNWE2ZjM3MmE3MjI2ZDk3MGMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_edc5708b6d2f4a20b71a97faa8996001",
+      "statement": "List and status are read-only when Herdr is stopped, while role-scoped operations require an already-running workspace and exactly one matching managed role pane.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L293-L308",
+          "version": "repo-lines-v1:sha256:d4c1f2d650b3496e2e4cbdef9cd0ecd9bd945d091636a42a3d21b44648dbbb26:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMWFkNThkYTI1M2IzN2FjZTNkNmNmMWZiNjM4YWUwOTIzNzkxOWRhYTk3MWJkOTZlYmE0MjdiNDcyZTlkNTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyN2Q1NmNhNWVkN2Q4NzE4YmY3ZWU3OTM0YmQwNWZjODYyYWRlNTc5NTdkMDgwMjFhZDUyZTI0MzQ0MzgzZDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAyNjUxYTkwMjA5NWJhODVjNWE5ZmE3NDhmOTYzYTBlYzRlZjAwZTJiN2FhYWNiZTIzMDRlODQzNWFmMTkwMWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjExODEyMGE5NTYxMTMyOTA2ZWRhZDc5MDZjOTIwMzJjM2UzZDI1NDQwYThmZmEzZDJlZWNhYjFkMjAyZDliNTAifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L453-L476",
+          "version": "repo-lines-v1:sha256:81b966beb91bcd39cd8569710faaf337f5f4dfc1fbf45f8f4f716d9b67106d2a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMzBiNGU5NzBlMzA4MzA5NDJmMWExOGM5NDYzYWY0ZDJiYmIyZjI0MzU4YTI1MDJkYjgzMTRkYzEzNDk0MTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU0YWZkMjdkZjk2NWRjOGJjZjAzOGM5YmJhNjg0ZTBmODVkMDIxODEzZDRiZWRhMTgyZGY5Njc5ODZkMDI2N2MiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc5NWI2MWUwNzNkNThmM2YxYTY1ODk0MjYwYzk0M2EyY2NiZjhmYzcyYjRiMzViNWFmOWRmMTYwMGMyZmFlMWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyZTYxNjUwZDgwYTg5ZjE4MTEzNjQwNTU4MTYxZGVlMTFkMWU5MmM4Y2FkN2Y4ODc1ZGIyNmEzZTZlOTFiNjcifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L125-L133",
+          "version": "repo-lines-v1:sha256:7db2f9aeb93a0deb176840a10fabbea448bda175c55defda5742fe658d9de61b:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiZmM5NzJjYmRlZWRjNmJhZWNmYzczZWQxNmRiNTk4YzA0ZjliZGE4MGI4ZGQyN2YwMTllYmE5YTI3OGQwZDE1YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYTFkYjdkMGNiNTE5YzIzN2VkN2Q5NGI3MjZjMzQ5M2Q5NzEwZmE2MmVhMzQ0ODZlMDc0OGYwNGU5ODdlMmEzMCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzQ0MTVlNTgwMmQxYjIwMTExMjU3MTczZWZmNTVjNjZiMjQ0YzkxYTNkMTllZTExMmMwMzlhNmU1NDI1NWFiNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMjZjZWE1MzM5NWQ1ODUwOGYxOGM3MTViYmRjNDU1M2VmODBmYmE1YTA1YTczOTA1YjM2N2EwOGE2ZjI1Y2NkZiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_a978fad5786542e8bdd3bb7a2646a8dd",
+      "statement": "The run command accepts explicit argv only, rejects terminal control characters, shell-quotes and anchors execution to the canonical project, and refuses to send input unless the target foreground process is a recognized ready shell.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L310-L328",
+          "version": "repo-lines-v1:sha256:6c187c500a9872fbf814d3eea6600c274e3f7b99117b940a2e6b2e8c99b2608c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3YzAzODBlYmVmYzU2YzFmMTAzN2JmNmY0ZTRhN2NjZDYzYjRiMWUxZWI5N2NhYTAwNGFkNjBlODE4NzE2NTMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2MGE0YzQzNjA5MTU2M2YyY2E3ODRjYTg3NDY4MmE2ZDdlNzM4MWMzM2Q1OWVlYzBmNDViYmFiNjlhY2Q1MTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUzNTllY2JmYjYxNDVlNDhlZWRiMDc5MTY0YjRkZGU0MjZjYjYyMmMzZmMwYzgzMTE3YmUzYWNhZGU4N2JiNGYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzZTg5Njg4YTNhZjBkNzkyOTc4MGM3ZWY0NGQyOTVhOGM4YTI1MTI0NGY1OTc1Y2NmMTkzMjQ1ZGFiYmJmMjcifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L422-L434",
+          "version": "repo-lines-v1:sha256:afddcc7637c81fd8129f473355c0d2320d0d999ab107b7f0ba478801897632e0:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE4MDZkMjQxNzg5YzU3YTQ2MzZkNjg5NzJlY2ZhM2QyNWU2MjM4N2FmOWQyZjQzNjE3NDU0MmZhYTk5N2UzZDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzNmNlNjQ4NTMyNjZhYWY2MmQ5Y2JiYjRlOWEzNTE0ZTZhZGU1YTczNTIzMTY2MTA4NTAzNGRkN2RhMmNjNTAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFjZDQ1MGNlMmVlZDk3ODYxNjQzZWQ2YWM0MDJlMTMyMGM5NTQ4YjM5OWQ1ZjYwNzFhMGM5OTQxMWE1MGVhOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyMjFmY2M1YmU1ODI4NTg4Y2RjYTBhYzZhYTZiZDc2N2ZjYzAxYzM0ZDgxZWUyN2EyZDY5NjI5ZDc2ZTFmZDEifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L159-L201",
+          "version": "repo-lines-v1:sha256:a067873d082c7e657e8af2d82e4774a6d96fa32ae3067f8692a602a360e437b2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc2MzQ0Nzc2ZTU4MTFjZjI2NDcwMDhhM2U3YTJhN2M2YjhhODFjMzhmNjQ0ODA2YmEzYjY0ZmMyY2M2ODRkMDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNjYjM2ODAzYmU4MWUxNjgyOTg5OTdkZmViMDUyMmM2OWRiMWZkMjc1MmNhMzNiNzAxYjU4YjkzMDgxMGIyZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU5ZjQ3MWE2NzZhNzRiZDliNThiOTQ1ZTE2ZmFhOWM3MzNiNDI5MzQzYjc4OGNlMmJiMTc5YTk5NDEwMjViMzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_7e907af9e2994189ade4bd5f510c109b",
+      "statement": "Agent startup resolves only configured tier launchers, refuses to replace a different active agent, and will not prompt an agent unless readiness reports idle or done.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L330-L366",
+          "version": "repo-lines-v1:sha256:3fe9e54c0443055d99728c951a2488a7f9bf5d0a3c46f543dbd1659ce9993910:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjMGVkNWZhYzY1NDc1YzFkNDkwYjhjNTAxNWFjZTg1YmRkYTRkMjI4OWI5MjIxZjRmMjRiMWJhZGZmNDcyOGQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk0ZjM1MTQ2ZmVlOWUzNmU3MjA5YWU1MGQ4ZWEyZDk2MzM2NDczNTI2NDcxNWRlOWQ1M2Y2ZWI2MGJlNjllNWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJhNjY2YzNhZmY3NmM2MmM5MzNjYzU0NWIyNWYwOWYzYWU5Yzk1ODJiYmIzNmE5OWYwYmQyNjA2YWYzMjBhY2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEwZjg1N2Q0ZTMyZGQ1OTYwMDk3ZjM5MTA3YmU1Yjk0YjBhN2VmMWM5ODczNDVkN2ZhYzQ0OWQ3ZDY2MjNkODYifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L513-L517",
+          "version": "repo-lines-v1:sha256:d123799e548cdaf05f21e380d26a5f9e87184c348873a5bfc91d514213249c2e:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTBjMjczNDNhMjQ5ZWExZTAyZTgyZTZiYjdhMjJhZjFlMmVhY2Q2NGI4MTlmNmYwYWQ1MWQ1ZmFiOWFmMWFhZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYmZlMTE0OWFmMzRlNTRlZDJjOGEzMDRlMzliNDBmZGVjZTMzYTc5MzQwNmFmM2U3MWJkNTkwZmUxZDE1YWUyMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTRiZjVkNDZiODUzNGYyYjEyYTIwNTY2NTc3MjY5MzI5MTg1YTQ4ZGRlNmNkNzlkZDRjN2UyOGIyNjIyZWJiNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmNjZjk5ZGMxODk5ZDE2YmQ0NDRmYjRlZjVhYzE2NDJhODczMWQzODZjYzlhZTNlNGY4MDRjZjZmMDM5OTJlMSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_b63ca4934d0f4bb580273c222e720d8e",
+      "statement": "Delegation uses a nonblocking cross-project helper lock, forbids self-delegation, validates a bounded regular prompt file, waits synchronously through Herdr, and accepts only idle or done as completion; failed/uncertain prompt submission is not automatically retried.",
+      "evidence": [
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L142-L156",
+          "version": "repo-lines-v1:sha256:0383680e7264cf3b69684d426221e699e20ca958b2623d7274c0e6558b9b1081:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NjdlYTcxNTM5ZmEwOTRhYmNlNmU3MWU3ZGFlYTllZjQyMTg5YmQ3ZmE5MjExOTZiN2VlYjFkMzY4YmQ5M2MiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwMDUxZmY1MmI1YjBmYTY1YjMxZTE2MGM4MzE0YjNlYjJmNjkzNmU4YzhiNGI4MWM3MjZmMTBlMjc2MTU1YTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijk0NDdkNjg4Y2NhNjFlZGRhNzc3NTQzZWRhOGZiMzM2OTUyMzhjMWVlOGFmMGQ1MDEyOGM1YzNlNjQ1NjM3MGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzOGE5MGIyYWE2YmQ4NTU3ZGNjMmJmNWZlMzM4ZDQyNTFmMTVmODBiZmM3NDBlOTA4NzFkZThhNjM2MWViYzUifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L368-L389",
+          "version": "repo-lines-v1:sha256:87920521b66f29d0855d2599ec08ba1e6bfd93b2093f076a80db057a8ce75f34:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI5YjIxYWQzOTkzZjA3MTI1ZTJjNjM2M2JkZDQ1NDA4ZTgzNjkxNjQ0Yzg3MzA4YTA3YjI5NmNjYWI1NTQ3ZDQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwNDY2ZmU3NTgwZWU3OTcwMWZjMGE2OWZlM2NlMDFmZTI5YTljMjJiOWE2Y2M4ZjEzZGMyNWExMGI1NWQwYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVkNjE3NzUwMTk5NTJiNWVlNmMwODE3MDMwZWNhNzM3OWI5NWNkODA2NDg1NjNhNjU3ZjIxMDMwNmZjODQyYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM1MzUxNTJlOTlmZjI1MWQ3NjRkNjJiYjg4YmJlNDViZDcyMjI4MGM4ZjI2MWE0MTZiZWRiYzM3YzU4ZWZjMmMifQ"
+        },
+        {
+          "resource": "repo://scripts/local-ai-workspace.py#L415-L452",
+          "version": "repo-lines-v1:sha256:be48580f3c1bd05267e6fe9b846d9fdfdef198fe6dd47a53d58d0fef2c35808d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4NGFmMjBlMGU0M2NhNWI0NzNmYTNhYWE3NzQ3NGEzYTcyNDQwYTMwYTMyODE2MThlMGQwN2NmNjBlNTk2NTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ3OWI5NWIwYTJiODZmMWZiMWMyYzM3NTQxYTg0ZmQ2MmY1ZWVlYjMzM2ViNjdjNjhkNmU3Mzg5NTAwOWFmY2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRmMjA4OTYzYjc2Y2EwOTFlNDliNDVmYmIzZGE5MGMxOWIyOWZjZWRjODVhMTNiOTMwOWJmNmMxMzEwNTAxMzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjE5NmY2NjVmMWQ0N2FkNTYxMDliY2E1YmYxYzljYWRlNmY4NTk3YmRjMzA0ZDBmNjliZWUyMTY2NzkxZWJjZGIifQ"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-workspace-test.sh#L260-L281",
+          "version": "repo-lines-v1:sha256:44e56517bfcf7178e22b7ff47207dd9eb76208a27f1bb8d3bf63cbbc27cf1cc9:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZjOTcyY2JkZWVkYzZiYWVjZmM3M2VkMTZkYjU5OGMwNGY5YmRhODBiOGRkMjdmMDE5ZWJhOWEyNzhkMGQxNWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRiYmEwMDFiYWYwMjU1NTIxZTE1M2RkZTFiNWY3OTMzMGFiMGNkNTc2YzE1N2MzZThiZDQ1Mjc1NjJjYTEzNTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4NzZlYjA1NTYzYTMwMjZkYTEwMmJmMjY1YWU3M2ZhZThmZGFjZjJhYzBjNmFmYmVhNmM5OTM0MTI3ZWY2MzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImZmNWUwZTZjODQ3MjJhNmE2MDM0MjkxNWRmNzFlMjg1OGNmNGViNjJjM2QyMWUxNjY4ZTQ4YjYxZDFjZTYyMmUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_8bffb74f5c2c476680e4b096017776f5",
+      "statement": "The pi lifecycle hook reports TUI root-session state to Herdr over its pane socket, including session identity and working/blocked/idle transitions, while the OMP hook additionally debounces idle and holds retryable provider failures before marking the pane blocked.",
+      "evidence": [
+        {
+          "resource": "repo://assets/herdr/integrations/omp/herdr-agent-state.ts#L300-L324",
+          "version": "repo-lines-v1:sha256:7b2f6c4bb977ce25a3d0cb6111b05fbb1857caf0a8c63daeddeca336bce352b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAyMmYzMjAzYTU3MGZjY2I5NzdjNmU3MjAxNjc5ZDAyNGQxYWViYzcyNGJjNGZjZjIxNDhkOTY5ODkzZmJhNTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkMjI0MzdmODVlMmMxNGQyNjRlNGY4M2JmNWMzYmFiMzhiZTExYmI2MjJiODk3NTY4N2FlZDUwMjY2N2M4NjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlmYTUxYTg3YmM0NzU5OWNmMmM1YzlmODk3NTNmY2FkZThjNWYyOWIzYjdlOWYwZGMwYzU4MzZiMjRmMzIzZDQifQ"
+        },
+        {
+          "resource": "repo://assets/herdr/integrations/omp/herdr-agent-state.ts#L359-L466",
+          "version": "repo-lines-v1:sha256:2646e7117e03f41c91b02199522aa6d376780967fcebd95361f627a7d5f7f4c4:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA4LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3NzhkMjU2NjczMjViNzEyMWY0MGJlZGEwYWIxYTI1NmRlMDU3ZGFhZWQzYTFhMGY4N2ZiZDBhMzEyYjJiNDU2IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIzYTNlNDZmOTQyNzZiNmY2ZjRlZDFmMDJhZjc4YmVmNmEyZWUxYzQzOWRkNTU4NGI5NzM5NDgzMTMyMTRkMmI3IiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiIxZjA2OTdiNzc3NDlhZjE3ZmU1OTAwOWE3OWI0Mjg1NzVkMjgwNmM5ZGFiNTE4NDk3ZGY3YmVmZTA4OGI5MWM3IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MSwiZm9sbG93aW5nQ29udGV4dEhhc2giOiI0MTJjYTM0NWNjZjc1YmY5YzA4MDZiY2U2OTViZThkZTgwOGI3OTk4NDI1MWE3YTU0ZDIwMmNmNjEwMWRkNDUxIn0"
+        },
+        {
+          "resource": "repo://assets/herdr/integrations/omp/herdr-agent-state.ts#L75-L78",
+          "version": "repo-lines-v1:sha256:52bf74cfce2701c336cbc14d5b12a7a32f1ed1c7ac5ee396a92e5b72089aee51:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTI2MDUxNTg3ZjA1YzRkZjhlMmM1ZmQ4ZTM0ZWVkNzQwZTZkNzgyY2Y2YjM2YjZkYjRmOTBkZTVkZDk5OTQzMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMDZkYTQ3OTVhOGNmM2U4MGM4YTE3MzYxZTljZjVkMTY0ZTU1ODA3MGRhZGFkNGJiMjdmNWIyYzFjOTBjYjQ5MiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZGU5ZjM2NWJhNTg2MWMyY2EyZjMwOGE3NDJiODBlZjQzNWI3MmZlYWRhMjc1OWMzZjk0ZWY0ZjI3NzM4M2JkZCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiODk1NDQ4N2FkMGRiZGFjYTgyM2E3YjA5OGJmMDJhOGY3YWU0Y2E4NmNhMmM0NWVjNTdjOGI2N2E0OWI2M2VjMyJ9"
+        },
+        {
+          "resource": "repo://assets/herdr/integrations/pi/herdr-agent-state.ts#L10-L19",
+          "version": "repo-lines-v1:sha256:c1996e2e7a4c70b2ade1777af01c417fddbe0df425b89593fb1873a510bd819c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRjMTQwMDcxYjEwNDU1NzFjYWVlOWU0MGZlOTNmZmMxMjAxNjY5MzgyODk5NDE3NmIzNmM4Y2UyOTU3MWFkYTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZjMzNkNmNjYmQzZDljOTBlYmMzNmI1Nzk1OTI4MWI1YjEzZjE5YTYyMjU2ZTUwMTMxOTkyMjg1NGMzMmQ3ZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhYTU5ODJkN2UwN2U0Y2QwMWJmYzQ2ZDE2MjkyNDhiOTg1MWViM2Y1YTMxY2RiODVlOTA1NDgzZTVjY2NkZTUifQ"
+        },
+        {
+          "resource": "repo://assets/herdr/integrations/pi/herdr-agent-state.ts#L110-L172",
+          "version": "repo-lines-v1:sha256:d220cc16f7e2177f90e9656e9627c684cc7f9e79d10654105af4f51beda823e5:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNkNDljYzQ4ODljNzkxOGE2OTNlZTAxZWQ5OGM3Y2MwMzBkYjM4MTkzMTRjZDI4MmQ0ODAxMmY2Y2NmOGVjYjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI3ZTU3ODhkNWQ5ZDczZDI0YTgxZGJjMGE1YTc0YmZhODJjOWMzYjNhZjk5ZTUyYWY3OTZlOTBiNDY4YThhM2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE2Yjg1ZGI4ZTI4YjI4ODZlMzExMmRjZDJhZjgzNzA5NjYzNjEwOWFkNjdkNzQyZDhlZDY5ZDg1MDVmM2JhYmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg1YjNlMDAxMjg4MzEzNjk5MDdmMzQ1NWM2M2ZkMzRmMTlmNGU5NTJmOGZlMTE2ZWFhZjI0OTk0YTk5ZWY0ODcifQ"
+        },
+        {
+          "resource": "repo://assets/herdr/integrations/pi/herdr-agent-state.ts#L175-L256",
+          "version": "repo-lines-v1:sha256:c8a4c1f9f0b27861cb41179ebbc69147291159cc5de3e9f5562f23377b112ca2:eyJzZWxlY3RlZExpbmVDb3VudCI6ODIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQxNDdkNjQ3ZTM3YzBhOTcxZDI1ZTUxNDMwZmFiYzc1ZWY2OTA0MjliYWVjNDA5YmQ3NTBmNGJkMDE0MjVlOGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhM2U0NmY5NDI3NmI2ZjZmNGVkMWYwMmFmNzhiZWY2YTJlZTFjNDM5ZGQ1NTg0Yjk3Mzk0ODMxMzIxNGQyYjciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3f5090536614496b02262f14d68d2c6",
+      "statement": "Lifecycle extensions are installed independently into OMP and pi agent roots, but only receipt-verified managed files are replaced; modified or symlinked hooks are preserved.",
+      "evidence": [
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L199-L266",
+          "version": "repo-lines-v1:sha256:a818baaeb8646d1f2909c254107413a62f6533336b124c2298d0b05410636a30:eyJzZWxlY3RlZExpbmVDb3VudCI6NjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQyODQ1NGUxNWIyYzJiNjRiNmRlMWYzMDNmN2Y2YWZjMmQ1NGIzODFiOTY1ODY2NjgwNDUwMmQ5ZmUxMjAxZjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhZmJhMDUyN2MzOTUzYzRiNmUwZTViNTczOWJhODM2MTJmODA1M2JjZGM5NDY2NzMwMTkzY2QxZDU5MGI0MDgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA3M2Y1NzIyMWFlNzZiYjRiYTZjZGU3ZWNlZDA5YmI0MzBhYzMzMDJhMGFhMjc3OTllY2QzYTZlYTBlNDgzNjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3MmM2MDU4YTliZDAwN2M0NjQ1OTEyZGRiYmQ5NGIzODllYjc0ZGVlYWJmMWJmNDA2NjNjNDUzYWVmMjFhNTMifQ"
+        },
+        {
+          "resource": "repo://lib/local-ai-herdr.sh#L315-L322",
+          "version": "repo-lines-v1:sha256:278dbaf572e7bceccb8611164015f3f1ad7a30736356d42bd7e0481ce9800493:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMmUyZTE5OGIxZDllYWE1ZmRhYTUzYTljNGNmZjNiZGU5MjEwYTE0MmI4OTk3ZWRiNzY4ODY3OWIzODM2MDQwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjI5MWU2NmFhZjg2ODc2Y2ViNWI1MzI0MDJmOGFkODE1OWI0OTI0NDc3Zjg1NGFjYmI3YjNiNTU5MTc1NzdhYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMWIxMDUwMDQwZTU3Y2UzN2I5ZDliOTM2MDM3NGJkMTAyYzBkOWRhNzA5OWQ0MzA5MjkxY2JiNzg4ZTIzMDc5NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZjM4OGQ3ZWEyZDZiZTNiMDNkNGFhZjk1OTU1MDk4ZjAwODM2MDcxNzFiOGJmNDBkNmZkMGVjNDE1ZjlmNWI2MyJ9"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-install-test.sh#L115-L120",
+          "version": "repo-lines-v1:sha256:4973719f4df5f42d622dc0b92dc590dd5f2d672e2c52ed39d6e18fc2d2e88c44:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNjAxZjQ2MWJmMjYwMGMzZGE3MTgyODA1MGJhNDI1OWZkOWY1YTA1NjM3MjllNjllNWU5YTFjZGIxOTM0M2IyZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTZmYzg4NzcyZjhjY2JlM2M0MjVlMjYxZTk3NzM2YTI2NjYxYmY2Njc4ZDEzOTk3NDhkOTdmNzI5Y2ExNDZlZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjRkY2E4ZDcwY2E4ZTJkYzFlOTAyYmFhOTE1YzBiOGNhYTgzZTMxYTVlNWI5ODgzNmEzZjdlODllOGVkZGNlYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNmM1MDcxMTc0NDhjOGIxY2YwNTZiN2I1OTViZTMyYjRmNThjZWQ2ODU5NjMwNGI1MWMxNGE3YWE2MTM2M2E1NiJ9"
+        },
+        {
+          "resource": "repo://tests/integration/herdr-install-test.sh#L174-L193",
+          "version": "repo-lines-v1:sha256:a782949d37e93b3ae63c929d4d1afa4e824b6c95600726b5612f726a481375ae:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE3ZmFiNDljOGQ5ZWI4Yjc5N2YyOTJlMTExM2IzNmI3ZGM0YTU4N2ZmZGQzY2MyOTRkZjRmNWM1NjIzMzEwYTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU4NjA1NjNhMDQ1ZDY5M2ZjZWJhYTUzMTJlZWU2NjZiOTZhZjc4ODE0NmRiMzVmMWM0ZGQ1NzAxY2UwYjgyMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YWJiNTI0Mjc3ZDNlMWZkZGFmNzlkOGJhNTFhYTdjOWMyOTg3YmMxZjdiNTgwNWRjMDkzZDc4ZWY1MTViNjciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjI0YzI4ZmFlYmNmNDcyYmU5NGI0M2ViODUwODQyOGQ1NTZiNjIzNWE3MjI3NzYwNTQ5NmRkODFmY2MxMGZmMWMifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.5.0",
+    "at": "2026-09-08T03:08:40.315Z"
+  }
+}

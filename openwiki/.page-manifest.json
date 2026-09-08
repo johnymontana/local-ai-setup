@@ -2,60 +2,67 @@
   "schemaVersion": 1,
   "pages": {
     "/openwiki/architecture/runtime-stack.md": {
-      "pageVersion": "sha256:08d77d0adf9ff0802969ba21cd63e754807898426426da07c054c49973160d84",
+      "pageVersion": "sha256:fbf2e5af9d915275bc2df27aa3a8387d89132f9d0d0f19a8b46bcd00e675d4b9",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/concepts/configuration-artifacts-and-safety.md": {
-      "pageVersion": "sha256:9a4b4880a4fb48881d0250793467a4b14f785ae084a081d57e5bc4213e2d1816",
+      "pageVersion": "sha256:8f3122c41200d19dd794f34fd309354e3bb98c83eaa77461ac21e2d9b210de38",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/integrations/coding-agents-and-role-routing.md": {
-      "pageVersion": "sha256:c080008675e2878405c4598f228abeb52e8b0e888c8fb7427aca0e3ace171fac",
+      "pageVersion": "sha256:633a5ff1d0d2993bd5a5bb7869a0a76a442ee6445813919942f141783b36a222",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/operations/router-health-and-performance.md": {
-      "pageVersion": "sha256:ccb63beb23b2d819da296b230665894ec98137a44f4388ff0fb9488a0ef8ed7a",
+      "pageVersion": "sha256:dae7e835ba0cf7c7971df9d12b4dbc192943869ea8dd8d20b7338eb8f782b1e2",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/operations/system-and-lan-security.md": {
-      "pageVersion": "sha256:2520edd93b539fa29b6674f1c1d2c0acd77b227fef3cfce778ed248ec46c6262",
+      "pageVersion": "sha256:b4acf0fa956ff9b52a5f46a5185edd07f735b4140b2e65ccbc2cd1828fd76e94",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/quickstart.md": {
-      "pageVersion": "sha256:b748c786084fa60883efe350593b1152c5552c38e658b5cd46cef6a921d3744f",
+      "pageVersion": "sha256:b5fbd6a848cb92d4d032cdd735718bf523dc1dab23b8c07daa77a0af7848e5be",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/testing/verification-strategy.md": {
-      "pageVersion": "sha256:95781a5ec0aefe92894fd3ff684554616a505c045821eaf28ece2b9c24ea76f9",
+      "pageVersion": "sha256:d749367e420d4cf56cd6274011234fc2fa9c72010bb55572e839b6618e40c170",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "94fd19a0-ed20-462d-907a-282d5aff99ca",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     },
     "/openwiki/workflows/model-and-desired-state-lifecycle.md": {
-      "pageVersion": "sha256:febd63dc6d5ac95e8aab550ffffbad6f21d9d4d39c004dc9f381450dd2c8aeb5",
+      "pageVersion": "sha256:6795fef188b536064131129203311d055d86548a2fc32132ac6bc0faf9d8d948",
       "completedBy": "openwiki/0.5.0",
-      "completedRunId": "92f63e2f-3535-410f-b8ca-0a63bc1ce2f7",
-      "gitHead": "1faddf772a12f22258281d380d640590a2aad8f0",
-      "sourceFingerprint": "sha256:923c7734c01349e9be19663a5868b05ca38ed6a7ab4eac5bc2302d0fae8b1b4a"
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
+    },
+    "/openwiki/workflows/persistent-herdr-workspaces.md": {
+      "pageVersion": "sha256:fff4fde71c9a6abf2f0edd3c7cd40fd0795b3b0f7deca72fac56039e07fbfcdc",
+      "completedBy": "openwiki/0.5.0",
+      "completedRunId": "29ee63ea-0088-48d5-9165-b40b024bca7f",
+      "gitHead": "d4457cb0f2845f797d2ab52f14514dfa5f83ff99",
+      "sourceFingerprint": "sha256:cf42a8eacf5f3cd19c5b7237501918f49ed71f32be7de14a4ce2ed3f857061c0"
     }
   }
 }

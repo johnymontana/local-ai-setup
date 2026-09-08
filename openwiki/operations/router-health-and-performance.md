@@ -3,10 +3,11 @@ type: operations guide
 title: Router Health, Runtime State, and Performance
 description: How the local AI router is preflighted, authenticated, observed, smoke-tested, and measured. Explains the distinct readiness, status, smoke, perf, and raw benchmark operations and their restoration safeguards.
 tags: [router, health, readiness, authentication, performance, operations]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T20:31:06.055Z
 sources:
+  - id: openwiki-source-e845b6622635329fca37f1f6
+    resource: repo://local-ai
+  - id: openwiki-source-597ac7b7d26678e1e9c41f66
+    resource: repo://manage.sh
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-37c158c9536a90efb6244860
@@ -19,21 +20,25 @@ sources:
     resource: repo://tests/integration/operations-test.sh
   - id: openwiki-source-069e6674f1853a4ec99c387e
     resource: repo://tests/run.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T03:08:40.315Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-08T03:08:40.315Z
 ---
 
 The router is ready only when the managed service, its authenticated control plane, and its expected model catalog agree. A listening port or `/health` response alone is not enough. Use `status` to observe without changing residency, `smoke` to intentionally prove a tier can generate, `perf` to run a disruptive deployed-API measurement with residency recovery, and `bench` for a separate raw `llama-bench` baseline.
 
-The menu in `manage.sh` delegates these actions to the scriptable engine. For automation, call the engine directly:
+The menu in `manage.sh` delegates these actions to the scriptable engine. `local-ai menu` opens that menu and `local-ai logs` follows the user-unit journal; its ordinary command fallback invokes the engine, while `workspace` and `--desktop` have their own front-door handling. For automation, call the engine directly:
 
 ```bash
 ./setup-qwen38-pi.sh status --json | jq .
 ./setup-qwen38-pi.sh smoke everyday
 ./setup-qwen38-pi.sh perf everyday
 ./setup-qwen38-pi.sh perf-history everyday
+./setup-qwen38-pi.sh bench everyday --manage-service
 ```
 
-The service listens on loopback, but loopback is still an authentication boundary: browser content can drive localhost APIs. The managed key is stored in `llama.key`; authenticated curl calls read the validated regular key file and pass the bearer header via curl configuration on standard input rather than process arguments.
+The menu labels `smoke`, `perf`, and raw `bench` separately and warns before the latter two disruptive paths. The service listens on loopback, but loopback is still an authentication boundary: browser content can drive localhost APIs. The managed key is stored in `llama.key`; authenticated curl calls read the validated regular key file and pass the bearer header via curl configuration on standard input rather than process arguments.
 
 ## Readiness when applying or repairing the service
 
@@ -84,6 +89,21 @@ journalctl --user -fu llama-server.service
 ```
 
 Resolve `system.rebootRequired: true` before activation in normal operation. `ALLOW_PENDING_REBOOT=1` is an explicit acknowledgement that the running kernel/TTM state is intentional, not proof of readiness.
+
+### Diagnosis order
+
+Treat the report as separate observations rather than a single green/red bit:
+
+| Observation | Likely boundary to inspect | Safe next step |
+|---|---|---|
+| `service.state` is not `active` | User-unit startup or generated service inputs | Read `systemctl --user status llama-server.service` and `journalctl --user -fu llama-server.service`; use `plan` before applying a correction. |
+| `service.api` is `down` | Nothing answers the protected loopback request | Check the unit and port configuration; do not assume an inactive unit proves the port is unused. |
+| `service.api` is `insecure` | A reachable listener accepts a keyless protected request | Treat it as an unsafe/conflicting listener. Stop or correct it before relying on the managed router. |
+| `service.api` is `unauthorized` | The endpoint rejects keyless access but the local credential cannot complete the probe | Check the regular, non-symlinked `llama.key` through the service workflow rather than placing a token in a command line. |
+| `service.api` is `error` | Authentication or catalog response is not an acceptable router control plane | Inspect the journal and catalog/version compatibility; a reachable HTTP endpoint is not sufficient. |
+| Artifact state is `partial` or `absent` | Locked files are incomplete or unavailable | Finish the relevant `model` operation; do not use runtime state as proof of artifact integrity. |
+
+Use `smoke` only after the quiet status diagnosis is satisfactory and changing the selected model's residency is acceptable.
 
 ## Status: non-disruptive authenticated observation
 

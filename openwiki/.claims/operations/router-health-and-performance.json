@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:ccb63beb23b2d819da296b230665894ec98137a44f4388ff0fb9488a0ef8ed7a",
+  "pageVersion": "sha256:dae7e835ba0cf7c7971df9d12b4dbc192943869ea8dd8d20b7338eb8f782b1e2",
   "claims": [
     {
       "id": "claim_a040dd6a860048658bbbbcc65572a6fa",
@@ -197,15 +197,11 @@
       "statement": "Service activation is transactional: after staged generated inputs are installed and the unit restarted, normal health checking requires an HTTP health response, authenticated protected-chat and router-catalog verification, every installed alias in the catalog, startup-tier readiness when configured, and managed-unit listener ownership; a failed check rolls back the prior service transaction.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L1523-L1620",
-          "version": "repo-lines-v1:sha256:93967edc7e973f1af187e6857841db944df479d538de9f491ab238053e6cf026:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiMjhlMjNhOTkzYTc1YjdiOTk5MjVmNWI5MGI0MzFjNTNhMjhkMThlOWQ4ZjY4YmVjYWM5NDQwODM4ZTBlMjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Nzk2MTY5YWM1NmFjMGEzZjVjYmFmMzQ3NDI2MGVmNjI4NWMwMTcwZWVhYTc2MWQwNTM2YTI1NDFjNDIzMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ2MGU4Njg4YWIyNmJiNjNiOTVhYmNhYzFkYThiMTE3NmFhZGFlMGU3ZTg5YzVmZDQ2YTU5NzA0MWYyYzQyYzUifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L1547-L1740",
+          "version": "repo-lines-v1:sha256:804b033192bd86fffde3ea8393e3fc2381628ff9581323d6c3b32f46be102f5a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYjI4ZTIzYTk5M2E3NWI3Yjk5OTI1ZjViOTBiNDMxYzUzYTI4ZDE4ZTlkOGY2OGJlY2FjOTQ0MDgzOGUwZTIxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyOTJmYjU3YzcwZmJlMWIxNWE2ZjY2YTZlMjBlYjk5ZDJlZWI4Yjg4Y2M5M2Q5YWU1OWY2ZmI5OGQ1YThhMTAxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiMWMzZThiNTE2N2UzYmQ3NWRiMTc5OWE1NjY1NzNiZmEzNmRiM2FlOThkOGRjNjRkYmY3MThhOTI0NzhkMmQ4In0"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L1641-L1700",
-          "version": "repo-lines-v1:sha256:d04d62fdd5a9487d8efa46878e5d39fe516137a642185a2f4df7514f5ebc8853:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiZDhkNDg5MWEyMmExOTViYjhhNmJhY2FhMzdlNzA1NGEyYWQ5ZGM1YjdiNDVkMmY5MWY1OTYxNzQwYWNiNTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ZTc2MDQyNmE4ZTNhODYwZGQxNTBlNmMxMTc4YmFhNmJmMTgyNGM1N2ZlODI3M2IwMmI0YTVjZTQ1M2FhNzEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU1MGVlOTM3YTVmYmM3ZjQ4MzdkZmQwN2RmZjNmN2MxNDFjOWFlZjJiMmMxYjBjMTZlNDJmZTU5NjI0MmJmMmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ0ODZmMmY2YmFjZjk5YTI4ZTQ3YTkwZGY3ZDcyNjNjMzI5M2RhNTkwZjMzZmU3ZmE3YWU5YzkyZDcxOGYwMWQifQ"
-        },
-        {
-          "resource": "repo://tests/integration/operations-test.sh#L171-L241",
+          "resource": "repo://tests/integration/operations-test.sh#L174-L244",
           "version": "repo-lines-v1:sha256:400c68ba9c29ce04606bac323ed9095053970546ad19cbeb493d07a9d03d074c:eyJzZWxlY3RlZExpbmVDb3VudCI6NzEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyMTRmYTZlY2UxZThkOTlmYTY2ODExOTU3OTgzZjIyZmM4NjA2Mjk3ZjQ2NjdlNTQwYjBiMzA1ODY3YmI2ZTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyN2NkNjA5M2Q4MjAwMTBmZmIzODkwYzdjZWJhMThlOWM3OTYyYjljZTBjZmM5ZmYyMjU4YjIyZDA3ZGRiYTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY4NjNlNTgzOWEyOWI1OWEyZTdiNmRkZDdmMzlkZDk1NzgwMzI2MmUzYzRlYTJhNjMwNDlkOTg4MGU5YzExYmUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFjNzMyNGY3NzljOTBhMGFlMGFlZmZjNzNhMzlkZDhkNjc3MTc1MGYxZDZmYzUwMjBjZGM2NzEzNTlhZTA0MGYifQ"
         }
       ]
@@ -245,10 +241,42 @@
           "version": "repo-lines-v1:sha256:a3134bf43ff4bbd4a2a586f067607d59cbcc2210a5bc3868b94a97b801976108:eyJzZWxlY3RlZExpbmVDb3VudCI6NTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcyNzJkZmU3ZjU4OGJlMDJmMzZiYTdhMTE3MGRmMGQyMThlMmIyZmU5MWE5NmFmMDAzZDNkNDM2MWQwZGIzZDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZkNzJiZDkxNDQwMzA4ZTgzYjg1ZWE0MmRiMTEyYjNkNThkY2IyZjg1NGZhYTBjNDIwOGYyZDkwZWY5YjVmZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2MjhiNGExMjNiZGJhMzZkN2ZiMzkyYjE2ZGIzZWY1MDQwN2FiNjE0MTI3MDk5Mjk0ZmY2NzI0YjQwOWJlYjQifQ"
         }
       ]
+    },
+    {
+      "id": "claim_90e2351490f14b689af099d3fc7a9356",
+      "statement": "The `local-ai` front door opens the interactive manager for `menu`, follows the `llama-server.service` user-unit journal for `logs`, handles workspaces and desktop launching separately, and dispatches its ordinary command fallback to `setup-qwen38-pi.sh`; the manager delegates smoke, production perf, and raw bench actions to that engine.",
+      "evidence": [
+        {
+          "resource": "repo://local-ai#L5-L46",
+          "version": "repo-lines-v1:sha256:d42504f6359b066bb74b7f90b0e38afaca16511551b9108b088d2fc5b1fdd13f:eyJzZWxlY3RlZExpbmVDb3VudCI6NDIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI1ZjA1Yzk1Y2RkY2UwMWY1OWJmZGJmMGY5MTdjNWRkNzVhM2M3MDg3NmM1M2ZkMmQyNTFkMDJlOWZmOTAzMjciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZjZWE0ODdlNzk0YWI0NjgyMjAwNTkzYTlhNmMwZDBhNmMyNWUxZjgyOGFiNWZmNjJkMDY3ZDhjYzhkMDZlMjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU0Mjk3MDhiYmNhYWQxZDVmODcyMDczMWM4NmU1MWY2Y2Y2OGM1NWU0ODM0ZTliNTQ1OGM1NjViODk1MTcxYjUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM0YTJiZWNmZjhhZmIzNGRiMjYwZGFiYzk2OTE1ZmZlY2ZkZTg0ODkyOTU0MWM2MTkzZGU2ZDE2NGMyMWU4ZGEifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L622-L658",
+          "version": "repo-lines-v1:sha256:43c82d2250e23f48400a312767b71fa78ce1c55c023be0922880ccc9afa0573f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRkNDM0ZjNhNWQxMjAwNzEyZTc4MWVhZmQ1NGYzYzY3ZmVkODk3MmNlODVmMjMxMWQyYjJkYjhlYTUwYjRkZjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3MzhhNmI1YmNiZDNmNDRjMWM4NzBmYTJhNTcyZjhhOTEwYWE3MDMxN2E2OTA0MGIzMjQ1MTlhNWU5M2Q4NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNjE0ZmMyMzkyM2UwNjJmNmM0NDFhZGYzMGI1ODhlZDU5YWE5N2JjMzlkMmE4NzVkYjRjNGRjZjk4MTBhMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllZTYzNDY4MzExYzg2MDRkMzU5MTE0YzA2M2MyNGQ2MjMzZjA5ZTA1OGJhMzhlYmU2NzJmYzZlYjYwNTAwOWMifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L789-L793",
+          "version": "repo-lines-v1:sha256:ef33a0287e1c1fe55167ed7ca6f8c4afdb02c521ac999b90887585d93448755a:eyJzZWxlY3RlZExpbmVDb3VudCI6NSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDBlNTRjODhjMjA1YTU5YmVlOWMyNGY3NmEzZDE4MGIxMjA1MTk4YWI4Y2QwMzU5MDk0ODM2Y2RmZjFjNTk5MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJhN2FhMGY4MjQzNDQ1ZWFlZjE0YzlmMDYzNWFiNGM5YjZkMGYzMDZkNTY4ZmNhYWJiNjFjMjlhNTg3NWZjMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYzc1ZjU2MjVlZTNmMzNhYmEyNTc0YmRkODdiOWFiNmVmNTc2ZDRjNDc0YTZmZjZlNDJjMDJhMzNlNGU0ZmQ5NCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTlmMzdkMGEzMWFjYjQ0OTVhMTQ3NjczNzBiMzQ5OTUyMDYxNTUxMGI3OWMyNjk1MzU2ZTg5NjM2OGFhNGViNyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_9e6fa27b91624aa4984e239191057872",
+      "statement": "The manager presents smoke, production API perf, and raw benchmarking as distinct operations; before perf it warns that residency is unloaded or swapped and two default 4,096-word requests can each run for 30 minutes, while raw bench confirmation is needed because it stops an active router.",
+      "evidence": [
+        {
+          "resource": "repo://manage.sh#L630-L658",
+          "version": "repo-lines-v1:sha256:808c74907462987ffc1d27aa98fe98372cdf1bd0472aedf0bbc613ccc6bacd09:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyZWI0MjEwNzY1MDFhZjBmMWRjMGM3ZGNkZjc1NTk2NGVjNzczMDc5ZmVhM2E4MjFjYzI3NTk0NGVkMTA0MmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3MzhhNmI1YmNiZDNmNDRjMWM4NzBmYTJhNTcyZjhhOTEwYWE3MDMxN2E2OTA0MGIzMjQ1MTlhNWU5M2Q4NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNjE0ZmMyMzkyM2UwNjJmNmM0NDFhZGYzMGI1ODhlZDU5YWE5N2JjMzlkMmE4NzVkYjRjNGRjZjk4MTBhMDUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllZTYzNDY4MzExYzg2MDRkMzU5MTE0YzA2M2MyNGQ2MjMzZjA5ZTA1OGJhMzhlYmU2NzJmYzZlYjYwNTAwOWMifQ"
+        },
+        {
+          "resource": "repo://manage.sh#L715-L720",
+          "version": "repo-lines-v1:sha256:2a0b565945f99719966a18b453d6b3a4263c02cce7c73934100f5b088d3f7e0a:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDhjZjBhYzFjZDE5ZDdiMTFiZTQ4N2ZjZTdmNDViM2YzNTA1YTc5NmRjZWIzM2FmNGM3Mzg3MTg5MWVjNzUwYyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNjJjZWU4MDc2NjNjNmI4MzJmMzFhZmExODNjNDBmYTgwNmUzMzNmZDQ4Y2QwMTBmMjA3YTkwY2VjOTllOWExYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOTkyZDQ0M2Q5ZTc2YTZkYThlMjI2NGUwOTcwZmEwYjY0OGEyNDUwMDllODg3MmVhMWYyNGJmODU0ZTE0MDhlZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTM4YzdlYzM4OWU0ZTdjNjM2MGYwNjEzYTJkZjY3Nzc2NmI1YjljYzVmYTRiYzJjNDNjODk5MWIyYTlmZDY2YyJ9"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T20:31:06.055Z"
+    "at": "2026-09-08T03:08:40.315Z"
   }
 }

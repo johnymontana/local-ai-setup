@@ -1,22 +1,25 @@
 ---
 type: safety invariants
-title: Configuration, Model Artifacts, and Managed-File Safety
+title: Configuration, Artifacts, and Managed-File Safety
 description: Configuration precedence, locked model artifacts, verification receipts, and managed-file ownership rules for the local inference deployment. Explains the validation, symlink defenses, and transactions that preserve user state and safe runtime changes.
 tags: [configuration, artifact-integrity, managed-files, filesystem-security, local-inference]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T20:31:06.055Z
 sources:
+  - id: openwiki-source-d22d02e8e24282f97a11370f
+    resource: repo://herdr.lock
   - id: openwiki-source-3bd2ed3dac4f5554f20e6944
     resource: repo://lib/local-ai-common.sh
   - id: openwiki-source-2e9ec2f9c4214d7a3a160f3d
     resource: repo://lib/local-ai-desktop.sh
+  - id: openwiki-source-59c4ee3de11f11823df478c4
+    resource: repo://lib/local-ai-herdr.sh
   - id: openwiki-source-8cdd30afc64cff2f9cb15c13
     resource: repo://models.lock
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
+  - id: openwiki-source-7f5d8ea0d462cd0d3512ec0c
+    resource: repo://tests/integration/herdr-install-test.sh
   - id: openwiki-source-a3837d24a42598759124dd51
     resource: repo://tests/integration/system-transaction-test.sh
   - id: openwiki-source-f381d2986802f05dd46ae1ad
@@ -25,7 +28,10 @@ sources:
     resource: repo://tests/unit/runtime-safety-test.sh
   - id: openwiki-source-ecf6c3ee8bf187c4144f6437
     resource: repo://tests/unit/user-config-preservation-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T03:08:40.315Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-08T03:08:40.315Z
 ---
 
 > **Invariant-oriented guide.** The setup engine is deliberately conservative: a value, artifact, or generated file is usable only after it satisfies the applicable validation and ownership checks. A refusal is normally a request for explicit operator action, not an invitation to overwrite, follow, or guess.
@@ -119,9 +125,17 @@ Generated files have ownership boundaries, not overwrite-by-path semantics:
 - OMP `models.yml` and `config.yml` are a **pair**. If either is custom or a symlink, ordinary `routing` preserves both pair members and launchers, writes both generated candidates as `.local-ai-setup.example`, and returns status 2. `routing --force` is the explicit replacement path and first writes timestamped backups. Pair and wrapper updates snapshot and restore the entire routing bundle on failure or signal.
 - Tier wrappers and `local-ai-agent` replace only marker-recognized regular files. Unmarked or symlinked user launchers are preserved. Wrappers for unavailable tiers are removed only if they carry the managed marker, preventing a stale managed command from selecting an absent alias.
 - Managed shell exports are replaced by marker identity, rather than blind line deletion. An unmarked user export is retained and the managed export is appended last. A dotfile symlink is resolved only with `realpath` to a regular non-symlink target; its mode is preserved, while dangling/unresolved/non-regular links refuse integration.
-- Desktop integration uses the same absent-or-marker-owned rule for its command wrapper and two desktop entries. It stages then renames managed regular files, while `desktop-remove` deletes only marker-recognized regular files and warns for user-owned or symlinked paths.
+- Desktop integration uses the same absent-or-marker-owned rule for its command wrapper and three desktop entries: menu, logs, and workspaces. It stages then renames managed regular files, while `desktop-remove` deletes only marker-recognized regular files and warns for user-owned or symlinked paths.
 
 Not every file the setup can create is a managed file intended for later replacement. `ensure_pi_settings` and `ensure_tmux_config` install private (`0600`) starter files only when their paths are absent. Existing regular settings retain both content and mode; existing symlinks, dangling links, and other non-regular paths are left untouched with a warning. Users can therefore take ownership simply by creating or editing these conventional configuration files.
+
+### Herdr has a separate locked-runtime and ownership boundary
+
+`herdr.lock` is distinct from `models.lock`: it selects exactly one Linux x86_64 upstream release asset for the configured `HERDR_VERSION`, with an exact release URL, byte count, and SHA-256. `herdr` requires that lock entry and platform, downloads to a private staging directory over HTTPS, verifies size and digest before executing the staged binary to check its reported version, then installs the executable (`0700`) and its private receipt (`0600`) together. A normal invocation reuses only a binary whose two-line marked receipt still hashes to its recorded identity; replacing a different managed release requires `herdr-upgrade` explicitly.
+
+The Herdr installer treats the runtime binary and receipt as one recoverable pair. It rejects symlinked or non-directory path components, modified/missing/unmarked runtime state, and failed staging checks without replacing the installed runtime. Once promotion begins, an EXIT or signal handler restores the previous binary and receipt (or removes both if they were newly created); recovery files remain if that restoration fails.
+
+The same ownership predicate applies to the generated Herdr config, launchers, coordination skill, and agent lifecycle hooks. Parent paths must be safe absolute directories without symlinks; a file may be replaced only when absent or marked/receipted as the expected generated content. A custom Herdr configuration is retained and the candidate is emitted as `config.toml.local-ai-setup.example`; custom or symlinked launchers, skills, and hooks are preserved. The Herdr launcher deliberately unsets `LLAMA_API_KEY`, `LLAMA_BASE_URL`, and `LLAMA_CPP_BASE_URL` so a persistent session does not retain daemon credentials.
 
 ## Coordinated apply and root-operation rollback
 
@@ -137,6 +151,7 @@ The focused tests make the most important boundaries executable:
 - `tests/unit/user-config-preservation-test.sh` verifies that initial Pi and tmux files are private, while existing regular content/modes and both valid and dangling symlinks remain untouched.
 - `tests/integration/system-transaction-test.sh` uses mocked system commands to verify SSH policy rollback on TERM and EXIT, host-key preparation without opening an inactive daemon, and recovery of current/legacy kernel policy plus initramfs after interruption or rebuild failure. It also confirms a symlinked kernel policy is preserved without a rebuild.
 - `tests/integration/generated-config-test.sh` supplies the broader generated-state regression coverage: locked/partial artifact behavior, receipt invalidation, config/key path refusal, managed ownership gates, and service/OMP rollback.
+- `tests/integration/herdr-install-test.sh` supplies a hermetic locked-release fixture and checks staged runtime/receipt promotion and rollback, required explicit upgrades, modified/symlink preservation, safe parent traversal, and removal of inherited API credentials from persistent-session launchers.
 
 When changing these mechanisms, keep the order of checks meaningful: validate configuration and ownership before persistence or mutation; validate space before network writes; verify content before promotion/exposure; and snapshot a coherent group before changing any member. Do not weaken a refusal into automatic cleanup or replacement merely to make an idempotent run appear successful.
 

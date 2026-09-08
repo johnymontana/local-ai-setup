@@ -3,9 +3,6 @@ type: verification strategy
 title: Verification Strategy and Hermetic Test Harness
 description: How shell syntax, ShellCheck, hermetic unit, integration, and workflow tests enforce safety and generated-configuration contracts. Explains fixture isolation, interruption cleanup and retry coverage, CI execution, and the opt-in boundary for real hardware validation.
 tags: [testing, verification, hermetic-tests, shellcheck, continuous-integration, hardware-testing]
-verified:
-  - by: openwiki/0.5.0
-    at: 2026-09-07T21:04:55.481Z
 sources:
   - id: openwiki-source-164e2da859b5277df81c7d94
     resource: repo://.github/workflows/ci.yml
@@ -21,6 +18,10 @@ sources:
     resource: repo://tests/integration/desktop-test.sh
   - id: openwiki-source-f1a57dc2ee647a64865101ee
     resource: repo://tests/integration/generated-config-test.sh
+  - id: openwiki-source-7f5d8ea0d462cd0d3512ec0c
+    resource: repo://tests/integration/herdr-install-test.sh
+  - id: openwiki-source-b2034c4768b8eacbb0fd65b8
+    resource: repo://tests/integration/herdr-workspace-test.sh
   - id: openwiki-source-88924c94a24b0b53c27ce5b1
     resource: repo://tests/integration/operations-test.sh
   - id: openwiki-source-a3837d24a42598759124dd51
@@ -47,7 +48,10 @@ sources:
     resource: repo://tests/unit/platform-test.sh
   - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
     resource: repo://tests/unit/runtime-safety-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T21:04:55.481Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T03:08:40.315Z" }
+verified:
+  - by: openwiki/0.5.0
+    at: 2026-09-08T03:08:40.315Z
 ---
 
 > **Testing policy.** The portable suite proves control flow, generated-state safety, and failure recovery without treating a developer machine as a test fixture. Real Strix Halo, systemd, Vulkan, and GGUF behavior is intentionally an explicit workstation operation.
@@ -87,8 +91,8 @@ flowchart TD
 | Shell syntax | Every repository shell program parses as Bash. | `bash -n` covers discovered `.sh` files and `local-ai`. It catches parse regressions, not runtime semantics. |
 | ShellCheck | Shell constructs meet error-level static analysis under Bash semantics. | CI runs ShellCheck over the same `.sh`-plus-`local-ai` population with `--severity=error --shell=bash`; it complements parsing and is not a replacement for fixture-based behavior tests. |
 | Unit | Pure or tightly bounded helpers reject unsafe input and preserve local ownership semantics. | Configuration enum/range and path validation; key/config and receipt helpers; removal/unload fail-closed truth tables; pinned-agent isolation; platform/bootstrap guards; manager ordering; user dotfile preservation. A failure identifies a local contract regression before a full command workflow is needed. |
-| Integration | The engine composes helpers into generated files and guarded operations without touching the host. | Byte-sized artifact locks plus mocked `systemctl`, `curl`, `llama-server`, SSH, package, boot-image, and filesystem tools exercise transactions, readiness, routing, downloads, desktop entries, and security policy. |
-| Offline end to end | A realistic CLI lifecycle has the correct observable state transitions under a hermetic substitute runtime. | `plan` is non-mutating; `apply` creates desired/service/routing state; `status` stays observational; signal, bad-catalog, and performance failures restore state. |
+| Integration | The engine composes helpers into generated files and guarded operations without touching the host. | Byte-sized artifact locks plus mocked `systemctl`, `curl`, `llama-server`, SSH, package, boot-image, filesystem, and Herdr interfaces exercise transactions, readiness, routing, downloads, desktop entries, workspace orchestration, and security policy. |
+| Offline end to end | A realistic CLI lifecycle has the correct observable state transitions under a hermetic substitute runtime. | `plan` is non-mutating; `apply` creates desired/service/routing state; `status` stays observational; signal, bad-catalog, and performance failures restore state. The workspace suite separately drives a native-shaped Herdr substitute to check project layouts and recovery. |
 | Hardware end to end | The configured Arch workstation can serve its actually installed models behind the authenticated router. | Real `plan`, status schema/authentication checks, and smoke generation run per installed tier. Optional real `perf` is intentionally disruptive. |
 
 This division matters: a mock can establish that the code refuses unsafe transitions and sends the intended command/API shape; it cannot establish GPU offload placement, available memory headroom, model quality, or measured throughput on a particular driver and model artifact.
@@ -146,6 +150,30 @@ Its destructive-operation cases also make the ordering observable: removal requi
 
 `tty-prompt-test.sh` is an integration test because it creates a real pseudoterminal with Python. It proves that a mutating command reads its confirmation from the controlling TTY. It also exercises the foreground-job race for normal and delayed completion, preserving explicit child exits `0`, `1`, and `127`, and preserves `130` when the foreground process group is interrupted. Keep prompt/job-control regressions there, not in a plain stdin fixture.
 
+### Herdr installation and persistent workspaces
+
+The two Herdr integration suites divide responsibility at the runtime/orchestration boundary. `herdr-install-test.sh` sources the installation library with an isolated home and substitutes a pinned-download payload. It verifies the private release by size, SHA-256, and `--version`; makes a failed receipt promotion roll back the runtime/receipt pair; and refuses an ordinary install when an upgrade is required. It also verifies that the scoped launcher clears inherited router credentials while preserving literal arguments and its dedicated configuration root. Custom runtime, launcher, configuration, skill, and lifecycle-hook files—including symlinked paths and parents—are preservation boundaries, not installer-owned files.
+
+`herdr-workspace-test.sh` instead black-boxes `scripts/local-ai-workspace.py` against `tests/fixtures/herdr-mock.py`, a native-shaped stateful substitute. It establishes that project identity is the hash of the canonical checkout path, so aliases reuse a workspace while same-basename projects do not collide. Read-only `list` and `status` neither start nor mutate a stopped daemon. Before any create, split, or prompt mutation, invalid projects/profiles, an incompatible daemon, malformed user registry, and symlinked state boundary fail. Explicit `run` argv is quoted and anchored to the canonical project, terminal controls are rejected, and occupied or exec-replaced shell panes are not sent typed commands.
+
+```mermaid
+flowchart TD
+  Start["workspace open with project and profile"] --> Validate["canonicalize project and validate profile state and daemon version"]
+  Validate --> Existing{"owned workspace exists"}
+  Existing -->|"yes"| Repair["reuse panes and repair missing layout only"]
+  Existing -->|"no"| Create["create workspace and role panes"]
+  Repair --> Attach{"attach requested"}
+  Create --> Attach
+  Attach -->|"yes"| Release["release workspace lock then attach"]
+  Attach -->|"no"| Ready["layout ready without guessed commands"]
+  Release --> Ready
+  Ready --> Run["optional explicit quoted command or bounded delegation"]
+```
+
+*The fixture-backed workspace lifecycle distinguishes safe layout reuse and repair from command execution: opening a project never guesses or replays work.*
+
+Recovery cases are as important as first creation: a retry after a failed pane split retains already-created panes and adds only what is missing; stale registry IDs are validated against live workspace ownership before reuse; and a daemon restart that loses metadata tokens recovers its restored panes without duplication or command replay. Delegation preserves prompt-file bytes, converts a bounded timeout to the native millisecond argument, and treats unknown, blocked, and timed-out outcomes as failures rather than completion. These are the regression homes for changes to `local-ai workspace`, Herdr installation, workspace registry ownership, profiles, pane safety, or delegation semantics.
+
 ## Workflow-level behavior and rollback
 
 `tests/e2e/workflow-test.sh` is the portable lifecycle test, not a real inference test. It drives the actual CLI against the fixture router through the sequence below.
@@ -192,8 +220,9 @@ A practical selection guide:
 1. **Syntax-only shell edit:** run `bash tests/run.sh syntax`; CI will additionally apply ShellCheck.
 2. **Validator/helper/config parsing edit:** run the specific unit test, then `bash tests/run.sh offline` if it affects engine behavior.
 3. **Generated service/OMP/artifact/SSH/operation transaction edit:** run the named integration script that models the affected boundary; preserve failure logs and then run offline.
-4. **Lifecycle, status, smoke, perf, or restoration edit:** run `bash tests/e2e/workflow-test.sh` as well as the relevant integration test, then offline.
-5. **Host-specific behavior or real GGUF/router compatibility:** first pass offline; only then, with an explicit maintenance window, run the opt-in hardware command. Add production perf only when its residency disruption is intended.
+4. **Herdr install, workspace identity, pane safety, registry, or delegation edit:** run `bash tests/integration/herdr-install-test.sh` and/or `bash tests/integration/herdr-workspace-test.sh` according to the boundary changed, then offline.
+5. **Lifecycle, status, smoke, perf, or restoration edit:** run `bash tests/e2e/workflow-test.sh` as well as the relevant integration test, then offline.
+6. **Host-specific behavior or real GGUF/router compatibility:** first pass offline; only then, with an explicit maintenance window, run the opt-in hardware command. Add production perf only when its residency disruption is intended.
 
 A green portable suite demonstrates deterministic safety and control-flow contracts, while a green hardware run demonstrates the currently configured workstation can meet its real service/generation contract. Neither result substitutes for the other.
 

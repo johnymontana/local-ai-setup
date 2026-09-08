@@ -1,18 +1,22 @@
 {
   "schemaVersion": 1,
-  "pageVersion": "sha256:febd63dc6d5ac95e8aab550ffffbad6f21d9d4d39c004dc9f381450dd2c8aeb5",
+  "pageVersion": "sha256:6795fef188b536064131129203311d055d86548a2fc32132ac6bc0faf9d8d948",
   "claims": [
     {
       "id": "claim_79ef63e09bf1434ab15bec9ad698b916",
       "statement": "The engine separates locked model artifacts, persisted desired configuration, generated runtime artifacts, and live router state: model downloads do not change the running router, while apply is the convergence operation that persists configuration, refreshes applicable routing/launchers, and activates the service.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L2687-L2740",
-          "version": "repo-lines-v1:sha256:470bb4cbde68a37ae0f7098443cabab651b9fe50c62da7673988b490f864c0fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+          "resource": "repo://models.lock#L4-L22",
+          "version": "repo-lines-v1:sha256:df4fd053894009ca8ec1490b66f0353c0181ba69300ee6cdb2fc5f68906bb0bb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2OTFjNzQyYWY4MzNlZDlhOWZmODUzM2ViYzA5ODYwMzhiNjRlZmQ4MmQ1NGJmNzFlYjY0MjdjZmJhMTlhYTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ2MDgwYzhmNTJkMTkzNGZmNmI4MDNhNWY4MDZmNTVlZGQxM2IyOTk1NzM4ODkxODc0ZTc0MGIwZWU1YjcxMzkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUyZTc4NWI0M2MzMmVjNDEzNjdiNzc1YTI5MmY3YjA0NWMyMjFjNWM5MTg0MjE1ZTAzNDYzMDY4M2UyMjFiY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L765-L794",
-          "version": "repo-lines-v1:sha256:5c84b3819c491598f58ffd63941cadfa9ab3aca662855a3684272000b73438c5:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMWIyMGRiYTU4OGE1M2Y4NThlMTk2YmEzNDNjYWZkYTVhYzYwYzViYTQxMzQzMzZkNzE4NzU4ZWJiMjAxY2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzYzM3ZDExNzQzNzU1ODMyY2U2NjkzNzFlY2EzNWQ1MTYwZjQ2MDZiNjRlNTM2NDc5ZDEwMmJkYTMxNzcwMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJjMTk4YWZkMjFmODYzNjZhMWUzYWI2ODU4YjFkZTU2ZDA4NjI3MWYzYjVhYzJjYmRiMzczMDliZjEyNTdiZDkifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L2759-L2817",
+          "version": "repo-lines-v1:sha256:4f294e1c514d6d7eba2d35c9a13bf0354c28d1812d3c63182cb17b2ce6a75811:eyJzZWxlY3RlZExpbmVDb3VudCI6NTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEwNjZjZjcxNzU2Njk4Yjc2NzRiNjIyYWM0M2JhNWQ3ODU3Zjc4NWY4YWVkMTFhNDI4ZDM2ZWVkNmE4ZGFiYzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L808-L836",
+          "version": "repo-lines-v1:sha256:683638bcfd40327324039334228f70b974e1e6fef00c8dd7a35e4abf3a525824:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMWIyMGRiYTU4OGE1M2Y4NThlMTk2YmEzNDNjYWZkYTVhYzYwYzViYTQxMzQzMzZkNzE4NzU4ZWJiMjAxY2EiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM1ZmM5MGZmOGE0NDE0YzU0NDFkMGY2NzdjNWNiZmRhMzhiNDc0ZTUxYmZkNTU5YTU1NTlkZTBmODc3MDU1MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzYzM3ZDExNzQzNzU1ODMyY2U2NjkzNzFlY2EzNWQ1MTYwZjQ2MDZiNjRlNTM2NDc5ZDEwMmJkYTMxNzcwMTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxM2NiOTE2YmI2ZTExZGRkYmZlMjBmZTMyYjBiMzMxZWVlMjk2ZDVlNDIxZWVmYTljNTJjMDQ4ZjJjZjg2YTkifQ"
         }
       ]
     },
@@ -21,8 +25,8 @@
       "statement": "`plan` is a read-only preflight that reports resolved tier availability, role targets, startup configuration, and gates; it fails rather than allowing apply when there is no complete tier, selected/incomplete everyday artifacts, unavailable startup tier, unsafe generated ownership, incompatible dependencies, or a reboot gate.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L2563-L2651",
-          "version": "repo-lines-v1:sha256:98cb08cbc4b6cbee0972abda3118605883a0506ab0f40a1d94e2a468acb8cd68:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4OTQ1NzM0ZmMzYmZlMWZlYmVmNWRlNTZhNjg3ZDhjNTczNmY3NDlhNzJkNGJiNGVhNzM0NGQ4NGJkMzk3NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0OGI2N2M5OTMwMDAxM2Q2YjI4MzY0NTk0ODQyMmFjZTVmZTNhOTliZjI2MTk4ZGRkNmU2MzhjZDQ2YmRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMzJkNGFhNTlmNmE4OTllZTdkNGE1MzQ0Njg1ZGMxMmM4NzVmMTNmYzc5ZjNkMjMyNTAyZTY4ZGM2YTI3MWYifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L2596-L2685",
+          "version": "repo-lines-v1:sha256:f221e97fe51978e2724c5dab3f32f26ee6fd3ebec1efee42a36fddee00ff20eb:eyJzZWxlY3RlZExpbmVDb3VudCI6OTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU4OTQ1NzM0ZmMzYmZlMWZlYmVmNWRlNTZhNjg3ZDhjNTczNmY3NDlhNzJkNGJiNGVhNzM0NGQ4NGJkMzk3NDUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0OGI2N2M5OTMwMDAxM2Q2YjI4MzY0NTk0ODQyMmFjZTVmZTNhOTliZjI2MTk4ZGRkNmU2MzhjZDQ2YmRkNDgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiMzJkNGFhNTlmNmE4OTllZTdkNGE1MzQ0Njg1ZGMxMmM4NzVmMTNmYzc5ZjNkMjMyNTAyZTY4ZGM2YTI3MWYifQ"
         }
       ]
     },
@@ -41,8 +45,12 @@
       "statement": "Apply rechecks plan while holding the mutation lock, snapshots desired configuration, OMP routing, managed launchers, and service files, then orders persistence, routing, launcher generation, and service activation; any intermediate failure restores the snapshots and avoids changing the router when failure precedes the service phase.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L2616-L2740",
-          "version": "repo-lines-v1:sha256:460f990b9d1875dc321b5f6e6ab52910944b795785670bc6e0f5915754e3d85e:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI1LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJlYmRhNDYzNDE5OGIxNTZhMzU5OGZjZjcwMGRmY2ViNzdjZTQwZTIyMjMwZmE3YTQ5NmE3NjFjNWI3N2IyZDIzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhYjE2NjVmNmZjZWEzM2U3YmYxMTFiMzEyOTAwM2MxYWM0ZTgyYTYwZTVjZTk1NDg0MzE1ZmVmMWIxNzA4MmJmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlMzNiYmYwMjAyYzI2YTEzZWQ5MmVjNTcwOTc0NGZjMTBmODVmNjFiOGY5ZGY0ZjE3YzEzNWQyNDBlMTEzNjM5In0"
+          "resource": "repo://setup-qwen38-pi.sh#L2720-L2817",
+          "version": "repo-lines-v1:sha256:714dfc28e2af8a175d943b214a1aaa5e8b4d0e82a1bbb7333bd908ff8b4950fe:eyJzZWxlY3RlZExpbmVDb3VudCI6OTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViNDcxYjAxMzlkNjZkNGZiOWJkZTY3OGRhZmVmOWRiNmQxYTY0ZTFhZTIxNzk3ZDA2MzAyNzRmY2Q4ODRhNDMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFiMTY2NWY2ZmNlYTMzZTdiZjExMWIzMTI5MDAzYzFhYzRlODJhNjBlNWNlOTU0ODQzMTVmZWYxYjE3MDgyYmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwM2E5YWI5ODI0MTU3M2NkMGIwN2JiZWM3YzVmOTkxZjRlOTI2ZDY5MmJkNDliMTJkZjhjYzY5MGVkOTczOWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzM2JiZjAyMDJjMjZhMTNlZDkyZWM1NzA5NzQ0ZmMxMGY4NWY2MWI4ZjlkZjRmMTdjMTM1ZDI0MGUxMTM2MzkifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4938-L4973",
+          "version": "repo-lines-v1:sha256:f811f4a97b34c0420273a1ec1ce2c2c919a4337bc7215811bed8257146f4e06f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWY5Y2Y1OGY4OWQ5ZmU2MzA3NTBjYTgyODAyN2Y0NTZlOGVkODA2YTg2NWYxMzY5ZTI1NjgxY2Q5NmM1OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNGU4MzY5ZTdlYTcyMzY3MGIzOGZmYTAxOGM4N2FlMDQxZTc1NThlYTU3MWU0NTAxMzMxMjZhZTU5NzI4MDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkNmM1MjUyNDQ5NGFiODJjNzAyOWE5NmY0Yzk4Y2Q0ZDJiN2JlYjFjOTcxZjEzY2QxNTdmYjU1M2YxNzVmZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjY2E0NWUyMTUyNjUwYTYyZjM0ZDE2N2E4YTA2NmZkYWRhYmRhNDRjMzg4Mzk4YzFmZWNiMzYwY2QzY2MyZjMifQ"
         }
       ]
     },
@@ -51,20 +59,24 @@
       "statement": "`service` preflights compatible artifacts, startup state, ownership, and a stable unit; stages and validates the preset, launcher, and unit; then installs the three files under rollback protection and explicitly restarts the user unit. Activation failure restores the previous transaction; with the normal `SERVICE_HEALTHCHECK=1` setting, authenticated router/catalog checks, startup-tier readiness, and managed-unit listener ownership are additional commit conditions, while `SERVICE_HEALTHCHECK=0` is reserved for controlled tests and skips those probes.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L1523-L1715",
-          "version": "repo-lines-v1:sha256:5d122886c1eb72fdadc74c4714b9f0a5f72625359c1854574eb3004dae33d175:eyJzZWxlY3RlZExpbmVDb3VudCI6MTkzLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYjI4ZTIzYTk5M2E3NWI3Yjk5OTI1ZjViOTBiNDMxYzUzYTI4ZDE4ZTlkOGY2OGJlY2FjOTQ0MDgzOGUwZTIxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyOTJmYjU3YzcwZmJlMWIxNWE2ZjY2YTZlMjBlYjk5ZDJlZWI4Yjg4Y2M5M2Q5YWU1OWY2ZmI5OGQ1YThhMTAxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiMWMzZThiNTE2N2UzYmQ3NWRiMTc5OWE1NjY1NzNiZmEzNmRiM2FlOThkOGRjNjRkYmY3MThhOTI0NzhkMmQ4In0"
+          "resource": "repo://setup-qwen38-pi.sh#L1547-L1740",
+          "version": "repo-lines-v1:sha256:804b033192bd86fffde3ea8393e3fc2381628ff9581323d6c3b32f46be102f5a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTk0LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIyYjI4ZTIzYTk5M2E3NWI3Yjk5OTI1ZjViOTBiNDMxYzUzYTI4ZDE4ZTlkOGY2OGJlY2FjOTQ0MDgzOGUwZTIxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiIyOTJmYjU3YzcwZmJlMWIxNWE2ZjY2YTZlMjBlYjk5ZDJlZWI4Yjg4Y2M5M2Q5YWU1OWY2ZmI5OGQ1YThhMTAxIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI2ZDcyYmQ5MTQ0MDMwOGU4M2I4NWVhNDJkYjExMmIzZDU4ZGNiMmY4NTRmYWEwYzQyMDhmMmQ5MGVmOWI1ZmRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJiMWMzZThiNTE2N2UzYmQ3NWRiMTc5OWE1NjY1NzNiZmEzNmRiM2FlOThkOGRjNjRkYmY3MThhOTI0NzhkMmQ4In0"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L266-L285",
-          "version": "repo-lines-v1:sha256:de7be78f2dcbf4c7f55a3c886a8c9cd0dd0714ee7f73adb24f35b169b5c43994:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTRmMGQxM2NjZmM1MmQ4ZTZlMjJlN2IzYTQ0YTE2YjYxZmNiZTliOThjZTkxNjQwYWVmNjk4MjBiMzVjMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjNGY0OTRiMWM4MDNhNDFlYmM3NzQwODdkYzdmOWUwYWVkYThlYWNkZjIyZGJlNzJmZTI2MDdiOWMyMGM0NjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZjI4Zjg0NjA1NDNjNWI1MjQxM2JjMzc1NTJmMWYzODQ0YzcyMzdiZjU5NTY3ZmE0OWIzMTkwMDEwYmIxNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3OWVjYzMwZWYwYjRhZDJkZTkxNGY2MzlkYTRjMzZlODJhMGUzMmI2YzRkMjI0OGMxMGYzY2MwYjU5YTU1NTcifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L195-L198",
+          "version": "repo-lines-v1:sha256:383068c39ab29f8c4bf13f0adcd79b99ec60471ff92a29ac791f3a7305cff6d4:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNDRmZGNlZjE0Y2MxNGQ2NTI4NGM3NTBkYjMzNzJjYTFmMjM0Y2JhYjNkNzE2MzdkMTVkOTI2MDhjMWIxNjY3ZCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMjViYzZmODY3NGI2NGJiYTEyZmQ0ODNlZWFiMjllMGI2YTdmMWM5ODZmN2UyMTY4MmIyMDZkYzFjOGZhNzUzMiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNTc0MjcyMTFkMjUzMjliNDlkY2VkOWMyY2ZmMzFmNmUyMTZhZDRhODc2NWI2NzE3MjJkYjM1ODM5N2EyOWZhNiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNDM3NGJlNGI2NzkzYWFmZWQ3ZGY5MGQzNGFlZWExMzkyOWNiMDgwNWYyYjNkYjZkNTkwMjkzZDE5YTlmNWZjYyJ9"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L270-L290",
+          "version": "repo-lines-v1:sha256:240ad5ecf4df27fcb8e3923bdbd7b23a1951638d6cefc83b05d008481c58f149:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJiOTRmMGQxM2NjZmM1MmQ4ZTZlMjJlN2IzYTQ0YTE2YjYxZmNiZTliOThjZTkxNjQwYWVmNjk4MjBiMzVjMTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMzJjNTU2NTU2NjMyMzZmOTFmMDVjNjQ4ZTUxZjExN2U3YTQ0ZjU0MWI4YjM1MDBlYzljYzFiODNjN2NhMmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg5ZjI4Zjg0NjA1NDNjNWI1MjQxM2JjMzc1NTJmMWYzODQ0YzcyMzdiZjU5NTY3ZmE0OWIzMTkwMDEwYmIxNDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExYmRmNWQzYmM3Y2Q4NDUwY2ZmYzNlMzU5MmIzMTg2OGZmYWMxZmM2Y2Y0NDMyMDQ3MWJmY2VhZjViZjM5ODkifQ"
         },
         {
           "resource": "repo://tests/e2e/workflow-test.sh#L278-L333",
           "version": "repo-lines-v1:sha256:336dc8de8236c60f47807917a2ca26115d78a60bf85d9d0bafa4e44d5bf2b340:eyJzZWxlY3RlZExpbmVDb3VudCI6NTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxYzcyOGViNzRhOGRjYzUzZDI2YTE1ZDk2OWY2OGRkM2Q0Yzg3YzczNDc3YzU1NDNjOTNlZTI3ZjdmNTIxOTciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjliNWZiZWQ4NjQ2MmEyZmY0NzQ2ZDkwNGZiNDNiNjdjNWM0NTZjNjIwOWM2ZWZkNjlkYmFiODEwNThiYjU2MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJiNWJlNTQ3ZDE1NzA0ZjJjNGRjMWI0ZWUwZDg2ZDJmZjcyMmQ4NTNhOGJmZjU1OTQ0YjQwMjQ0ODZjYWY1MmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQzYzVjYjhjMWM3MjZjNTU5ZDg0YmY0NDlhNDRmNTQ0OGE0OTVjOTNiZDZlMmE4YmExZDA3Y2Q5N2RmMzg1ZjEifQ"
         },
         {
-          "resource": "repo://tests/integration/generated-config-test.sh#L704-L715",
-          "version": "repo-lines-v1:sha256:7db776bbf3f17516daa361a5440d8ae0ae650b2ae8d120167aab6b2e13b74230:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMGEwYmQxNzNkYmU1NjBiZmRmYWNiZTgxNjA2MzBmNmQ3ZDU4NTEwMGQ0ZDQ3OGM3MDlmMTBjM2ZiZGI0MTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzM5ZjExNGNjMmI4ODI4ODM1NDNiODE2ZWY5M2QxYTJkZTJkMzRjMzEyNGVhNTBiMWE2MTNhYTRmN2UxOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhmMTEyMjY1ZDg1N2M2ODg5MTkzNzBlYjhlN2M1ZTdlYzMxYTdmYzUzMTgyYjA2MDQ0NmI2ZjdhOTBhNTMzZjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxZDBiMDhmZGJmMDA4MThkYWY2ZGQzYzUyNjlkYTQ0MDFjNGEzNWE4MmY3ZmEwNjNkZjFjZGM0MTk3MzBjNjUifQ"
+          "resource": "repo://tests/integration/generated-config-test.sh#L703-L724",
+          "version": "repo-lines-v1:sha256:d592fae1864eaf643400349ee60516c4497651bae2b71413fd1aace5539ad86f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlM2Y2ZmM4NDY0YTRlYjA0MzVmZGE4M2JkOTllYTAyMzNmNTAyMjhmZTc4NDg5ZGQ4ZTI3YmI4ZWU4NTAxMWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVlYzM5ZjExNGNjMmI4ODI4ODM1NDNiODE2ZWY5M2QxYTJkZTJkMzRjMzEyNGVhNTBiMWE2MTNhYTRmN2UxOTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRlOWIzNGQxYjkzMDE1YTUxY2RmZjg0MmM0NmUyY2M4YTIxYzk3OGFjN2MzZmM5ZmM1NTZhZTdjYzljYzFkY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjAxZDBiMDhmZGJmMDA4MThkYWY2ZGQzYzUyNjlkYTQ0MDFjNGEzNWE4MmY3ZmEwNjNkZjFjZGM0MTk3MzBjNjUifQ"
         }
       ]
     },
@@ -73,12 +85,16 @@
       "statement": "All mutable public commands use a per-user lifecycle lock, while `plan`, `status`, and catalog/history observation commands do not; the lock intentionally covers every mutable root because model directories are configurable but configuration, service, and launcher resources are shared.",
       "evidence": [
         {
-          "resource": "repo://setup-qwen38-pi.sh#L4722-L4764",
+          "resource": "repo://setup-qwen38-pi.sh#L4767-L4809",
           "version": "repo-lines-v1:sha256:f456d2dc0377c67a5e1c378f994d6f3e6122e8ced7189c1786113e77b401a7ad:eyJzZWxlY3RlZExpbmVDb3VudCI6NDMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVmZjk5NDE5OWZkNzRhZTJmNzYxZDdiNzY5ZTI4ODE4OGZmODQ4NDVkMTYyMzliYTMxMmI3MTI5YjJmNWQ4MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJiMjc3OTY1YWY1MDY4MDE4YjI0NmMxNGJjMzdhMjFjMmE2NDNmOGQ0MGE1YTJmMjk3M2VlODEzMzVjZDU5NzAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYyOGRhZjllZDc4ZGFlYTIwYWQxN2Q5ZDhmNzI2MjE4ZDM2Mjg4NjY4MzA3MzFlN2RhYThmMmU2MmVlMjUxN2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFkZmVjOGQwZTFhZTE4YWVhZjRkNDY3Yzg5ZWM0NDQ1Yjc1YTIyODcyOGU1OWU0NGYyOTVhOTFhMTk1MGJhOTcifQ"
         },
         {
-          "resource": "repo://setup-qwen38-pi.sh#L4838-L4926",
-          "version": "repo-lines-v1:sha256:4d427345b38664eab4e25a2936a24af9f5b1c9f9087c8eb2b8c80d71ce7679c0:eyJzZWxlY3RlZExpbmVDb3VudCI6ODksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZmNkYmQwMjVkYjYwNjI2OTk4MjRmZDgwMzk5OTA0OWZlZTRjOWQzMDljNDlkMThhNzJlZTUxNTczZmNlODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0YTJiZWNmZjhhZmIzNGRiMjYwZGFiYzk2OTE1ZmZlY2ZkZTg0ODkyOTU0MWM2MTkzZGU2ZDE2NGMyMWU4ZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoxLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM3NjlkMjM3Y2Q0MjBiOWQzOGI5ODFhMGE0ZjY3NzAxOTBhNGE4M2RjYTFmZTU2YzRmNWJhMWUyY2JjMGVmNzYifQ"
+          "resource": "repo://setup-qwen38-pi.sh#L4855-L4932",
+          "version": "repo-lines-v1:sha256:11bbaa0568ea9ffe0cbab0b19d8c1ea48084cb06214d77271db1fec389d3397d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgwNzZmNWVjYjBkZDkzNGYzMGNlODhmMjQzODZlMGNmZTA1ZGI4MjRjMDk2MTRhZDA5OTU5NjVhMWJhOGU0YTAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwYTYwOTZkYWY2MjViMTQ4MzUzMzllMDIyZDFlZDcwOTIwODg2YzhiNmNjMTMyMGNjYjMxMDY5NzVjMTU4ZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNhNTU0MjkyYWIxMGJkYzNiNGYwMDc5ZjY3YjU2MDJkNDllZWM3MmFjMjdiZjgxZmFiZGExNGVjYTUyNTFkZDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgyMjJiYWRhYWY4MDVlOGNhZGRhYjQ2YTJhMjI4YWJiZjdhZWEzNDk5NDkzMDA0YjRkNmZjZTliMGVlZmQ0OTgifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4938-L4973",
+          "version": "repo-lines-v1:sha256:f811f4a97b34c0420273a1ec1ce2c2c919a4337bc7215811bed8257146f4e06f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3OWY5Y2Y1OGY4OWQ5ZmU2MzA3NTBjYTgyODAyN2Y0NTZlOGVkODA2YTg2NWYxMzY5ZTI1NjgxY2Q5NmM1OTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNGU4MzY5ZTdlYTcyMzY3MGIzOGZmYTAxOGM4N2FlMDQxZTc1NThlYTU3MWU0NTAxMzMxMjZhZTU5NzI4MDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNkNmM1MjUyNDQ5NGFiODJjNzAyOWE5NmY0Yzk4Y2Q0ZDJiN2JlYjFjOTcxZjEzY2QxNTdmYjU1M2YxNzVmZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjoyLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjY2E0NWUyMTUyNjUwYTYyZjM0ZDE2N2E4YTA2NmZkYWRhYmRhNDRjMzg4Mzk4YzFmZWNiMzYwY2QzY2MyZjMifQ"
         },
         {
           "resource": "repo://tests/integration/operations-test.sh#L320-L364",
@@ -169,10 +185,28 @@
           "version": "repo-lines-v1:sha256:ba88c9ae27b8053e9c90685c831bff997637e38330217c33ec36e5be3dfe021b:eyJzZWxlY3RlZExpbmVDb3VudCI6NjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA2NTc5MjZmMjkwMzNkMTgxMmU4ODdmMDI1NDcxNTkxOGMwNDQ4YWQ4OWJkYmU2NDJjYzVjZjFjZTY3MzNkMDAiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM3MzhhNmI1YmNiZDNmNDRjMWM4NzBmYTJhNTcyZjhhOTEwYWE3MDMxN2E2OTA0MGIzMjQ1MTlhNWU5M2Q4NGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZiNTgwZTk2NGY4M2E0NzNmNDNkNDQzODQ2Mjk0OWQ2OGI1NjAwZmRhNzg3ZjE2Mzc0NWQwMGRlODljYmYzNmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEzOTZkYTkxOWMyMmM5YWZmY2RkODEwMmQyNDVjNzQwNmQ4YzQ0YTMwNzEyOGVhMzg0NzBiZTE0ZWZmNzU3YzgifQ"
         }
       ]
+    },
+    {
+      "id": "claim_15087bc13e3e4a66befd9e5652f0d709",
+      "statement": "Configuration is resolved with explicit environment values taking precedence over saved `setup.env` values and built-in defaults. After acquiring the mutation lock, mutable commands re-merge the saved file without replacing explicit environment values, so a command delayed behind another mutation does not write from a stale persisted configuration view; `save-config` validates and atomically replaces the private desired-state file without activating the service.",
+      "evidence": [
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L102-L155",
+          "version": "repo-lines-v1:sha256:2f72b805ce1957bb56f7623888a418708bdcfd30550f129475c1e0430d64baad:eyJzZWxlY3RlZExpbmVDb3VudCI6NTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4NTkxZjc3YTAzODlmZTZkZTNlZDk3YmEzZmEzODA1ZmU5OTdjYjY3MTcwMjk1ODg5NzdjNjM4Mzg2MmY3MzIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjJjZDkzYTExNjg1YjdkYzVlNjQzNmI1MWUyOWU4YmExNTQzMjdhZWYzNWQwYmVhOTIwYTE1ZjBhZTBkNThmYjQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRhMmE4N2NiOTFlZTJjNWFjYTUxYmMxMDk5MDczYzlmNmY2MTZiOTNkNTQ5YWRlOGJlNTI5NWNjZmJhODk1MGEifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L248-L268",
+          "version": "repo-lines-v1:sha256:e4a03eeb065237718d105c7371cba676272c1740c2554bf5c4338f6e4316860a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg4M2JmZjIxMzFmYjAyYzcwYzdjNmFkODcwOGNkYzk2NjVlZjAxNTIyMGM4MzcyZTEyYzAwMWY1M2NkNmFmOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxMmNhMzQ1Y2NmNzViZjljMDgwNmJjZTY5NWJlOGRlODA4Yjc5OTg0MjUxYTdhNTRkMjAyY2Y2MTAxZGQ0NTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZlY2QxMTRlYzI0OTk2M2IxZDJiNWJmYmI5YmViZjgzNjcwMDc4MWJjNzY3NGYzOTc5YzZkNDZmYjE2YTcxN2UiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQzOTE3OTdjOWIwY2I5Nzk4OTg1YmZjNmY4ZTQ5ZmRlZjFmNzUzZWZlMTVkNWJhZDg3YTVlMDQ5NzhjODU4NTMifQ"
+        },
+        {
+          "resource": "repo://setup-qwen38-pi.sh#L4883-L4895",
+          "version": "repo-lines-v1:sha256:ee59ba803d39807f1186240872fd2af116158b12171ce710585cae0c6a1fabe1:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYzZmNkYmQwMjVkYjYwNjI2OTk4MjRmZDgwMzk5OTA0OWZlZTRjOWQzMDljNDlkMThhNzJlZTUxNTczZmNlODMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5ZjkyNjIxN2U3ZTBiYWI0NGExNzZlOThjNDBjMmRkNTc1MTBhMDQ2NGJmNTlhYTRiNTQxOGU0YjdhMTI4ZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI1YWE3NGY1YmU3MjA2ZGIxNzZhNTMzMmFmYWE1YTIyMzc3MDQ3NmMyMDY5Y2JiNjcyMzBjZThhNDdiYTEwNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjIxNWNkZjkyMzdlYzlkZTczMWViYjBiM2EyNmI3YTJiYjU1NzBjYjBkOTYxYjIyNWM2MjMzZDllM2QxY2Y2YTMifQ"
+        }
+      ]
     }
   ],
   "verification": {
     "by": "openwiki/0.5.0",
-    "at": "2026-09-07T20:31:06.055Z"
+    "at": "2026-09-08T03:08:40.315Z"
   }
 }

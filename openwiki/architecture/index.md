@@ -1,3 +1,3 @@
 # Files
 
-- [Runtime Stack and Ownership Boundaries](runtime-stack.md) - How the Omarchy-focused local coding stack moves from repository and desktop entry points to an authenticated llama.cpp user service, pinned artifacts, and selected coding agents. It identifies generated state, user-owned state, and the safety boundaries for changing each.
+- [Runtime Stack and Ownership Boundaries](runtime-stack.md) - How repository, terminal, and desktop entry points converge on a per-user authenticated llama.cpp router and pinned coding tools. It distinguishes engine-managed desired state from user-owned configuration, launchers, and workspaces.

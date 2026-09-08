@@ -6,6 +6,8 @@ tags: [model-lifecycle, desired-state, transactional-apply, operation-locking, m
 sources:
   - id: openwiki-source-597ac7b7d26678e1e9c41f66
     resource: repo://manage.sh
+  - id: openwiki-source-8cdd30afc64cff2f9cb15c13
+    resource: repo://models.lock
   - id: openwiki-source-450df187d5ad439853de20f8
     resource: repo://setup-qwen38-pi.sh
   - id: openwiki-source-37c158c9536a90efb6244860
@@ -16,10 +18,10 @@ sources:
     resource: repo://tests/integration/operations-test.sh
   - id: openwiki-source-e2d2a8f6e4c32e2d28e657d4
     resource: repo://tests/unit/runtime-safety-test.sh
-generated: { by: "openwiki/0.5.0", at: "2026-09-07T20:31:06.055Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-08T03:08:40.315Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-07T20:31:06.055Z
+    at: 2026-09-08T03:08:40.315Z
 ---
 
 The setup engine, `./setup-qwen38-pi.sh`, separates **artifacts on disk**, **desired configuration**, and the **active generated runtime**. That separation makes downloads and saved edits safe to prepare without silently changing a running router. `apply` is the controlled convergence point: it checks the whole prospective state, then coordinates persisted desired state, OMP routing/launchers, and a restarted `llama-server.service`.
@@ -35,6 +37,8 @@ The setup engine, `./setup-qwen38-pi.sh`, separates **artifacts on disk**, **des
 | Desired settings | `SETUP_ENV` (normally `~/.config/local-ai/setup.env`) | `save-config`, successful `apply` | Environment values override saved values; saving alone does not restart the router. |
 | Generated active state | preset, server launcher, user unit, OMP pair, and managed wrappers | `service`, `routing`, `agent`, coordinated `apply` | Generated groups have managed-file ownership checks and transactional replacement. |
 | Live service and residency | `llama-server.service` and router catalog | service activation and explicit runtime operations | An active unit does not by itself prove the listener is the authenticated, expected router. |
+
+Configuration resolution is **explicit environment > saved `setup.env` > built-in default**. A mutating entrypoint acquires its lock and re-merges the saved file before it acts, while retaining explicitly supplied environment values; this prevents a command that waited behind another mutation from overwriting a completed save with its stale initial view. `save-config` validates the allowlisted tunables, stages a mode-`0600` temporary file in the private configuration directory, and atomically replaces `setup.env`—but still does not activate it.
 
 The engine constrains the router to one resident model. This makes routing profile changes and explicit smoke/performance operations meaningful live-state decisions, while model availability remains a separate disk-state predicate. See [Configuration, Artifacts, and Safety Invariants](/openwiki/concepts/configuration-artifacts-and-safety.md) for the artifact and ownership contracts and [Router Health and Performance](/openwiki/operations/router-health-and-performance.md) for status, smoke, and residency operations.
 
